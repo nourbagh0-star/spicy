@@ -1,0 +1,202 @@
+{
+  "categories": {
+    "блюда": {
+      "en": "Dishes",
+      "ar": "أطباق"
+    },
+    "салаты": {
+      "en": "Salads",
+      "ar": "سلطات"
+    },
+    "фруктовые-салаты": {
+      "en": "Fruit Salads",
+      "ar": "سلطات الفواكه"
+    },
+    "мороженое": {
+      "en": "Ice Cream",
+      "ar": "آيس كريم"
+    }
+  },
+  "items": {
+    "блюда-шиш-1": {
+      "en_name": "Chicken Shish",
+      "en_description": "Chicken fillet pieces, mayonnaise, tomatoes, pickles, French fries, and ketchup. Coleslaw (cabbage and carrot) can be added.",
+      "ar_name": "شيش دجاج",
+      "ar_description": "قطع فيليه دجاج، مايونيز، طماطم، مخلل خيار، بطاطس مقلية وكاتشب. يمكن إضافة سلطة كول سلو (ملفوف وجزر)."
+    },
+    "блюда-эскалоп-2": {
+      "en_name": "Chicken Escalope",
+      "en_description": "Chicken fillet, mayonnaise, tomatoes, pickles, French fries, and ketchup.",
+      "ar_name": "إسكالوب دجاج",
+      "ar_description": "فيليه دجاج، مايونيز، طماطم، مخلل خيار، بطاطس مقلية وكاتشب."
+    },
+    "блюда-зингер-острый-3": {
+      "en_name": "Spicy Zinger",
+      "en_description": "Chicken fillet, mayonnaise, tomatoes, pickles, and French fries.",
+      "ar_name": "زينجر حار",
+      "ar_description": "فيليه دجاج، مايونيز، طماطم، مخلل خيار وبطاطس مقلية."
+    },
+    "блюда-мексиканский-острый-4": {
+      "en_name": "Spicy Mexican Chicken",
+      "en_description": "Chicken fillet, mayonnaise, tomatoes, mushrooms, bell peppers, onions, pickles, and French fries.",
+      "ar_name": "دجاج مكسيكي حار",
+      "ar_description": "فيليه دجاج، مايونيز، طماطم، فطر، فلفل حلو، بصل، مخلل خيار وبطاطس مقلية."
+    },
+    "блюда-шаурма-5": {
+      "en_name": "Shawarma",
+      "en_description": "Chicken fillet, mayonnaise, tomatoes, pickles, and French fries.",
+      "ar_name": "شاورما",
+      "ar_description": "فيليه دجاج، مايونيز، طماطم، مخلل خيار وبطاطس مقلية."
+    },
+    "блюда-ростер-чикин-6": {
+      "en_name": "Roaster Chicken",
+      "en_description": "Chicken fillet, mayonnaise, peas, tomatoes, pickles, and French fries.",
+      "ar_name": "روستر تشيكن",
+      "ar_description": "فيليه دجاج، مايونيز، بازلاء، طماطم، مخلل خيار وبطاطس مقلية."
+    },
+    "блюда-стрипсы-7": {
+      "en_name": "Chicken Strips",
+      "en_description": "Crispy fried chicken fillet, mayonnaise, ketchup, and French fries.",
+      "ar_name": "ستريبس دجاج",
+      "ar_description": "فيليه دجاج مقلي ومقرمش، مايونيز، كاتشب وبطاطس مقلية."
+    },
+    "блюда-гамбургер-8": {
+      "en_name": "Hamburger",
+      "en_description": "Beef, mayonnaise, tomatoes, pickles, French fries, and lettuce.",
+      "ar_name": "هامبرغر",
+      "ar_description": "لحم بقري، مايونيز، طماطم، مخلل خيار، بطاطس مقلية وخس."
+    },
+    "блюда-ламбургер-9": {
+      "en_name": "Lamb Burger",
+      "en_description": "Lamb patty, mayonnaise, tomatoes, pickles, and French fries.",
+      "ar_name": "برغر لحم ضأن",
+      "ar_description": "قطعة لحم ضأن، مايونيز، طماطم، مخلل خيار وبطاطس مقلية."
+    },
+    "блюда-нарезка-говяжья-10": {
+      "en_name": "Beef Slices",
+      "en_description": "Beef, mayonnaise, pickles, onion, parsley, and French fries.",
+      "ar_name": "شرائح لحم بقري",
+      "ar_description": "لحم بقري، مايونيز، مخلل خيار، بصل، بقدونس وبطاطس مقلية."
+    },
+    "блюда-ковта-11": {
+      "en_name": "Kofta",
+      "en_description": "Beef, lamb, mayonnaise, tomatoes, pickles, and French fries.",
+      "ar_name": "كفتة",
+      "ar_description": "لحم بقري، لحم ضأن، مايونيز، طماطم، مخلل خيار وبطاطس مقلية."
+    },
+    "блюда-тарелка-фри-12": {
+      "en_name": "Fries Plate",
+      "en_description": "French fries and ketchup.",
+      "ar_name": "طبق بطاطس مقلية",
+      "ar_description": "بطاطس مقلية وكاتشب."
+    },
+    "салаты-салат-паназенелла-1": {
+      "en_name": "Panzanella Salad",
+      "en_description": "Tomatoes, cucumbers, croutons, and parsley.",
+      "ar_name": "سلطة بانزانيللا",
+      "ar_description": "طماطم، خيار، خبز محمص وبقدونس."
+    },
+    "салаты-чикен-нуделз-2": {
+      "en_name": "Chicken Noodles",
+      "en_description": "Chicken fillet, noodles, tomatoes, bell peppers, and carrots.",
+      "ar_name": "نودلز الدجاج",
+      "ar_description": "فيليه دجاج، نودلز، طماطم، فلفل حلو وجزر."
+    },
+    "салаты-блак-беинз-3": {
+      "en_name": "Black Beans",
+      "en_description": "Black beans, corn, bell peppers, and rosemary.",
+      "ar_name": "فاصوليا سوداء",
+      "ar_description": "فاصوليا سوداء، ذرة، فلفل حلو وإكليل الجبل."
+    },
+    "салаты-греческий-салат-4": {
+      "en_name": "Greek Salad",
+      "en_description": "Tomatoes, cucumbers, onion, mint, feta cheese, and olives.",
+      "ar_name": "سلطة يونانية",
+      "ar_description": "طماطم، خيار، بصل، نعناع، جبنة فيتا وزيتون."
+    },
+    "салаты-салат-с-тунцом-5": {
+      "en_name": "Tuna Salad",
+      "en_description": "Tuna, cucumbers, bell peppers, and corn.",
+      "ar_name": "سلطة تونة",
+      "ar_description": "تونة، خيار، فلفل حلو وذرة."
+    },
+    "салаты-цезарь-с-курицей-6": {
+      "en_name": "Chicken Caesar Salad",
+      "en_description": "Lettuce, tomatoes, chicken fillet, and Caesar dressing.",
+      "ar_name": "سلطة سيزر بالدجاج",
+      "ar_description": "خس، طماطم، فيليه دجاج وصلصة سيزر."
+    },
+    "фруктовые-салаты-нутелла-фруктовый-салат-1": {
+      "en_name": "Nutella Fruit Salad",
+      "en_description": "Banana, strawberry, kiwi, pineapple, apple, peach, cream, Nutella chocolate, KitKat, sweetened condensed milk, and topping. Size: 330 ml / 500 ml.",
+      "ar_name": "سلطة فواكه نوتيلا",
+      "ar_description": "موز، فراولة، كيوي، أناناس، تفاح، خوخ، كريمة، شوكولاتة نوتيلا، كيت كات، حليب مكثف محلى وتوبينغ. الحجم: 330 مل / 500 مل."
+    },
+    "фруктовые-салаты-нутелла-фруктовый-салат-с-шоколадным-мороженым-2": {
+      "en_name": "Nutella Fruit Salad with Chocolate Ice Cream",
+      "en_description": "Banana, strawberry, kiwi, pineapple, apple, peach, cream, Nutella chocolate, KitKat, sweetened condensed milk, chocolate ice cream, and topping. Size: 330 ml / 500 ml.",
+      "ar_name": "سلطة فواكه نوتيلا مع آيس كريم بالشوكولاتة",
+      "ar_description": "موز، فراولة، كيوي، أناناس، تفاح، خوخ، كريمة، شوكولاتة نوتيلا، كيت كات، حليب مكثف محلى، آيس كريم بالشوكولاتة وتوبينغ. الحجم: 330 مل / 500 مل."
+    },
+    "фруктовые-салаты-цитрусовый-фруктовый-салат-3": {
+      "en_name": "Citrus Fruit Salad",
+      "en_description": "Banana, orange, apple, peach, raspberry, cream, sweetened condensed milk, and topping. Size: 330 ml / 500 ml.",
+      "ar_name": "سلطة فواكه بالحمضيات",
+      "ar_description": "موز، برتقال، تفاح، خوخ، توت العليق، كريمة، حليب مكثف محلى وتوبينغ. الحجم: 330 مل / 500 مل."
+    },
+    "фруктовые-салаты-фруктовый-салат-4": {
+      "en_name": "Fruit Salad",
+      "en_description": "Banana, strawberry, kiwi, pineapple, apple, peach, cream, sweetened condensed milk, and topping. Size: 330 ml / 500 ml.",
+      "ar_name": "سلطة فواكه",
+      "ar_description": "موز، فراولة، كيوي، أناناس، تفاح، خوخ، كريمة، حليب مكثف محلى وتوبينغ. الحجم: 330 مل / 500 مل."
+    },
+    "фруктовые-салаты-фруктовый-салат-с-клубничным-мороженым-5": {
+      "en_name": "Fruit Salad with Strawberry Ice Cream",
+      "en_description": "Banana, strawberry, kiwi, apple, peach, cream, sweetened condensed milk, strawberry ice cream, and topping. Size: 330 ml / 500 ml.",
+      "ar_name": "سلطة فواكه مع آيس كريم بالفراولة",
+      "ar_description": "موز، فراولة، كيوي، تفاح، خوخ، كريمة، حليب مكثف محلى، آيس كريم بالفراولة وتوبينغ. الحجم: 330 مل / 500 مل."
+    },
+    "мороженое-ванильное-1": {
+      "en_name": "Vanilla Ice Cream",
+      "en_description": "Vanilla ice cream.",
+      "ar_name": "آيس كريم بالفانيليا",
+      "ar_description": "آيس كريم بالفانيليا."
+    },
+    "мороженое-клубничное-2": {
+      "en_name": "Strawberry Ice Cream",
+      "en_description": "Strawberry ice cream.",
+      "ar_name": "آيس كريم بالفراولة",
+      "ar_description": "آيس كريم بالفراولة."
+    },
+    "мороженое-шоколадное-3": {
+      "en_name": "Chocolate Ice Cream",
+      "en_description": "Chocolate ice cream.",
+      "ar_name": "آيس كريم بالشوكولاتة",
+      "ar_description": "آيس كريم بالشوكولاتة."
+    },
+    "мороженое-банана-сплит-4": {
+      "en_name": "Banana Split",
+      "en_description": "Vanilla ice cream, banana, strawberry ice cream, and cream.",
+      "ar_name": "بانانا سبليت",
+      "ar_description": "آيس كريم بالفانيليا، موز، آيس كريم بالفراولة وكريمة."
+    },
+    "мороженое-клубника-айс-крим-5": {
+      "en_name": "Strawberry Ice Cream Sundae",
+      "en_description": "Strawberry ice cream, strawberries, vanilla ice cream, and cream.",
+      "ar_name": "صنداي آيس كريم بالفراولة",
+      "ar_description": "آيس كريم بالفراولة، فراولة، آيس كريم بالفانيليا وكريمة."
+    },
+    "мороженое-шукуламу-6": {
+      "en_name": "Shukulamu",
+      "en_description": "Chocolate ice cream, chocolate cookies, cream, and banana.",
+      "ar_name": "شوكولامو",
+      "ar_description": "آيس كريم بالشوكولاتة، بسكويت بالشوكولاتة، كريمة وموز."
+    },
+    "мороженое-аффогато-7": {
+      "en_name": "Affogato",
+      "en_description": "Vanilla ice cream and espresso.",
+      "ar_name": "أفوجاتو",
+      "ar_description": "آيس كريم بالفانيليا وإسبريسو."
+    }
+  }
+}

@@ -1,0 +1,1213 @@
+{
+  "schemaVersion": 1,
+  "restaurant": "SPICY",
+  "locale": "ru-RU",
+  "currency": "RUB",
+  "categories": [
+    {
+      "id": "пицца",
+      "name": "ПИЦЦА",
+      "items": [
+        {
+          "id": "пицца-пицца-маргарита-1",
+          "name": "ПИЦЦА МАРГАРИТА",
+          "description": "Томатный соус, моцарелла, грибы.",
+          "displayPrice": "400 руб",
+          "prices": [
+            400
+          ],
+          "heatLevel": 0,
+          "image": "/images/pizza/margherita.jpg"
+        },
+        {
+          "id": "пицца-пицца-пепперони-2",
+          "name": "ПИЦЦА ПЕППЕРОНИ",
+          "description": "Томатный соус, моцарелла, мортаделла.",
+          "displayPrice": "400 руб",
+          "prices": [
+            400
+          ],
+          "heatLevel": 0,
+          "image": "/images/pizza/pepperoni.jpg"
+        },
+        {
+          "id": "пицца-пицца-4-сезона-3",
+          "name": "ПИЦЦА 4 СЕЗОНА",
+          "description": "Томатный соус, моцарелла, помидоры, грибы, перец, кукуруза, оливки.",
+          "displayPrice": "400 руб",
+          "prices": [
+            400
+          ],
+          "heatLevel": 0,
+          "image": "/images/pizza/four-seasons.jpg"
+        },
+        {
+          "id": "пицца-пицца-4-сыра-4",
+          "name": "ПИЦЦА 4 СЫРА",
+          "description": "Томатный соус, моцарелла, пармезан, чеддер, рикотта, гауда.",
+          "displayPrice": "400 руб",
+          "prices": [
+            400
+          ],
+          "heatLevel": 0,
+          "image": "/images/pizza/four-cheese.jpg"
+        },
+        {
+          "id": "пицца-пицца-с-сосисками-5",
+          "name": "ПИЦЦА С СОСИСКАМИ",
+          "description": "Томатный соус, моцарелла, грибы, сосиски.",
+          "displayPrice": "400 руб",
+          "prices": [
+            400
+          ],
+          "heatLevel": 0,
+          "image": "/images/pizza/sausages.jpg"
+        },
+        {
+          "id": "пицца-пицца-чилибиф-6",
+          "name": "ПИЦЦА ЧИЛИБИФ",
+          "description": "Томатный соус, моцарелла, говяжий фарш.",
+          "displayPrice": "400 руб",
+          "prices": [
+            400
+          ],
+          "heatLevel": 2,
+          "image": "/images/pizza/chili-beef.jpg"
+        },
+        {
+          "id": "пицца-пицца-курица-с-ананасом-7",
+          "name": "ПИЦЦА КУРИЦА С АНАНАСОМ",
+          "description": "Томатный соус, моцарелла, куриное филе, ананас.",
+          "displayPrice": "425 руб",
+          "prices": [
+            425
+          ],
+          "heatLevel": 0,
+          "image": "/images/pizza/chicken-pineapple.jpg"
+        },
+        {
+          "id": "пицца-пицца-мексиканская-8",
+          "name": "ПИЦЦА МЕКСИКАНСКАЯ",
+          "description": "Томатный соус, моцарелла, куриное филе, грибы, перец, лук.",
+          "displayPrice": "450 руб",
+          "prices": [
+            450
+          ],
+          "heatLevel": 2,
+          "image": "/images/pizza/mexican.jpg"
+        },
+        {
+          "id": "пицца-пицца-с-тунцом-9",
+          "name": "ПИЦЦА С ТУНЦОМ",
+          "description": "Томатный соус, моцарелла, тунец, кукуруза, оливки, лук.",
+          "displayPrice": "480 руб",
+          "prices": [
+            480
+          ],
+          "heatLevel": 0,
+          "image": "/images/pizza/tuna.jpg"
+        },
+        {
+          "id": "пицца-пицца-биката-10",
+          "name": "ПИЦЦА БИКАТА",
+          "description": "Томатный соус, моцарелла, перец, грибы, говяжья нарезка.",
+          "displayPrice": "480 руб",
+          "prices": [
+            480
+          ],
+          "heatLevel": 0,
+          "image": "/images/pizza/bikata.jpg"
+        },
+        {
+          "id": "пицца-пицца-с-говяжьей-нарезкой-11",
+          "name": "ПИЦЦА С ГОВЯЖЬЕЙ НАРЕЗКОЙ",
+          "description": "Говяжья нарезка, баранина, курдюк.",
+          "displayPrice": "450 руб",
+          "prices": [
+            450
+          ],
+          "heatLevel": 0,
+          "image": "/images/pizza/beef-slices.jpg"
+        }
+      ]
+    },
+    {
+      "id": "блинчики",
+      "name": "БЛИНЧИКИ",
+      "items": [
+        {
+          "id": "блинчики-мухамара-с-колбасой-1",
+          "name": "МУХАМАРА С КОЛБАСОЙ",
+          "description": "Острый соус, сыр моцарелла, колбаса, петрушка.",
+          "displayPrice": "175 руб",
+          "prices": [
+            175
+          ],
+          "heatLevel": 2,
+          "image": "/images/fatayer/muhammara-sausage.jpg"
+        },
+        {
+          "id": "блинчики-лахм-б-ажинь-2",
+          "name": "ЛАХМ Б АЖИНЬ",
+          "description": "Спайси говядина.",
+          "displayPrice": "180 руб",
+          "prices": [
+            180
+          ],
+          "heatLevel": 2,
+          "image": "/images/fatayer/lahm-bi-ajin.jpg"
+        },
+        {
+          "id": "блинчики-мухамара-3",
+          "name": "МУХАМАРА",
+          "description": "Острый соус, сыр моцарелла.",
+          "displayPrice": "150 руб",
+          "prices": [
+            150
+          ],
+          "heatLevel": 2,
+          "image": "/images/fatayer/muhammara.jpg"
+        },
+        {
+          "id": "блинчики-с-сыром-4",
+          "name": "С СЫРОМ",
+          "description": "Блинчик с сыром.",
+          "displayPrice": "160 руб",
+          "prices": [
+            160
+          ],
+          "heatLevel": 0,
+          "image": "/images/fatayer/cheese.jpg"
+        },
+        {
+          "id": "блинчики-затар-5",
+          "name": "ЗАТАР",
+          "description": "Блинчик с затаром.",
+          "displayPrice": "150 руб",
+          "prices": [
+            150
+          ],
+          "heatLevel": 0,
+          "image": "/images/fatayer/zaatar.jpg"
+        },
+        {
+          "id": "блинчики-сфиха-6",
+          "name": "СФИХА",
+          "description": "Сфиха.",
+          "displayPrice": "150 руб",
+          "prices": [
+            150
+          ],
+          "heatLevel": 0,
+          "image": "/images/fatayer/sfiha.jpg"
+        }
+      ]
+    },
+    {
+      "id": "кальцоне",
+      "name": "КАЛЬЦОНЕ",
+      "items": [
+        {
+          "id": "кальцоне-фахита-1",
+          "name": "ФАХИТА",
+          "description": "Томатный соус, куриное филе, грибы, перец, лук, моцарелла, гауда.",
+          "displayPrice": "420 руб",
+          "prices": [
+            420
+          ],
+          "heatLevel": 0,
+          "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuAaUGW3na1sTBivgXsA4LEdE7SNN5MvRa7sDQjlYBJRqzuuYgbgI_hpesShDl3wvXIo1nA-qR2KleKE_lF-Vdewqv10VstZUzIiyPVHR9WzYFg7j4KaZzCCa9Hj2XJsYaavDgBTu-5q6W3hz3yCoCuj2hBG4jey5mbVszRolfPXMnQzuzoQfr56YzHOOCEqMYItHxVYxaN9hUH8R0tdU-1DdJRtgCz1ZXgZJa1g5UgrADftVSofwHqOyg"
+        },
+        {
+          "id": "кальцоне-франшеску-2",
+          "name": "ФРАНШЕСКУ",
+          "description": "Томатный соус, куриное филе, грибы, лук, кукуруза, моцарелла, гауда.",
+          "displayPrice": "420 руб",
+          "prices": [
+            420
+          ],
+          "heatLevel": 0,
+          "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuAaUGW3na1sTBivgXsA4LEdE7SNN5MvRa7sDQjlYBJRqzuuYgbgI_hpesShDl3wvXIo1nA-qR2KleKE_lF-Vdewqv10VstZUzIiyPVHR9WzYFg7j4KaZzCCa9Hj2XJsYaavDgBTu-5q6W3hz3yCoCuj2hBG4jey5mbVszRolfPXMnQzuzoQfr56YzHOOCEqMYItHxVYxaN9hUH8R0tdU-1DdJRtgCz1ZXgZJa1g5UgrADftVSofwHqOyg"
+        },
+        {
+          "id": "кальцоне-чили-биф-3",
+          "name": "ЧИЛИ БИФ",
+          "description": "Томатный соус, чили биф, грибы, салями, моцарелла, гауда, чеддер.",
+          "displayPrice": "420 руб",
+          "prices": [
+            420
+          ],
+          "heatLevel": 2,
+          "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuAaUGW3na1sTBivgXsA4LEdE7SNN5MvRa7sDQjlYBJRqzuuYgbgI_hpesShDl3wvXIo1nA-qR2KleKE_lF-Vdewqv10VstZUzIiyPVHR9WzYFg7j4KaZzCCa9Hj2XJsYaavDgBTu-5q6W3hz3yCoCuj2hBG4jey5mbVszRolfPXMnQzuzoQfr56YzHOOCEqMYItHxVYxaN9hUH8R0tdU-1DdJRtgCz1ZXgZJa1g5UgrADftVSofwHqOyg"
+        },
+        {
+          "id": "кальцоне-суприм-4",
+          "name": "СУПРИМ",
+          "description": "Томатный соус, жареное куриное филе, салями, моцарелла, гауда.",
+          "displayPrice": "450 руб",
+          "prices": [
+            450
+          ],
+          "heatLevel": 0,
+          "image": "https://lh3.googleusercontent.com/aida-public/AB6AXuAaUGW3na1sTBivgXsA4LEdE7SNN5MvRa7sDQjlYBJRqzuuYgbgI_hpesShDl3wvXIo1nA-qR2KleKE_lF-Vdewqv10VstZUzIiyPVHR9WzYFg7j4KaZzCCa9Hj2XJsYaavDgBTu-5q6W3hz3yCoCuj2hBG4jey5mbVszRolfPXMnQzuzoQfr56YzHOOCEqMYItHxVYxaN9hUH8R0tdU-1DdJRtgCz1ZXgZJa1g5UgrADftVSofwHqOyg"
+        }
+      ]
+    },
+    {
+      "id": "сэндвичи",
+      "name": "СЭНДВИЧИ",
+      "items": [
+        {
+          "id": "сэндвичи-гирос-1",
+          "name": "ГИРОС",
+          "description": "Куриное филе кусочками, лук, помидор, майонез, фри.",
+          "displayPrice": "250 руб",
+          "prices": [
+            250
+          ],
+          "heatLevel": 1,
+          "image": "/images/sandwiches/gyros.jpg"
+        },
+        {
+          "id": "сэндвичи-шиш-2",
+          "name": "ШИШ",
+          "description": "Куриное филе кусочками, майонез, салат коул слоу, помидоры, фри, кетчуп.",
+          "displayPrice": "275 руб",
+          "prices": [
+            275
+          ],
+          "heatLevel": 1,
+          "image": "/images/sandwiches/shish.jpg"
+        },
+        {
+          "id": "сэндвичи-чикен-бургер-3",
+          "name": "ЧИКЕН-БУРГЕР",
+          "description": "Куриное мясо, майонез, салат коул слоу, помидоры, фри, кетчуп. Добавки: яйцо +15 руб, сыр +15 руб.",
+          "displayPrice": "220 руб",
+          "prices": [
+            220
+          ],
+          "heatLevel": 1,
+          "image": "/images/sandwiches/chicken-burger.jpg"
+        },
+        {
+          "id": "сэндвичи-тако-4",
+          "name": "ТАКО",
+          "description": "Куриное филе кусочками, майонез, помидоры, огурцы, мята.",
+          "displayPrice": "",
+          "prices": [],
+          "heatLevel": 1,
+          "image": "/images/sandwiches/taco.jpg"
+        },
+        {
+          "id": "сэндвичи-эскалоп-5",
+          "name": "ЭСКАЛОП",
+          "description": "Куриное филе, майонез, салат, помидоры, фри, кетчуп.",
+          "displayPrice": "240 руб / 290 руб",
+          "prices": [
+            240,
+            290
+          ],
+          "heatLevel": 1,
+          "image": "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=900&q=80"
+        },
+        {
+          "id": "сэндвичи-зингер-острый-6",
+          "name": "ЗИНГЕР ОСТРЫЙ",
+          "description": "Куриное филе, майонез, салат, помидоры, фри, сыр.",
+          "displayPrice": "310 руб",
+          "prices": [
+            310
+          ],
+          "heatLevel": 3,
+          "image": "/images/sandwiches/zinger-spicy.jpg"
+        },
+        {
+          "id": "сэндвичи-суприм-7",
+          "name": "СУПРИМ",
+          "description": "Куриное филе, майонез, салат, помидоры, колбаса, фри, сыр.",
+          "displayPrice": "325 руб",
+          "prices": [
+            325
+          ],
+          "heatLevel": 1,
+          "image": "/images/sandwiches/supreme.jpg"
+        },
+        {
+          "id": "сэндвичи-мексиканский-острый-8",
+          "name": "МЕКСИКАНСКИЙ ОСТРЫЙ",
+          "description": "Куриное филе кусочками, майонез, помидоры, грибы, перец, лук.",
+          "displayPrice": "275 руб",
+          "prices": [
+            275
+          ],
+          "heatLevel": 3,
+          "image": "/images/sandwiches/mexican-spicy.jpg"
+        },
+        {
+          "id": "сэндвичи-франшеску-9",
+          "name": "ФРАНШЕСКУ",
+          "description": "Куриное филе кусочками, майонез, салат, грибы, лук, кукуруза, фри, сыр.",
+          "displayPrice": "310 руб",
+          "prices": [
+            310
+          ],
+          "heatLevel": 1,
+          "image": "/images/sandwiches/francescu.jpg"
+        },
+        {
+          "id": "сэндвичи-фахита-10",
+          "name": "ФАХИТА",
+          "description": "Куриное филе кусочками, майонез, помидоры, грибы, перец, лук, сыр.",
+          "displayPrice": "300 руб",
+          "prices": [
+            300
+          ],
+          "heatLevel": 1,
+          "image": "/images/sandwiches/fajita.jpg"
+        },
+        {
+          "id": "сэндвичи-шаурма-11",
+          "name": "ШАУРМА",
+          "description": "Куриное филе, майонез, помидоры, солёные огурцы.",
+          "displayPrice": "260 руб",
+          "prices": [
+            260
+          ],
+          "heatLevel": 1,
+          "image": "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=900&q=80"
+        },
+        {
+          "id": "сэндвичи-ламбургер-баранина-12",
+          "name": "ЛАМБУРГЕР — БАРАНИНА",
+          "description": "Баранина, майонез, салат, помидоры, сыр, фри.",
+          "displayPrice": "400 руб",
+          "prices": [
+            400
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=900&q=80",
+          "sandwichType": "БАРАНИНА"
+        },
+        {
+          "id": "сэндвичи-лам-в-тандыр-баранина-13",
+          "name": "ЛАМ В ТАНДЫР — БАРАНИНА",
+          "description": "Баранина, майонез, помидоры, солёный огурец, лук, петрушка.",
+          "displayPrice": "425 руб",
+          "prices": [
+            425
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=900&q=80",
+          "sandwichType": "БАРАНИНА"
+        },
+        {
+          "id": "сэндвичи-гриль-бургер-14",
+          "name": "ГРИЛЬ БУРГЕР",
+          "description": "Говяжья котлета, майонез, помидоры, солёные огурцы, лук, петрушка.",
+          "displayPrice": "240 руб",
+          "prices": [
+            240
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=900&q=80",
+          "sandwichType": "ГОВЯДИНА"
+        },
+        {
+          "id": "сэндвичи-гамбургер-15",
+          "name": "ГАМБУРГЕР",
+          "description": "Говяжья котлета, майонез, салат, помидоры, солёные огурцы, фри, кетчуп.",
+          "displayPrice": "240 руб",
+          "prices": [
+            240
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=900&q=80",
+          "sandwichType": "ГОВЯДИНА"
+        },
+        {
+          "id": "сэндвичи-чили-биф-16",
+          "name": "ЧИЛИ БИФ",
+          "description": "Говяжий фарш, майонез, солёные огурцы.",
+          "displayPrice": "200 руб",
+          "prices": [
+            200
+          ],
+          "heatLevel": 2,
+          "image": "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=900&q=80",
+          "sandwichType": "ГОВЯДИНА"
+        },
+        {
+          "id": "сэндвичи-бурито-17",
+          "name": "БУРИТО",
+          "description": "Говяжий фарш, майонез, салат, помидоры, зелёный лук, фри, сыр.",
+          "displayPrice": "325 руб",
+          "prices": [
+            325
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=900&q=80",
+          "sandwichType": "ГОВЯДИНА"
+        },
+        {
+          "id": "сэндвичи-ковта-18",
+          "name": "КОВТА",
+          "description": "Котлета из говядины и баранины, майонез, помидоры, солёные огурцы, лук, петрушка.",
+          "displayPrice": "290 руб",
+          "prices": [
+            290
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=900&q=80",
+          "sandwichType": "ГОВЯДИНА"
+        },
+        {
+          "id": "сэндвичи-нарезка-говяжья-19",
+          "name": "НАРЕЗКА ГОВЯЖЬЯ",
+          "description": "Говядина, майонез, помидоры, сало, огурцы, лук, петрушка.",
+          "displayPrice": "380 руб",
+          "prices": [
+            380
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=900&q=80",
+          "sandwichType": "ГОВЯДИНА"
+        },
+        {
+          "id": "сэндвичи-биката-20",
+          "name": "БИКАТА",
+          "description": "Нарезка говядины, майонез, салат, помидоры, перец, грибы, лук, фри, сыр.",
+          "displayPrice": "380 руб",
+          "prices": [
+            380
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=900&q=80",
+          "sandwichType": "ГОВЯДИНА"
+        },
+        {
+          "id": "сэндвичи-кинг-бургер-21",
+          "name": "КИНГ БУРГЕР",
+          "description": "Нарезка говядины, говяжья котлета, майонез, солёные огурцы, помидор, лук, петрушка.",
+          "displayPrice": "400 руб",
+          "prices": [
+            400
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=900&q=80",
+          "sandwichType": "ГОВЯДИНА"
+        },
+        {
+          "id": "сэндвичи-бееф-в-тандыр-22",
+          "name": "БЕЕФ В ТАНДЫР",
+          "description": "Говядина, майонез, помидоры, солёные огурцы, лук, петрушка.",
+          "displayPrice": "375 руб",
+          "prices": [
+            375
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=900&q=80",
+          "sandwichType": "ГОВЯДИНА"
+        },
+        {
+          "id": "сэндвичи-бургер-фит-23",
+          "name": "БУРГЕР ФИТ",
+          "description": "Говяжья котлета, салат, помидор, солёные огурцы, фри. Размер: средний / большой.",
+          "displayPrice": "200 / 400 руб",
+          "prices": [
+            200,
+            400
+          ],
+          "heatLevel": 0,
+          "image": "/images/sandwiches/burger-fit.jpg",
+          "sandwichType": "ГОВЯДИНА"
+        },
+        {
+          "id": "сэндвичи-овощной-24",
+          "name": "ОВОЩНОЙ",
+          "description": "Майонез, салат, помидор, сыр, кетчуп.",
+          "displayPrice": "190 руб",
+          "prices": [
+            190
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=900&q=80",
+          "sandwichType": "СЭНДВИЧИ"
+        },
+        {
+          "id": "сэндвичи-сэндвичи-фри-25",
+          "name": "СЭНДВИЧИ ФРИ",
+          "description": "Фри, майонез, салат, помидор, кетчуп.",
+          "displayPrice": "200 руб",
+          "prices": [
+            200
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=900&q=80",
+          "sandwichType": "СЭНДВИЧИ"
+        },
+        {
+          "id": "сэндвичи-с-колбасой-26",
+          "name": "С КОЛБАСОЙ",
+          "description": "Колбаса, майонез, салат, солёные огурцы, сыр, кетчуп.",
+          "displayPrice": "225 руб",
+          "prices": [
+            225
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=900&q=80",
+          "sandwichType": "СЭНДВИЧИ"
+        },
+        {
+          "id": "сэндвичи-сэндвич-с-тунцом-27",
+          "name": "СЭНДВИЧ С ТУНЦОМ",
+          "description": "Майонез, тунец, кукуруза.",
+          "displayPrice": "360 руб",
+          "prices": [
+            360
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&w=900&q=80",
+          "sandwichType": "СЭНДВИЧИ"
+        }
+      ]
+    },
+    {
+      "id": "блюда",
+      "name": "БЛЮДА",
+      "items": [
+        {
+          "id": "блюда-шиш-1",
+          "name": "ШИШ",
+          "description": "Кусочки куриного филе, майонез, помидоры, солёные огурцы, фри, кетчуп. Можно добавить салат коул слоу: капуста и морковь.",
+          "displayPrice": "450 руб",
+          "prices": [
+            450
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=900&q=80"
+        },
+        {
+          "id": "блюда-эскалоп-2",
+          "name": "ЭСКАЛОП",
+          "description": "Куриное филе, майонез, помидоры, солёные огурцы, фри, кетчуп.",
+          "displayPrice": "450 руб",
+          "prices": [
+            450
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=900&q=80"
+        },
+        {
+          "id": "блюда-зингер-острый-3",
+          "name": "ЗИНГЕР ОСТРЫЙ",
+          "description": "Куриное филе, майонез, помидоры, солёные огурцы, фри.",
+          "displayPrice": "450 руб",
+          "prices": [
+            450
+          ],
+          "heatLevel": 3,
+          "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=900&q=80"
+        },
+        {
+          "id": "блюда-мексиканский-острый-4",
+          "name": "МЕКСИКАНСКИЙ ОСТРЫЙ",
+          "description": "Куриное филе, майонез, помидоры, грибы, перец, лук, солёные огурцы, фри.",
+          "displayPrice": "450 руб",
+          "prices": [
+            450
+          ],
+          "heatLevel": 3,
+          "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=900&q=80"
+        },
+        {
+          "id": "блюда-шаурма-5",
+          "name": "ШАУРМА",
+          "description": "Куриное филе, майонез, помидоры, солёные огурцы, фри.",
+          "displayPrice": "450 руб",
+          "prices": [
+            450
+          ],
+          "heatLevel": 0,
+          "image": "/images/sandwiches/shawarma-dish.jpg"
+        },
+        {
+          "id": "блюда-ростер-чикин-6",
+          "name": "РОСТЕР ЧИКИН",
+          "description": "Куриное филе, майонез, горох, помидоры, солёные огурцы, фри.",
+          "displayPrice": "450 руб",
+          "prices": [
+            450
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=900&q=80"
+        },
+        {
+          "id": "блюда-стрипсы-7",
+          "name": "СТРИПСЫ",
+          "description": "Хрустящее жареное куриное филе, майонез, кетчуп, фри.",
+          "displayPrice": "350 руб",
+          "prices": [
+            350
+          ],
+          "heatLevel": 0,
+          "image": "/images/sandwiches/strips.jpg"
+        },
+        {
+          "id": "блюда-гамбургер-8",
+          "name": "ГАМБУРГЕР",
+          "description": "Говядина, майонез, помидоры, солёные огурцы, фри, салат.",
+          "displayPrice": "450 руб",
+          "prices": [
+            450
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=900&q=80"
+        },
+        {
+          "id": "блюда-ламбургер-9",
+          "name": "ЛАМБУРГЕР",
+          "description": "Баранья котлета, майонез, помидоры, солёные огурцы, фри.",
+          "displayPrice": "450 руб",
+          "prices": [
+            450
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=900&q=80"
+        },
+        {
+          "id": "блюда-нарезка-говяжья-10",
+          "name": "НАРЕЗКА ГОВЯЖЬЯ",
+          "description": "Говядина, майонез, солёные огурцы, лук, петрушка, фри.",
+          "displayPrice": "450 руб",
+          "prices": [
+            450
+          ],
+          "heatLevel": 0,
+          "image": "/images/sandwiches/beef-slices.jpg"
+        },
+        {
+          "id": "блюда-ковта-11",
+          "name": "КОВТА",
+          "description": "Говядина, баранина, майонез, помидоры, солёные огурцы, фри.",
+          "displayPrice": "450 руб",
+          "prices": [
+            450
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=900&q=80"
+        },
+        {
+          "id": "блюда-тарелка-фри-12",
+          "name": "ТАРЕЛКА ФРИ",
+          "description": "Картофель фри и кетчуп.",
+          "displayPrice": "250 руб",
+          "prices": [
+            250
+          ],
+          "heatLevel": 0,
+          "image": "/images/salads/fries.jpg"
+        }
+      ]
+    },
+    {
+      "id": "салаты",
+      "name": "САЛАТЫ",
+      "items": [
+        {
+          "id": "салаты-салат-паназенелла-1",
+          "name": "САЛАТ ПАНАЗЕНЕЛЛА",
+          "description": "Помидоры, огурцы, сухари, петрушка.",
+          "displayPrice": "200 руб",
+          "prices": [
+            200
+          ],
+          "heatLevel": 0,
+          "image": "/images/salads/panzanella.jpg"
+        },
+        {
+          "id": "салаты-чикен-нуделз-2",
+          "name": "ЧИКЕН НУДЕЛЗ",
+          "description": "Куриное филе, макароны, помидоры, перец, морковь.",
+          "displayPrice": "250 руб",
+          "prices": [
+            250
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&w=900&q=80"
+        },
+        {
+          "id": "салаты-блак-беинз-3",
+          "name": "БЛАК БЕИНЗ",
+          "description": "Чёрная фасоль, кукуруза, перец, розмарин.",
+          "displayPrice": "250 руб",
+          "prices": [
+            250
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1621263764928-df1444c5e859?auto=format&fit=crop&w=900&q=80"
+        },
+        {
+          "id": "салаты-греческий-салат-4",
+          "name": "ГРЕЧЕСКИЙ САЛАТ",
+          "description": "Помидоры, огурцы, лук, мята, сыр фета, оливки.",
+          "displayPrice": "240 руб",
+          "prices": [
+            240
+          ],
+          "heatLevel": 0,
+          "image": "/images/salads/greek.jpg"
+        },
+        {
+          "id": "салаты-салат-с-тунцом-5",
+          "name": "САЛАТ С ТУНЦОМ",
+          "description": "Тунец, огурцы, перец, кукуруза.",
+          "displayPrice": "350 руб",
+          "prices": [
+            350
+          ],
+          "heatLevel": 0,
+          "image": "/images/salads/tuna.jpg"
+        },
+        {
+          "id": "салаты-цезарь-с-курицей-6",
+          "name": "ЦЕЗАРЬ С КУРИЦЕЙ",
+          "description": "Салат, помидоры, куриное филе, соус цезарь.",
+          "displayPrice": "250 руб",
+          "prices": [
+            250
+          ],
+          "heatLevel": 0,
+          "image": "/images/salads/caesar-chicken.jpg"
+        }
+      ]
+    },
+    {
+      "id": "фруктовые-салаты",
+      "name": "ФРУКТОВЫЕ САЛАТЫ",
+      "items": [
+        {
+          "id": "фруктовые-салаты-нутелла-фруктовый-салат-1",
+          "name": "НУТЕЛЛА ФРУКТОВЫЙ САЛАТ",
+          "description": "Банан, клубника, киви, ананас, яблоко, персик, сливки, шоколад Nutella, KitKat, сгущённое молоко и топпинг. Объём: 330 мл / 500 мл.",
+          "displayPrice": "350 / 440 руб",
+          "prices": [
+            350,
+            440
+          ],
+          "heatLevel": 0,
+          "image": "/images/sweets-drinks/fruit-nutella.jpg"
+        },
+        {
+          "id": "фруктовые-салаты-нутелла-фруктовый-салат-с-шоколадным-мороженым-2",
+          "name": "НУТЕЛЛА ФРУКТОВЫЙ САЛАТ С ШОКОЛАДНЫМ МОРОЖЕНЫМ",
+          "description": "Банан, клубника, киви, ананас, яблоко, персик, сливки, шоколад Nutella, KitKat, сгущённое молоко, шоколадное мороженое и топпинг. Объём: 330 мл / 500 мл.",
+          "displayPrice": "350 / 440 руб",
+          "prices": [
+            350,
+            440
+          ],
+          "heatLevel": 0,
+          "image": "/images/desserts/nutella-fruit-salad-chocolate-ice-cream.jpg"
+        },
+        {
+          "id": "фруктовые-салаты-цитрусовый-фруктовый-салат-3",
+          "name": "ЦИТРУСОВЫЙ ФРУКТОВЫЙ САЛАТ",
+          "description": "Банан, апельсин, яблоко, персик, малина, сливки, сгущённое молоко и топпинг. Объём: 330 мл / 500 мл.",
+          "displayPrice": "310 / 350 руб",
+          "prices": [
+            310,
+            350
+          ],
+          "heatLevel": 0,
+          "image": "/images/sweets-drinks/fruit-citrus.jpg"
+        },
+        {
+          "id": "фруктовые-салаты-фруктовый-салат-4",
+          "name": "ФРУКТОВЫЙ САЛАТ",
+          "description": "Банан, клубника, киви, ананас, яблоко, персик, сливки, сгущённое молоко и топпинг. Объём: 330 мл / 500 мл.",
+          "displayPrice": "310 / 350 руб",
+          "prices": [
+            310,
+            350
+          ],
+          "heatLevel": 0,
+          "image": "/images/sweets-drinks/fruit-classic.jpg"
+        },
+        {
+          "id": "фруктовые-салаты-фруктовый-салат-с-клубничным-мороженым-5",
+          "name": "ФРУКТОВЫЙ САЛАТ С КЛУБНИЧНЫМ МОРОЖЕНЫМ",
+          "description": "Банан, клубника, киви, яблоко, персик, сливки, сгущённое молоко, клубничное мороженое и топпинг. Объём: 330 мл / 500 мл.",
+          "displayPrice": "320 / 380 руб",
+          "prices": [
+            320,
+            380
+          ],
+          "heatLevel": 0,
+          "image": "/images/desserts/fruit-salad-strawberry-ice-cream.jpg"
+        }
+      ]
+    },
+    {
+      "id": "мороженое",
+      "name": "МОРОЖЕНОЕ",
+      "items": [
+        {
+          "id": "мороженое-ванильное-1",
+          "name": "ВАНИЛЬНОЕ",
+          "description": "Ванильное мороженое.",
+          "displayPrice": "300 руб",
+          "prices": [
+            300
+          ],
+          "heatLevel": 0,
+          "image": "/images/sweets-drinks/icecream-vanilla.jpg"
+        },
+        {
+          "id": "мороженое-клубничное-2",
+          "name": "КЛУБНИЧНОЕ",
+          "description": "Клубничное мороженое.",
+          "displayPrice": "300 руб",
+          "prices": [
+            300
+          ],
+          "heatLevel": 0,
+          "image": "/images/sweets-drinks/icecream-strawberry.jpg"
+        },
+        {
+          "id": "мороженое-шоколадное-3",
+          "name": "ШОКОЛАДНОЕ",
+          "description": "Шоколадное мороженое.",
+          "displayPrice": "300 руб",
+          "prices": [
+            300
+          ],
+          "heatLevel": 0,
+          "image": "/images/sweets-drinks/icecream-chocolate.jpg"
+        },
+        {
+          "id": "мороженое-банана-сплит-4",
+          "name": "БАНАНА СПЛИТ",
+          "description": "Ванильное мороженое, банан, клубничное мороженое и сливки.",
+          "displayPrice": "400 руб",
+          "prices": [
+            400
+          ],
+          "heatLevel": 0,
+          "image": "/images/sweets-drinks/banana-split.jpg"
+        },
+        {
+          "id": "мороженое-клубника-айс-крим-5",
+          "name": "КЛУБНИКА АЙС КРИМ",
+          "description": "Клубничное мороженое, клубника, ванильное мороженое и сливки.",
+          "displayPrice": "400 руб",
+          "prices": [
+            400
+          ],
+          "heatLevel": 0,
+          "image": "/images/sweets-drinks/strawberry-icecream-dessert.jpg"
+        },
+        {
+          "id": "мороженое-шукуламу-6",
+          "name": "ШУКУЛАМУ",
+          "description": "Шоколадное мороженое, шоколадное печенье, сливки и банан.",
+          "displayPrice": "400 руб",
+          "prices": [
+            400
+          ],
+          "heatLevel": 0,
+          "image": "/images/sweets-drinks/shukulamu.jpg"
+        },
+        {
+          "id": "мороженое-аффогато-7",
+          "name": "АФФОГАТО",
+          "description": "Ванильное мороженое и эспрессо.",
+          "displayPrice": "280 руб",
+          "prices": [
+            280
+          ],
+          "heatLevel": 0,
+          "image": "/images/sweets-drinks/affogato.jpg"
+        }
+      ]
+    },
+    {
+      "id": "молочные-коктейли",
+      "name": "МОЛОЧНЫЕ КОКТЕЙЛИ",
+      "items": [
+        {
+          "id": "молочные-коктейли-банан-1",
+          "name": "БАНАН",
+          "description": "Молочный коктейль с бананом. Объём: 330 мл / 500 мл.",
+          "displayPrice": "180 / 225 руб",
+          "prices": [
+            180,
+            225
+          ],
+          "heatLevel": 0,
+          "image": "/images/sweets-drinks/shake-banana.jpg"
+        },
+        {
+          "id": "молочные-коктейли-банан-клубника-2",
+          "name": "БАНАН-КЛУБНИКА",
+          "description": "Молочный коктейль с бананом и клубникой. Объём: 330 мл / 500 мл.",
+          "displayPrice": "200 / 240 руб",
+          "prices": [
+            200,
+            240
+          ],
+          "heatLevel": 0,
+          "image": "/images/sweets-drinks/shake-banana-strawberry.jpg"
+        },
+        {
+          "id": "молочные-коктейли-банан-шоколад-3",
+          "name": "БАНАН-ШОКОЛАД",
+          "description": "Молочный коктейль с бананом и шоколадом. Объём: 330 мл / 500 мл.",
+          "displayPrice": "200 / 240 руб",
+          "prices": [
+            200,
+            240
+          ],
+          "heatLevel": 0,
+          "image": "/images/sweets-drinks/shake-banana-chocolate.jpg"
+        }
+      ]
+    },
+    {
+      "id": "цитрусовый-фреш",
+      "name": "ЦИТРУСОВЫЙ ФРЕШ",
+      "items": [
+        {
+          "id": "цитрусовый-фреш-лимонад-1",
+          "name": "ЛИМОНАД",
+          "description": "Освежающий лимонад. Объём: 330 мл / 500 мл.",
+          "displayPrice": "250 / 300 руб",
+          "prices": [
+            250,
+            300
+          ],
+          "heatLevel": 0,
+          "image": "/images/sweets-drinks/lemonade.jpg"
+        },
+        {
+          "id": "цитрусовый-фреш-поло-лимонад-мята-2",
+          "name": "ПОЛО-ЛИМОНАД-МЯТА",
+          "description": "Лимонад с мятой. Объём: 330 мл / 500 мл.",
+          "displayPrice": "250 / 300 руб",
+          "prices": [
+            250,
+            300
+          ],
+          "heatLevel": 0,
+          "image": "/images/sweets-drinks/mint-lemonade.jpg"
+        },
+        {
+          "id": "цитрусовый-фреш-апельсин-3",
+          "name": "АПЕЛЬСИН",
+          "description": "Свежий апельсиновый напиток. Объём: 330 мл / 500 мл.",
+          "displayPrice": "250 / 300 руб",
+          "prices": [
+            250,
+            300
+          ],
+          "heatLevel": 0,
+          "image": "/images/sweets-drinks/orange.jpg"
+        },
+        {
+          "id": "цитрусовый-фреш-апельсин-морковь-4",
+          "name": "АПЕЛЬСИН-МОРКОВЬ",
+          "description": "Апельсиновый напиток с морковью. Объём: 330 мл / 500 мл.",
+          "displayPrice": "250 / 300 руб",
+          "prices": [
+            250,
+            300
+          ],
+          "heatLevel": 0,
+          "image": "/images/sweets-drinks/orange-carrot.jpg"
+        },
+        {
+          "id": "цитрусовый-фреш-апельсин-клубника-5",
+          "name": "АПЕЛЬСИН-КЛУБНИКА",
+          "description": "Апельсиновый напиток с клубникой. Объём: 330 мл / 500 мл.",
+          "displayPrice": "250 / 300 руб",
+          "prices": [
+            250,
+            300
+          ],
+          "heatLevel": 0,
+          "image": "/images/sweets-drinks/orange-strawberry.jpg"
+        },
+        {
+          "id": "цитрусовый-фреш-мохито-6",
+          "name": "МОХИТО",
+          "description": "Освежающий безалкогольный мохито. Объём: 330 мл / 500 мл.",
+          "displayPrice": "250 / 300 руб",
+          "prices": [
+            250,
+            300
+          ],
+          "heatLevel": 0,
+          "image": "/images/sweets-drinks/mojito.jpg"
+        }
+      ]
+    },
+    {
+      "id": "смузи",
+      "name": "СМУЗИ",
+      "items": [
+        {
+          "id": "смузи-клубника-1",
+          "name": "КЛУБНИКА",
+          "description": "Клубничный смузи.",
+          "displayPrice": "220 / 270 руб",
+          "prices": [
+            220,
+            270
+          ],
+          "heatLevel": 0,
+          "image": "/images/sweets-drinks/smoothie-strawberry.jpg"
+        },
+        {
+          "id": "смузи-клубника-ананас-2",
+          "name": "КЛУБНИКА-АНАНАС",
+          "description": "Смузи с клубникой и ананасом.",
+          "displayPrice": "220 / 270 руб",
+          "prices": [
+            220,
+            270
+          ],
+          "heatLevel": 0,
+          "image": "/images/sweets-drinks/smoothie-strawberry-pineapple.jpg"
+        },
+        {
+          "id": "смузи-ягодный-3",
+          "name": "ЯГОДНЫЙ",
+          "description": "Смузи из ягод.",
+          "displayPrice": "220 / 270 руб",
+          "prices": [
+            220,
+            270
+          ],
+          "heatLevel": 0,
+          "image": "/images/sweets-drinks/smoothie-berry.jpg"
+        }
+      ]
+    },
+    {
+      "id": "кофе-чай",
+      "name": "КОФЕ/ЧАЙ",
+      "items": [
+        {
+          "id": "кофе-чай-эспрессо-1",
+          "name": "ЭСПРЕССО",
+          "description": "Классический крепкий кофе небольшой порции.",
+          "displayPrice": "120 руб",
+          "prices": [
+            120
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80"
+        },
+        {
+          "id": "кофе-чай-американо-2",
+          "name": "АМЕРИКАНО",
+          "description": "Горячий черный кофе с мягким вкусом.",
+          "displayPrice": "150 руб",
+          "prices": [
+            150
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80"
+        },
+        {
+          "id": "кофе-чай-капучино-3",
+          "name": "КАПУЧИНО",
+          "description": "Кофе с молоком и плотной молочной пеной.",
+          "displayPrice": "160 руб",
+          "prices": [
+            160
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80"
+        },
+        {
+          "id": "кофе-чай-латте-4",
+          "name": "ЛАТТЕ",
+          "description": "Мягкий кофейный напиток с большим количеством молока.",
+          "displayPrice": "160 руб",
+          "prices": [
+            160
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80"
+        },
+        {
+          "id": "кофе-чай-горячий-шоколад-5",
+          "name": "ГОРЯЧИЙ ШОКОЛАД",
+          "description": "Густой горячий шоколад для сладкой паузы.",
+          "displayPrice": "260 руб",
+          "prices": [
+            260
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80"
+        },
+        {
+          "id": "кофе-чай-кофе-6",
+          "name": "КОФЕ",
+          "description": "Классический горячий кофе.",
+          "displayPrice": "75 руб",
+          "prices": [
+            75
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80"
+        },
+        {
+          "id": "кофе-чай-арабское-кофе-7",
+          "name": "АРАБСКОЕ КОФЕ",
+          "description": "Ароматный кофе в восточном стиле.",
+          "displayPrice": "120 руб",
+          "prices": [
+            120
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80"
+        },
+        {
+          "id": "кофе-чай-фраппучино-8",
+          "name": "ФРАППУЧИНО",
+          "description": "Холодный кофейный напиток с мягкой сладостью.",
+          "displayPrice": "140 руб",
+          "prices": [
+            140
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80"
+        },
+        {
+          "id": "кофе-чай-чай-9",
+          "name": "ЧАЙ",
+          "description": "Горячий чай на выбор.",
+          "displayPrice": "75 руб",
+          "prices": [
+            75
+          ],
+          "heatLevel": 0,
+          "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=900&q=80"
+        },
+        {
+          "id": "кофе-чай-чай-чайник-10",
+          "name": "ЧАЙ «ЧАЙНИК»",
+          "description": "Чайник горячего чая для компании.",
+          "displayPrice": "300 руб",
+          "prices": [
+            300
+          ],
+          "heatLevel": 0,
+          "image": "/images/sweets-drinks/tea-pot.jpg"
+        }
+      ]
+    }
+  ]
+}

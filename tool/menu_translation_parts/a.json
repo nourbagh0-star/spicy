@@ -1,0 +1,310 @@
+{
+  "categories": {
+    "пицца": {
+      "en": "Pizza",
+      "ar": "بيتزا"
+    },
+    "блинчики": {
+      "en": "Fatayer",
+      "ar": "فطائر"
+    },
+    "кальцоне": {
+      "en": "Calzone",
+      "ar": "كالزوني"
+    },
+    "сэндвичи": {
+      "en": "Sandwiches",
+      "ar": "ساندويتشات"
+    }
+  },
+  "items": {
+    "пицца-пицца-маргарита-1": {
+      "en_name": "Margherita Pizza",
+      "en_description": "Tomato sauce, mozzarella and mushrooms.",
+      "ar_name": "بيتزا مارغريتا",
+      "ar_description": "صلصة طماطم، جبن موزاريلا وفطر."
+    },
+    "пицца-пицца-пепперони-2": {
+      "en_name": "Pepperoni Pizza",
+      "en_description": "Tomato sauce, mozzarella and mortadella.",
+      "ar_name": "بيتزا بيبروني",
+      "ar_description": "صلصة طماطم، جبن موزاريلا ومرتديلا."
+    },
+    "пицца-пицца-4-сезона-3": {
+      "en_name": "Four Seasons Pizza",
+      "en_description": "Tomato sauce, mozzarella, tomatoes, mushrooms, peppers, corn and olives.",
+      "ar_name": "بيتزا الفصول الأربعة",
+      "ar_description": "صلصة طماطم، جبن موزاريلا، طماطم، فطر، فلفل، ذرة وزيتون."
+    },
+    "пицца-пицца-4-сыра-4": {
+      "en_name": "Four Cheese Pizza",
+      "en_description": "Tomato sauce, mozzarella, Parmesan, Cheddar, ricotta and Gouda.",
+      "ar_name": "بيتزا أربعة أجبان",
+      "ar_description": "صلصة طماطم، موزاريلا، بارميزان، شيدر، ريكوتا وجودا."
+    },
+    "пицца-пицца-с-сосисками-5": {
+      "en_name": "Sausage Pizza",
+      "en_description": "Tomato sauce, mozzarella, mushrooms and sausages.",
+      "ar_name": "بيتزا بالسجق",
+      "ar_description": "صلصة طماطم، جبن موزاريلا، فطر وسجق."
+    },
+    "пицца-пицца-чилибиф-6": {
+      "en_name": "Chili Beef Pizza",
+      "en_description": "Tomato sauce, mozzarella and spicy minced beef.",
+      "ar_name": "بيتزا تشيلي بيف",
+      "ar_description": "صلصة طماطم، جبن موزاريلا ولحم بقر مفروم حار."
+    },
+    "пицца-пицца-курица-с-ананасом-7": {
+      "en_name": "Chicken & Pineapple Pizza",
+      "en_description": "Tomato sauce, mozzarella, chicken fillet and pineapple.",
+      "ar_name": "بيتزا الدجاج والأناناس",
+      "ar_description": "صلصة طماطم، جبن موزاريلا، فيليه دجاج وأناناس."
+    },
+    "пицца-пицца-мексиканская-8": {
+      "en_name": "Mexican Pizza",
+      "en_description": "Tomato sauce, mozzarella, chicken fillet, mushrooms, peppers and onions.",
+      "ar_name": "بيتزا مكسيكية",
+      "ar_description": "صلصة طماطم، جبن موزاريلا، فيليه دجاج، فطر، فلفل وبصل."
+    },
+    "пицца-пицца-с-тунцом-9": {
+      "en_name": "Tuna Pizza",
+      "en_description": "Tomato sauce, mozzarella, tuna, corn, olives and onions.",
+      "ar_name": "بيتزا بالتونة",
+      "ar_description": "صلصة طماطم، جبن موزاريلا، تونة، ذرة، زيتون وبصل."
+    },
+    "пицца-пицца-биката-10": {
+      "en_name": "Bikata Pizza",
+      "en_description": "Tomato sauce, mozzarella, peppers, mushrooms and sliced beef.",
+      "ar_name": "بيتزا بيكاتا",
+      "ar_description": "صلصة طماطم، جبن موزاريلا، فلفل، فطر وشرائح لحم بقر."
+    },
+    "пицца-пицца-с-говяжьей-нарезкой-11": {
+      "en_name": "Sliced Beef Pizza",
+      "en_description": "Sliced beef, lamb and lamb tail fat.",
+      "ar_name": "بيتزا بشرائح لحم البقر",
+      "ar_description": "شرائح لحم بقر، لحم ضأن ولية الضأن."
+    },
+    "блинчики-мухамара-с-колбасой-1": {
+      "en_name": "Muhammara with Mortadella",
+      "en_description": "Spicy sauce, mozzarella, mortadella and parsley.",
+      "ar_name": "محمرة بالمرتديلا",
+      "ar_description": "صلصة حارة، جبن موزاريلا، مرتديلا وبقدونس."
+    },
+    "блинчики-лахм-б-ажинь-2": {
+      "en_name": "Lahm Bi Ajin",
+      "en_description": "Spicy beef.",
+      "ar_name": "لحم بعجين",
+      "ar_description": "لحم بقر حار."
+    },
+    "блинчики-мухамара-3": {
+      "en_name": "Muhammara",
+      "en_description": "Spicy sauce and mozzarella.",
+      "ar_name": "محمرة",
+      "ar_description": "صلصة حارة وجبن موزاريلا."
+    },
+    "блинчики-с-сыром-4": {
+      "en_name": "Cheese Fatayer",
+      "en_description": "Fatayer filled with cheese.",
+      "ar_name": "فطيرة جبنة",
+      "ar_description": "فطيرة محشوة بالجبن."
+    },
+    "блинчики-затар-5": {
+      "en_name": "Zaatar Fatayer",
+      "en_description": "Fatayer with zaatar.",
+      "ar_name": "فطيرة زعتر",
+      "ar_description": "فطيرة بالزعتر."
+    },
+    "блинчики-сфиха-6": {
+      "en_name": "Sfiha",
+      "en_description": "Traditional sfiha flatbread.",
+      "ar_name": "صفيحة",
+      "ar_description": "صفيحة تقليدية."
+    },
+    "кальцоне-фахита-1": {
+      "en_name": "Fajita Calzone",
+      "en_description": "Tomato sauce, chicken fillet, mushrooms, peppers, onions, mozzarella and Gouda.",
+      "ar_name": "كالزوني فاهيتا",
+      "ar_description": "صلصة طماطم، فيليه دجاج، فطر، فلفل، بصل، موزاريلا وجودا."
+    },
+    "кальцоне-франшеску-2": {
+      "en_name": "Francescu Calzone",
+      "en_description": "Tomato sauce, chicken fillet, mushrooms, onions, corn, mozzarella and Gouda.",
+      "ar_name": "كالزوني فرانشيسكو",
+      "ar_description": "صلصة طماطم، فيليه دجاج، فطر، بصل، ذرة، موزاريلا وجودا."
+    },
+    "кальцоне-чили-биф-3": {
+      "en_name": "Chili Beef Calzone",
+      "en_description": "Tomato sauce, chili beef, mushrooms, salami, mozzarella, Gouda and Cheddar.",
+      "ar_name": "كالزوني تشيلي بيف",
+      "ar_description": "صلصة طماطم، تشيلي بيف، فطر، سلامي، موزاريلا، جودا وشيدر."
+    },
+    "кальцоне-суприм-4": {
+      "en_name": "Supreme Calzone",
+      "en_description": "Tomato sauce, fried chicken fillet, salami, mozzarella and Gouda.",
+      "ar_name": "كالزوني سوبريم",
+      "ar_description": "صلصة طماطم، فيليه دجاج مقلي، سلامي، موزاريلا وجودا."
+    },
+    "сэндвичи-гирос-1": {
+      "en_name": "Chicken Gyros",
+      "en_description": "Chicken fillet pieces, onion, tomato, mayonnaise and fries.",
+      "ar_name": "جيروس دجاج",
+      "ar_description": "قطع فيليه دجاج، بصل، طماطم، مايونيز وبطاطس مقلية."
+    },
+    "сэндвичи-шиш-2": {
+      "en_name": "Shish Chicken",
+      "en_description": "Chicken fillet pieces, mayonnaise, coleslaw, tomatoes, fries and ketchup.",
+      "ar_name": "شيش دجاج",
+      "ar_description": "قطع فيليه دجاج، مايونيز، كول سلو، طماطم، بطاطس مقلية وكاتشب."
+    },
+    "сэндвичи-чикен-бургер-3": {
+      "en_name": "Chicken Burger",
+      "en_description": "Chicken, mayonnaise, coleslaw, tomatoes, fries and ketchup. Add-ons: egg +15 ₽, cheese +15 ₽.",
+      "ar_name": "برغر دجاج",
+      "ar_description": "دجاج، مايونيز، كول سلو، طماطم، بطاطس مقلية وكاتشب. إضافات: بيض +15 ₽، جبن +15 ₽."
+    },
+    "сэндвичи-тако-4": {
+      "en_name": "Taco",
+      "en_description": "Chicken fillet pieces, mayonnaise, tomatoes, cucumbers and mint.",
+      "ar_name": "تاكو",
+      "ar_description": "قطع فيليه دجاج، مايونيز، طماطم، خيار ونعناع."
+    },
+    "сэндвичи-эскалоп-5": {
+      "en_name": "Chicken Escalope",
+      "en_description": "Chicken fillet, mayonnaise, lettuce, tomatoes, fries and ketchup.",
+      "ar_name": "إسكالوب دجاج",
+      "ar_description": "فيليه دجاج، مايونيز، خس، طماطم، بطاطس مقلية وكاتشب."
+    },
+    "сэндвичи-зингер-острый-6": {
+      "en_name": "Spicy Zinger",
+      "en_description": "Chicken fillet, mayonnaise, lettuce, tomatoes, fries and cheese.",
+      "ar_name": "زينجر حار",
+      "ar_description": "فيليه دجاج، مايونيز، خس، طماطم، بطاطس مقلية وجبن."
+    },
+    "сэндвичи-суприм-7": {
+      "en_name": "Supreme",
+      "en_description": "Chicken fillet, mayonnaise, lettuce, tomatoes, sausage, fries and cheese.",
+      "ar_name": "سوبريم",
+      "ar_description": "فيليه دجاج، مايونيز، خس، طماطم، سجق، بطاطس مقلية وجبن."
+    },
+    "сэндвичи-мексиканский-острый-8": {
+      "en_name": "Spicy Mexican",
+      "en_description": "Chicken fillet pieces, mayonnaise, tomatoes, mushrooms, peppers and onions.",
+      "ar_name": "مكسيكي حار",
+      "ar_description": "قطع فيليه دجاج، مايونيز، طماطم، فطر، فلفل وبصل."
+    },
+    "сэндвичи-франшеску-9": {
+      "en_name": "Francescu",
+      "en_description": "Chicken fillet pieces, mayonnaise, lettuce, mushrooms, onions, corn, fries and cheese.",
+      "ar_name": "فرانشيسكو",
+      "ar_description": "قطع فيليه دجاج، مايونيز، خس، فطر، بصل، ذرة، بطاطس مقلية وجبن."
+    },
+    "сэндвичи-фахита-10": {
+      "en_name": "Fajita",
+      "en_description": "Chicken fillet pieces, mayonnaise, tomatoes, mushrooms, peppers, onions and cheese.",
+      "ar_name": "فاهيتا",
+      "ar_description": "قطع فيليه دجاج، مايونيز، طماطم، فطر، فلفل، بصل وجبن."
+    },
+    "сэндвичи-шаурма-11": {
+      "en_name": "Chicken Shawarma",
+      "en_description": "Chicken fillet, mayonnaise, tomatoes and pickled cucumbers.",
+      "ar_name": "شاورما دجاج",
+      "ar_description": "فيليه دجاج، مايونيز، طماطم وخيار مخلل."
+    },
+    "сэндвичи-ламбургер-баранина-12": {
+      "en_name": "Lamburger — Lamb",
+      "en_description": "Lamb, mayonnaise, lettuce, tomatoes, cheese and fries.",
+      "ar_name": "لامبرغر — لحم ضأن",
+      "ar_description": "لحم ضأن، مايونيز، خس، طماطم، جبن وبطاطس مقلية."
+    },
+    "сэндвичи-лам-в-тандыр-баранина-13": {
+      "en_name": "Lamb in Tandoor",
+      "en_description": "Lamb, mayonnaise, tomatoes, pickled cucumber, onion and parsley.",
+      "ar_name": "لحم ضأن في التندور",
+      "ar_description": "لحم ضأن، مايونيز، طماطم، خيار مخلل، بصل وبقدونس."
+    },
+    "сэндвичи-гриль-бургер-14": {
+      "en_name": "Grill Burger",
+      "en_description": "Beef patty, mayonnaise, tomatoes, pickled cucumbers, onion and parsley.",
+      "ar_name": "برغر مشوي",
+      "ar_description": "قطعة لحم بقر، مايونيز، طماطم، خيار مخلل، بصل وبقدونس."
+    },
+    "сэндвичи-гамбургер-15": {
+      "en_name": "Hamburger",
+      "en_description": "Beef patty, mayonnaise, lettuce, tomatoes, pickled cucumbers, fries and ketchup.",
+      "ar_name": "هامبرغر",
+      "ar_description": "قطعة لحم بقر، مايونيز، خس، طماطم، خيار مخلل، بطاطس مقلية وكاتشب."
+    },
+    "сэндвичи-чили-биф-16": {
+      "en_name": "Chili Beef",
+      "en_description": "Minced beef, mayonnaise and pickled cucumbers.",
+      "ar_name": "تشيلي بيف",
+      "ar_description": "لحم بقر مفروم، مايونيز وخيار مخلل."
+    },
+    "сэндвичи-бурито-17": {
+      "en_name": "Burrito",
+      "en_description": "Minced beef, mayonnaise, lettuce, tomatoes, green onion, fries and cheese.",
+      "ar_name": "بوريتو",
+      "ar_description": "لحم بقر مفروم، مايونيز، خس، طماطم، بصل أخضر، بطاطس مقلية وجبن."
+    },
+    "сэндвичи-ковта-18": {
+      "en_name": "Kofta",
+      "en_description": "Beef and lamb patty, mayonnaise, tomatoes, pickled cucumbers, onion and parsley.",
+      "ar_name": "كفتة",
+      "ar_description": "قطعة لحم بقر وضأن، مايونيز، طماطم، خيار مخلل، بصل وبقدونس."
+    },
+    "сэндвичи-нарезка-говяжья-19": {
+      "en_name": "Sliced Beef",
+      "en_description": "Beef, mayonnaise, tomatoes, lard, cucumbers, onion and parsley.",
+      "ar_name": "شرائح لحم البقر",
+      "ar_description": "لحم بقر، مايونيز، طماطم، شحم خنزير، خيار، بصل وبقدونس."
+    },
+    "сэндвичи-биката-20": {
+      "en_name": "Bikata",
+      "en_description": "Sliced beef, mayonnaise, lettuce, tomatoes, peppers, mushrooms, onions, fries and cheese.",
+      "ar_name": "بيكاتا",
+      "ar_description": "شرائح لحم بقر، مايونيز، خس، طماطم، فلفل، فطر، بصل، بطاطس مقلية وجبن."
+    },
+    "сэндвичи-кинг-бургер-21": {
+      "en_name": "King Burger",
+      "en_description": "Sliced beef, beef patty, mayonnaise, pickled cucumbers, tomato, onion and parsley.",
+      "ar_name": "كينغ برغر",
+      "ar_description": "شرائح لحم بقر، قطعة لحم بقر، مايونيز، خيار مخلل، طماطم، بصل وبقدونس."
+    },
+    "сэндвичи-бееф-в-тандыр-22": {
+      "en_name": "Beef in Tandoor",
+      "en_description": "Beef, mayonnaise, tomatoes, pickled cucumbers, onion and parsley.",
+      "ar_name": "لحم بقر في التندور",
+      "ar_description": "لحم بقر، مايونيز، طماطم، خيار مخلل، بصل وبقدونس."
+    },
+    "сэндвичи-бургер-фит-23": {
+      "en_name": "Burger Fit",
+      "en_description": "Beef patty, lettuce, tomato, pickled cucumbers and fries. Size: medium / large.",
+      "ar_name": "برغر فيت",
+      "ar_description": "قطعة لحم بقر، خس، طماطم، خيار مخلل وبطاطس مقلية. الحجم: متوسط / كبير."
+    },
+    "сэндвичи-овощной-24": {
+      "en_name": "Vegetable Sandwich",
+      "en_description": "Mayonnaise, lettuce, tomato, cheese and ketchup.",
+      "ar_name": "ساندويتش خضار",
+      "ar_description": "مايونيز، خس، طماطم، جبن وكاتشب."
+    },
+    "сэндвичи-сэндвичи-фри-25": {
+      "en_name": "French Fry Sandwich",
+      "en_description": "Fries, mayonnaise, lettuce, tomato and ketchup.",
+      "ar_name": "ساندويتش بطاطس مقلية",
+      "ar_description": "بطاطس مقلية، مايونيز، خس، طماطم وكاتشب."
+    },
+    "сэндвичи-с-колбасой-26": {
+      "en_name": "Sausage Sandwich",
+      "en_description": "Sausage, mayonnaise, lettuce, pickled cucumbers, cheese and ketchup.",
+      "ar_name": "ساندويتش سجق",
+      "ar_description": "سجق، مايونيز، خس، خيار مخلل، جبن وكاتشب."
+    },
+    "сэндвичи-сэндвич-с-тунцом-27": {
+      "en_name": "Tuna Sandwich",
+      "en_description": "Mayonnaise, tuna and corn.",
+      "ar_name": "ساندويتش تونة",
+      "ar_description": "مايونيز، تونة وذرة."
+    }
+  }
+}

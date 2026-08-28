@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Leave a Review - SAVOR</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#e9e1db",
+                        "surface-container-highest": "#e9e1db",
+                        "surface-dim": "#e0d9d2",
+                        "tertiary-fixed-dim": "#c8c6c2",
+                        "secondary-container": "#e4e2e1",
+                        "primary": "#aa301a",
+                        "secondary-fixed": "#e4e2e1",
+                        "inverse-on-surface": "#f7efe9",
+                        "surface-container": "#f4ece6",
+                        "surface-tint": "#ad321c",
+                        "outline-variant": "#e0bfb8",
+                        "tertiary-container": "#757571",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "inverse-surface": "#33302c",
+                        "primary-fixed": "#ffdad3",
+                        "on-primary-fixed": "#3e0400",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "surface": "#fff8f3",
+                        "on-secondary-fixed-variant": "#474747",
+                        "secondary": "#5f5e5e",
+                        "background": "#fff8f3",
+                        "inverse-primary": "#ffb4a5",
+                        "on-error": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "on-background": "#1e1b17",
+                        "on-surface-variant": "#59413c",
+                        "primary-container": "#cb4830",
+                        "on-secondary-fixed": "#1b1c1c",
+                        "on-primary-fixed-variant": "#8b1906",
+                        "tertiary": "#5c5c58",
+                        "error": "#ba1a1a",
+                        "on-surface": "#1e1b17",
+                        "surface-container-low": "#faf2ec",
+                        "primary-fixed-dim": "#ffb4a5",
+                        "surface-bright": "#fff8f3",
+                        "on-secondary-container": "#656464",
+                        "outline": "#8d716b",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#fefcf7",
+                        "on-tertiary-fixed-variant": "#474744",
+                        "on-primary-container": "#fffbff",
+                        "tertiary-fixed": "#e4e2dd",
+                        "on-tertiary-fixed": "#1b1c19",
+                        "surface-container-high": "#efe7e0"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "12px",
+                        "gutter": "16px",
+                        "md": "24px",
+                        "margin-desktop": "120px",
+                        "margin-mobile": "20px",
+                        "xl": "64px",
+                        "lg": "40px",
+                        "base": "8px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Playfair Display"],
+                        "label-sm": ["Inter"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "display-lg": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "34px", "fontWeight": "700" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .star-rating .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .star-rating .material-symbols-outlined.active,
+        .star-rating .material-symbols-outlined:hover {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            color: theme('colors.primary');
+            transform: scale(1.1);
+        }
+        /* Custom Checkbox/Toggle Styles */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: theme('colors.primary');
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: theme('colors.primary');
+        }
+        .toggle-checkbox:checked + .toggle-label:after {
+            transform: translateX(100%);
+            border-color: white;
+        }
+        
+        .toggle-label {
+            width: 44px;
+            height: 24px;
+            background-color: theme('colors.surface-variant');
+            border-radius: 9999px;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .toggle-label:after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen font-sans flex flex-col">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-tertiary/90 dark:bg-tertiary/90 backdrop-blur-md shadow-sm">
+<div class="flex justify-between items-center px-gutter h-16 w-full">
+<button aria-label="Menu" class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity active:scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold tracking-widest text-primary dark:text-primary-fixed-dim">SAVOR</h1>
+<button aria-label="Shopping Bag" class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity active:scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-24 pb-32 px-margin-mobile md:px-margin-desktop max-w-[1280px] mx-auto w-full">
+<!-- Header Section -->
+<section class="mb-lg text-center md:text-left">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-base">Share Your Experience</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">Your feedback helps us refine our culinary craft and ensures every dining experience is exceptional.</p>
+</section>
+<!-- Order Summary Card -->
+<section class="bg-surface-container-low border border-[#6B6661] border-opacity-10 rounded-xl p-md mb-lg shadow-[0px_4px_20px_rgba(44,44,44,0.02)] flex flex-col sm:flex-row items-start sm:items-center gap-md">
+<div class="w-full sm:w-24 h-24 rounded-lg overflow-hidden shrink-0 bg-surface-variant flex items-center justify-center relative">
+<img class="w-full h-full object-cover absolute inset-0" data-alt="A close-up, high-end food photography shot of a perfectly seared prime filet mignon resting on a bed of creamy truffle mushroom risotto. The lighting is sophisticated and warm, highlighting the rich textures and glossy reduction sauce. The setting implies a luxury restaurant with a minimalist aesthetic, featuring soft ambient light and a clean cream-colored plate. Deep contrast with terracotta accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2M5l6O9Wz_MbSjwwrS0UhiTCs3XDhXAIkPo1FUtgXIm94J7WDL3-YKk2i7b8L2uOPrETly_8vRanaFpqhXWKxHJX03cglpiOID5DyIUg27wrt9n8_gXzpKtHZR-Q830hnv4tAJARYmZ17dMtMhgmmqTZuaUuvcSBys-UMnu6QGODOU8w3UIYGfTIpNywKbExeuANg3KZsXta6FrFuyk1UkLIJv2LQqOZNSzRQ3ch0b9K8V4zVi-j8"/>
+</div>
+<div class="flex-grow">
+<p class="font-label-sm text-label-sm text-primary uppercase tracking-wider mb-xs">Recent Order</p>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-xs">Truffle Mushroom Risotto, Prime Filet Mignon</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Delivered today at 7:30 PM</p>
+</div>
+</section>
+<!-- Review Form Container -->
+<div class="bg-surface-container-lowest border border-[#6B6661] border-opacity-10 rounded-xl p-md md:p-lg shadow-[0px_10px_30px_rgba(44,44,44,0.05)]">
+<form action="#" class="space-y-lg" method="POST">
+<!-- Star Rating -->
+<div class="flex flex-col items-center md:items-start space-y-sm">
+<label class="font-label-md text-label-md text-on-surface font-semibold">Overall Rating</label>
+<div class="flex space-x-sm star-rating text-4xl text-outline-variant">
+<span class="material-symbols-outlined" data-icon="star" data-rating="1">star</span>
+<span class="material-symbols-outlined" data-icon="star" data-rating="2">star</span>
+<span class="material-symbols-outlined" data-icon="star" data-rating="3">star</span>
+<span class="material-symbols-outlined" data-icon="star" data-rating="4">star</span>
+<span class="material-symbols-outlined" data-icon="star" data-rating="5">star</span>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant italic" id="rating-text">Select your rating</p>
+</div>
+<!-- Text Area -->
+<div class="space-y-sm">
+<label class="block font-label-md text-label-md text-on-surface font-semibold" for="review-text">Write your review</label>
+<textarea class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg p-sm font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/50 focus:ring-2 focus:ring-primary/50 focus:border-primary transition-colors resize-none" id="review-text" name="review" placeholder="How was the flavor? Any highlights?" rows="5"></textarea>
+</div>
+<!-- Add Photos -->
+<div class="space-y-sm">
+<label class="block font-label-md text-label-md text-on-surface font-semibold">Add Photos (Optional)</label>
+<div class="flex flex-wrap gap-sm">
+<!-- Upload Button -->
+<button class="w-24 h-24 border-2 border-dashed border-outline-variant/50 rounded-lg flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors hover:border-primary/50 group" type="button">
+<span class="material-symbols-outlined mb-xs group-hover:text-primary transition-colors" data-icon="add_a_photo">add_a_photo</span>
+<span class="font-label-sm text-label-sm">Upload</span>
+</button>
+<!-- Placeholders for uploaded photos (hidden by default, shown via JS ideally) -->
+<div class="hidden w-24 h-24 rounded-lg bg-surface-variant relative overflow-hidden group">
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center z-10 cursor-pointer">
+<span class="material-symbols-outlined text-white" data-icon="delete">delete</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Anonymous Toggle -->
+<div class="flex items-center justify-between py-sm border-t border-outline-variant/20 pt-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Post Anonymously</span>
+<span class="font-body-md text-body-md text-on-surface-variant text-sm">Hide your name from public view</span>
+</div>
+<div class="relative inline-block w-11 mr-2 align-middle select-none">
+<input class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer z-10 opacity-0" id="anonymous-toggle" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer" for="anonymous-toggle"></label>
+</div>
+</div>
+<!-- Submit Button -->
+<div class="pt-md">
+<button class="w-full bg-primary text-white font-label-md text-label-md rounded-lg py-sm min-h-[48px] hover:bg-primary-container transition-colors shadow-sm active:scale-[0.98] duration-150 flex items-center justify-center gap-xs" type="submit">
+                        Submit Review
+                        <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</form>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 bg-tertiary/90 dark:bg-tertiary/90 backdrop-blur-md shadow-lg md:hidden">
+<div class="fixed bottom-0 left-0 w-full flex justify-around items-center py-2 px-4 pb-safe">
+<!-- Home -->
+<a class="flex flex-col items-center justify-center text-on-tertiary-container/70 hover:text-primary-fixed-dim transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm mt-1">Home</span>
+</a>
+<!-- Menu -->
+<a class="flex flex-col items-center justify-center text-on-tertiary-container/70 hover:text-primary-fixed-dim transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="restaurant_menu">restaurant_menu</span>
+<span class="font-label-sm text-label-sm mt-1">Menu</span>
+</a>
+<!-- Orders (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-lg px-3 py-1 hover:opacity-80 transition-opacity active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-label-sm text-label-sm mt-1">Orders</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-on-tertiary-container/70 hover:text-primary-fixed-dim transition-colors active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm mt-1">Profile</span>
+</a>
+</div>
+</nav>
+<script>
+        // Simple star rating interaction
+        document.addEventListener('DOMContentLoaded', () => {
+            const stars = document.querySelectorAll('.star-rating span');
+            const ratingText = document.getElementById('rating-text');
+            const feedback = ['Poor', 'Fair', 'Good', 'Very Good', 'Exceptional'];
+
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const rating = parseInt(this.getAttribute('data-rating'));
+                    
+                    stars.forEach(s => {
+                        if (parseInt(s.getAttribute('data-rating')) <= rating) {
+                            s.classList.add('active');
+                            s.style.fontVariationSettings = "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24";
+                        } else {
+                            s.classList.remove('active');
+                            s.style.fontVariationSettings = "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24";
+                        }
+                    });
+
+                    if(rating > 0 && rating <= 5) {
+                        ratingText.textContent = feedback[rating - 1];
+                        ratingText.classList.remove('text-on-surface-variant');
+                        ratingText.classList.add('text-primary');
+                    }
+                });
+            });
+        });
+    </script>
+</body></html>

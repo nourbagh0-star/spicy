@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SAVOR Admin - Reviews Management</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config injected by system -->
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary": "#ffffff",
+                      "surface-variant": "#e9e1db",
+                      "surface-container-highest": "#e9e1db",
+                      "surface-dim": "#e0d9d2",
+                      "tertiary-fixed-dim": "#c8c6c2",
+                      "secondary-container": "#e4e2e1",
+                      "primary": "#aa301a",
+                      "secondary-fixed": "#e4e2e1",
+                      "inverse-on-surface": "#f7efe9",
+                      "surface-container": "#f4ece6",
+                      "surface-tint": "#ad321c",
+                      "outline-variant": "#e0bfb8",
+                      "tertiary-container": "#757571",
+                      "secondary-fixed-dim": "#c8c6c5",
+                      "inverse-surface": "#33302c",
+                      "primary-fixed": "#ffdad3",
+                      "on-primary-fixed": "#3e0400",
+                      "on-tertiary": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "surface": "#fff8f3",
+                      "on-secondary-fixed-variant": "#474747",
+                      "secondary": "#5f5e5e",
+                      "background": "#fff8f3",
+                      "inverse-primary": "#ffb4a5",
+                      "on-error": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "on-primary": "#ffffff",
+                      "on-background": "#1e1b17",
+                      "on-surface-variant": "#59413c",
+                      "primary-container": "#cb4830",
+                      "on-secondary-fixed": "#1b1c1c",
+                      "on-primary-fixed-variant": "#8b1906",
+                      "tertiary": "#5c5c58",
+                      "error": "#ba1a1a",
+                      "on-surface": "#1e1b17",
+                      "surface-container-low": "#faf2ec",
+                      "primary-fixed-dim": "#ffb4a5",
+                      "surface-bright": "#fff8f3",
+                      "on-secondary-container": "#656464",
+                      "outline": "#8d716b",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary-container": "#fefcf7",
+                      "on-tertiary-fixed-variant": "#474744",
+                      "on-primary-container": "#fffbff",
+                      "tertiary-fixed": "#e4e2dd",
+                      "on-tertiary-fixed": "#1b1c19",
+                      "surface-container-high": "#efe7e0"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "sm": "12px",
+                      "gutter": "16px",
+                      "md": "24px",
+                      "margin-desktop": "120px",
+                      "margin-mobile": "20px",
+                      "xl": "64px",
+                      "lg": "40px",
+                      "base": "8px",
+                      "xs": "4px"
+              },
+              "fontFamily": {
+                      "headline-md": [
+                              "Playfair Display"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Playfair Display"
+                      ],
+                      "display-lg": [
+                              "Playfair Display"
+                      ],
+                      "headline-lg": [
+                              "Playfair Display"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "34px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased h-screen overflow-hidden flex">
+<!-- SideNavBar (JSON Component) -->
+<aside class="hidden lg:flex flex-col h-full py-md w-64 fixed left-0 top-0 bg-surface-container border-r border-outline-variant/10 shadow-none z-40">
+<div class="px-md pb-lg flex flex-col gap-base border-b border-outline-variant/20 mb-md">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-surface-dim overflow-hidden">
+<img alt="SAVOR Restaurant Logo" class="w-full h-full object-cover" data-alt="A macro shot of a sleek, minimalist restaurant logo emblem. The emblem is rendered in a deep charcoal gray on a textured, warm cream paper background. The lighting is soft and studio-like, highlighting the subtle grain of the paper and the sharp, elegant typography of the logo. A sophisticated, modern dining aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoLrFhuE951hkiy2VunkXw0N76vlX-OyKSsVh-acpMB5B3XwJIKWl44slkktq3SfGJJjqQ6tq8c1UmH7tMhx4C-kNjjO6ie2A9hZtY0SSbSP_U8ymEVRz5ZgS9cgLvt4Snh_E4vWTLSVEuD_sS5hzld27HKiBrU1toyPgGfI3juEMgUgot7KeDjwSNPcwkQU-pNbwsnEfkeOnlwf0-WD8bIOKvtCkF_NdIGQz-3oA2pROTO7kofHkE"/>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md text-primary">SAVOR Admin</h1>
+<p class="font-label-sm text-label-sm text-secondary">Premium Management</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-sm flex flex-col gap-xs font-label-md text-label-md">
+<a class="text-on-surface-variant hover:bg-surface-variant/50 rounded-lg mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-colors hover:bg-surface-variant scale-98 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+                Dashboard
+            </a>
+<a class="text-on-surface-variant hover:bg-surface-variant/50 rounded-lg mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-colors hover:bg-surface-variant scale-98 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">restaurant_menu</span>
+                Orders
+            </a>
+<a class="text-on-surface-variant hover:bg-surface-variant/50 rounded-lg mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-colors hover:bg-surface-variant scale-98 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu_book</span>
+                Menu
+            </a>
+<!-- Active Navigation Tab -->
+<a class="bg-primary text-on-primary rounded-lg mx-2 my-1 px-4 py-3 flex items-center gap-3 scale-98 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">rate_review</span>
+                Reviews
+            </a>
+</nav>
+<div class="px-md mt-auto">
+<button class="w-full bg-primary text-on-primary font-label-md text-label-md py-3 rounded-lg hover:bg-primary-container transition-colors shadow-sm mb-lg">Export Reports</button>
+<div class="flex flex-col gap-xs font-label-md text-label-md border-t border-outline-variant/20 pt-md">
+<a class="text-on-surface-variant hover:bg-surface-variant/50 rounded-lg mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-colors hover:bg-surface-variant scale-98 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">help_outline</span>
+                    Help
+                </a>
+<a class="text-on-surface-variant hover:bg-surface-variant/50 rounded-lg mx-2 my-1 px-4 py-3 flex items-center gap-3 transition-colors hover:bg-surface-variant scale-98 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">logout</span>
+                    Logout
+                </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col lg:ml-64 h-full relative overflow-hidden bg-background">
+<!-- TopNavBar (JSON Component - Mobile Header equivalent when SideNav is hidden, but required by instructions) -->
+<header class="sticky top-0 z-50 flex items-center justify-between px-gutter md:px-margin-desktop h-20 w-full bg-tertiary/90 backdrop-blur-md shadow-sm">
+<div class="flex items-center gap-md">
+<!-- Mobile Menu Button (hidden on desktop) -->
+<button class="lg:hidden text-primary p-2 rounded-lg hover:bg-surface-variant/20 transition-all duration-300 ease-in-out active:scale-95">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="font-display-lg text-display-lg text-primary tracking-tight hidden lg:block">SAVOR</div>
+</div>
+<!-- Web Navigation Links -->
+<nav class="hidden md:flex gap-lg h-full items-end">
+<a class="text-secondary hover:text-primary transition-colors font-body-md text-body-md pb-1 border-b-2 border-transparent" href="#">Revenue</a>
+<a class="text-secondary hover:text-primary transition-colors font-body-md text-body-md pb-1 border-b-2 border-transparent" href="#">Orders</a>
+<a class="text-secondary hover:text-primary transition-colors font-body-md text-body-md pb-1 border-b-2 border-transparent" href="#">Dishes</a>
+<!-- Active State -->
+<a class="text-primary border-b-2 border-primary font-bold pb-1 font-body-md text-body-md" href="#">Reviews</a>
+</nav>
+<div class="flex items-center gap-sm">
+<button class="p-2 text-primary hover:bg-surface-variant/20 rounded-lg transition-all duration-300 ease-in-out active:scale-95">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-primary hover:bg-surface-variant/20 rounded-lg transition-all duration-300 ease-in-out active:scale-95">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="w-10 h-10 rounded-full bg-surface-dim overflow-hidden ml-sm border border-outline-variant/30">
+<img alt="Manager Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a restaurant manager. The portrait features a sharply dressed individual against a warm, softly lit cream background. The lighting is flattering and sophisticated, emphasizing a welcoming yet authoritative presence. A high-end, premium hospitality aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAV0xlIXaYgEQEn5RuHitcYPcvSXoNLv_-wzGe6PcARKQNs5ZgHK1LVghBncwJx0PmSXxtR0yCcwQ5u6ge3HhSCLZ_-fzckJK1yV_gJ61QTt_NPXhaDIvFkhdFc0u3Xor1ZQzTkE7ncqA5QifrHJxJ6IGdF-kxjz2xDJFkg4Np5oUGdX_Qv-IoP0N8QAhxpg7pLDkAjgdXZpxgjq6xfSMQToF16TmCt13ec_4uzecWd5XB23dQlW9s9"/>
+</div>
+</div>
+</header>
+<!-- Scrollable Content Canvas -->
+<div class="flex-1 overflow-y-auto px-gutter md:px-margin-desktop py-lg">
+<div class="max-w-6xl mx-auto space-y-xl">
+<!-- Header -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-md">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Customer Reviews</h2>
+<p class="font-body-md text-body-md text-secondary">Manage and respond to feedback from your patrons.</p>
+</div>
+<button class="bg-primary text-on-primary font-label-md text-label-md px-6 py-3 rounded-lg shadow-sm hover:shadow-md transition-all active:scale-95 flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">refresh</span>
+                        Sync Latest
+                    </button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

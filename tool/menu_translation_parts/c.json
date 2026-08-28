@@ -1,0 +1,154 @@
+{
+  "categories": {
+    "молочные-коктейли": {
+      "en": "Milkshakes",
+      "ar": "مخفوقات الحليب"
+    },
+    "цитрусовый-фреш": {
+      "en": "Fresh Citrus Drinks",
+      "ar": "مشروبات الحمضيات الطازجة"
+    },
+    "смузи": {
+      "en": "Smoothies",
+      "ar": "سموذي"
+    },
+    "кофе-чай": {
+      "en": "Coffee & Tea",
+      "ar": "القهوة والشاي"
+    }
+  },
+  "items": {
+    "молочные-коктейли-банан-1": {
+      "en_name": "Banana",
+      "en_description": "Banana milkshake. Volume: 330 ml / 500 ml.",
+      "ar_name": "موز",
+      "ar_description": "مخفوق حليب بالموز. الحجم: 330 مل / 500 مل."
+    },
+    "молочные-коктейли-банан-клубника-2": {
+      "en_name": "Banana Strawberry",
+      "en_description": "Milkshake with banana and strawberry. Volume: 330 ml / 500 ml.",
+      "ar_name": "موز وفراولة",
+      "ar_description": "مخفوق حليب بالموز والفراولة. الحجم: 330 مل / 500 مل."
+    },
+    "молочные-коктейли-банан-шоколад-3": {
+      "en_name": "Banana Chocolate",
+      "en_description": "Milkshake with banana and chocolate. Volume: 330 ml / 500 ml.",
+      "ar_name": "موز وشوكولاتة",
+      "ar_description": "مخفوق حليب بالموز والشوكولاتة. الحجم: 330 مل / 500 مل."
+    },
+    "цитрусовый-фреш-лимонад-1": {
+      "en_name": "Lemonade",
+      "en_description": "Refreshing lemonade. Volume: 330 ml / 500 ml.",
+      "ar_name": "ليمونادة",
+      "ar_description": "ليمونادة منعشة. الحجم: 330 مل / 500 مل."
+    },
+    "цитрусовый-фреш-поло-лимонад-мята-2": {
+      "en_name": "Mint Lemonade",
+      "en_description": "Lemonade with mint. Volume: 330 ml / 500 ml.",
+      "ar_name": "ليمونادة بالنعناع",
+      "ar_description": "ليمونادة بالنعناع. الحجم: 330 مل / 500 مل."
+    },
+    "цитрусовый-фреш-апельсин-3": {
+      "en_name": "Fresh Orange",
+      "en_description": "Fresh orange drink. Volume: 330 ml / 500 ml.",
+      "ar_name": "برتقال طازج",
+      "ar_description": "مشروب برتقال طازج. الحجم: 330 مل / 500 مل."
+    },
+    "цитрусовый-фреш-апельсин-морковь-4": {
+      "en_name": "Orange Carrot",
+      "en_description": "Orange drink with carrot. Volume: 330 ml / 500 ml.",
+      "ar_name": "برتقال وجزر",
+      "ar_description": "مشروب برتقال بالجزر. الحجم: 330 مل / 500 مل."
+    },
+    "цитрусовый-фреш-апельсин-клубника-5": {
+      "en_name": "Orange Strawberry",
+      "en_description": "Orange drink with strawberry. Volume: 330 ml / 500 ml.",
+      "ar_name": "برتقال وفراولة",
+      "ar_description": "مشروب برتقال بالفراولة. الحجم: 330 مل / 500 مل."
+    },
+    "цитрусовый-фреш-мохито-6": {
+      "en_name": "Mojito",
+      "en_description": "Refreshing non-alcoholic mojito. Volume: 330 ml / 500 ml.",
+      "ar_name": "موهيتو",
+      "ar_description": "موهيتو منعش غير كحولي. الحجم: 330 مل / 500 مل."
+    },
+    "смузи-клубника-1": {
+      "en_name": "Strawberry Smoothie",
+      "en_description": "Strawberry smoothie. Volume: 300 ml / 500 ml.",
+      "ar_name": "سموذي الفراولة",
+      "ar_description": "سموذي بالفراولة. الحجم: 300 مل / 500 مل."
+    },
+    "смузи-клубника-ананас-2": {
+      "en_name": "Strawberry Pineapple Smoothie",
+      "en_description": "Smoothie with strawberry and pineapple. Volume: 300 ml / 500 ml.",
+      "ar_name": "سموذي الفراولة والأناناس",
+      "ar_description": "سموذي بالفراولة والأناناس. الحجم: 300 مل / 500 مل."
+    },
+    "смузи-ягодный-3": {
+      "en_name": "Berry Smoothie",
+      "en_description": "Berry smoothie. Volume: 300 ml / 500 ml.",
+      "ar_name": "سموذي التوت",
+      "ar_description": "سموذي بالتوت. الحجم: 300 مل / 500 مل."
+    },
+    "кофе-чай-эспрессо-1": {
+      "en_name": "Espresso",
+      "en_description": "Classic strong coffee in a small serving.",
+      "ar_name": "إسبريسو",
+      "ar_description": "قهوة كلاسيكية قوية بحجم صغير."
+    },
+    "кофе-чай-американо-2": {
+      "en_name": "Americano",
+      "en_description": "Hot black coffee with a smooth flavor.",
+      "ar_name": "أمريكانو",
+      "ar_description": "قهوة سوداء ساخنة بطعم ناعم."
+    },
+    "кофе-чай-капучино-3": {
+      "en_name": "Cappuccino",
+      "en_description": "Coffee with milk and a thick milk foam.",
+      "ar_name": "كابتشينو",
+      "ar_description": "قهوة بالحليب ورغوة حليب كثيفة."
+    },
+    "кофе-чай-латте-4": {
+      "en_name": "Latte",
+      "en_description": "Smooth coffee drink with plenty of milk.",
+      "ar_name": "لاتيه",
+      "ar_description": "مشروب قهوة ناعم مع كمية وفيرة من الحليب."
+    },
+    "кофе-чай-горячий-шоколад-5": {
+      "en_name": "Hot Chocolate",
+      "en_description": "Rich hot chocolate for a sweet break.",
+      "ar_name": "شوكولاتة ساخنة",
+      "ar_description": "شوكولاتة ساخنة غنية لاستراحة حلوة."
+    },
+    "кофе-чай-кофе-6": {
+      "en_name": "Coffee",
+      "en_description": "Classic hot coffee.",
+      "ar_name": "قهوة",
+      "ar_description": "قهوة ساخنة كلاسيكية."
+    },
+    "кофе-чай-арабское-кофе-7": {
+      "en_name": "Arabic Coffee",
+      "en_description": "Aromatic coffee in an Eastern style.",
+      "ar_name": "قهوة عربية",
+      "ar_description": "قهوة عطرية على الطراز الشرقي."
+    },
+    "кофе-чай-фраппучино-8": {
+      "en_name": "Frappuccino",
+      "en_description": "Iced coffee drink with mild sweetness.",
+      "ar_name": "فرابتشينو",
+      "ar_description": "مشروب قهوة بارد بحلاوة خفيفة."
+    },
+    "кофе-чай-чай-9": {
+      "en_name": "Tea",
+      "en_description": "Hot tea of your choice.",
+      "ar_name": "شاي",
+      "ar_description": "شاي ساخن حسب اختيارك."
+    },
+    "кофе-чай-чай-чайник-10": {
+      "en_name": "Tea Pot",
+      "en_description": "A pot of hot tea to share.",
+      "ar_name": "إبريق شاي",
+      "ar_description": "إبريق من الشاي الساخن للمشاركة."
+    }
+  }
+}

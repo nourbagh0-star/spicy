@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>User Profile - SAVOR</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary-fixed-variant": "#8b1906",
+                      "secondary-container": "#e4e2e1",
+                      "on-primary-container": "#fffbff",
+                      "on-tertiary": "#ffffff",
+                      "tertiary-fixed-dim": "#c8c6c2",
+                      "inverse-primary": "#ffb4a5",
+                      "on-tertiary-fixed-variant": "#474744",
+                      "background": "#fff8f3",
+                      "inverse-surface": "#33302c",
+                      "on-error-container": "#93000a",
+                      "outline-variant": "#e0bfb8",
+                      "tertiary": "#5c5c58",
+                      "outline": "#8d716b",
+                      "error-container": "#ffdad6",
+                      "surface-container": "#f4ece6",
+                      "on-error": "#ffffff",
+                      "surface-variant": "#e9e1db",
+                      "on-tertiary-fixed": "#1b1c19",
+                      "secondary-fixed-dim": "#c8c6c5",
+                      "surface-dim": "#e0d9d2",
+                      "on-background": "#1e1b17",
+                      "on-primary-fixed": "#3e0400",
+                      "surface": "#fff8f3",
+                      "inverse-on-surface": "#f7efe9",
+                      "surface-container-low": "#faf2ec",
+                      "on-secondary": "#ffffff",
+                      "surface-tint": "#ad321c",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary-fixed": "#1b1c1c",
+                      "surface-bright": "#fff8f3",
+                      "primary-fixed": "#ffdad3",
+                      "on-surface": "#1e1b17",
+                      "secondary-fixed": "#e4e2e1",
+                      "on-secondary-fixed-variant": "#474747",
+                      "surface-container-highest": "#e9e1db",
+                      "tertiary-container": "#757571",
+                      "on-secondary-container": "#656464",
+                      "on-surface-variant": "#59413c",
+                      "on-tertiary-container": "#fefcf7",
+                      "error": "#ba1a1a",
+                      "secondary": "#5f5e5e",
+                      "primary-fixed-dim": "#ffb4a5",
+                      "surface-container-high": "#efe7e0",
+                      "primary": "#aa301a",
+                      "on-primary": "#ffffff",
+                      "primary-container": "#cb4830",
+                      "tertiary-fixed": "#e4e2dd"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xl": "64px",
+                      "md": "24px",
+                      "sm": "12px",
+                      "gutter": "16px",
+                      "xs": "4px",
+                      "lg": "40px",
+                      "base": "8px",
+                      "margin-mobile": "20px",
+                      "margin-desktop": "120px"
+              },
+              "fontFamily": {
+                      "display-lg": [
+                              "Playfair Display"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Playfair Display"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Playfair Display"
+                      ],
+                      "headline-md": [
+                              "Playfair Display"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "34px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+        .ambient-shadow {
+            box-shadow: 0px 10px 30px rgba(44, 44, 44, 0.05);
+        }
+        .level-1-border {
+            border: 1px solid rgba(107, 102, 97, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen pb-32">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 backdrop-blur-md shadow-sm bg-tertiary/90 dark:bg-tertiary/90">
+<div class="flex items-center justify-between px-margin-mobile md:px-margin-desktop h-16 w-full">
+<button aria-label="Menu" class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-display-lg text-headline-md tracking-widest text-primary dark:text-primary-fixed-dim uppercase">SAVOR</h1>
+<button aria-label="Shopping Bag" class="text-primary dark:text-primary-fixed-dim hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-24 px-margin-mobile md:px-margin-desktop max-w-[1280px] mx-auto">
+<!-- Profile Header -->
+<section class="flex flex-col items-center mt-lg mb-xl">
+<div class="relative w-32 h-32 rounded-full overflow-hidden mb-md ambient-shadow border-4 border-surface">
+<img alt="Julian Chen Profile Photo" class="object-cover w-full h-full" data-alt="A professional headshot of a stylish Asian man in his 30s, Julian Chen. He is softly smiling. The lighting is warm and natural, creating a sophisticated, high-end feel. The background is a soft, blurred beige to complement a modern minimalist app design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYXlMs7vwr__Gr1_V1zfqE8zA1fKg_3D-jNVeCImwauv6lXoyZ-RT1Y4Tm-LK5jOGfqrHlVq92pU-b5da4lamLd0xeK2IJ5UK0vXHw_imxKG2Nq-lrGJmKKfO0EK_9793roW_Xhu9kicOtTnCx9E3l04khCkRQgHU9fhmcnkljPhX6SXU6IQUqYDzsrJUR93L1G3bRLF3oXfXu0N0iy66T85P1BNbWZPLUkOvAoafnMuK0eGrkJs8q"/>
+</div>
+<h2 class="font-display-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-xs">Julian Chen</h2>
+<p class="font-label-md text-label-md text-primary tracking-widest uppercase mb-sm">Gourmet Member</p>
+<div class="bg-surface-container-low rounded-full px-md py-sm flex items-center space-x-sm level-1-border">
+<span class="material-symbols-outlined text-tertiary-container text-[20px]" data-icon="stars" data-weight="fill">stars</span>
+<span class="font-body-md text-body-md text-on-surface-variant font-medium">1250 Points</span>
+</div>
+</section>
+<!-- Bento Grid Navigation List -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-gutter mb-xl">
+<!-- Account Settings -->
+<button class="bg-surface-container-lowest rounded-xl p-md flex items-center justify-between level-1-border hover:ambient-shadow transition-shadow group text-left w-full active:scale-[0.98] duration-200">
+<div class="flex items-center space-x-md">
+<div class="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors">
+<span class="material-symbols-outlined" data-icon="manage_accounts">manage_accounts</span>
+</div>
+<div>
+<h3 class="font-body-lg text-body-lg text-on-surface font-medium">Account Settings</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mt-1">Personal info, security</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary" data-icon="chevron_right">chevron_right</span>
+</button>
+<!-- Payment Methods -->
+<button class="bg-surface-container-lowest rounded-xl p-md flex items-center justify-between level-1-border hover:ambient-shadow transition-shadow group text-left w-full active:scale-[0.98] duration-200">
+<div class="flex items-center space-x-md">
+<div class="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors">
+<span class="material-symbols-outlined" data-icon="credit_card">credit_card</span>
+</div>
+<div>
+<h3 class="font-body-lg text-body-lg text-on-surface font-medium">Payment Methods</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mt-1">Cards, Apple Pay</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary" data-icon="chevron_right">chevron_right</span>
+</button>
+<!-- Saved Addresses -->
+<button class="bg-surface-container-lowest rounded-xl p-md flex items-center justify-between level-1-border hover:ambient-shadow transition-shadow group text-left w-full active:scale-[0.98] duration-200">
+<div class="flex items-center space-x-md">
+<div class="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors">
+<span class="material-symbols-outlined" data-icon="location_on">location_on</span>
+</div>
+<div>
+<h3 class="font-body-lg text-body-lg text-on-surface font-medium">Saved Addresses</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mt-1">Home, Office</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary" data-icon="chevron_right">chevron_right</span>
+</button>
+<!-- Notification Preferences -->
+<button class="bg-surface-container-lowest rounded-xl p-md flex items-center justify-between level-1-border hover:ambient-shadow transition-shadow group text-left w-full active:scale-[0.98] duration-200">
+<div class="flex items-center space-x-md">
+<div class="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant group-hover:bg-primary-container group-hover:text-on-primary-container transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</div>
+<div>
+<h3 class="font-body-lg text-body-lg text-on-surface font-medium">Notification Preferences</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mt-1">Emails, push alerts</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-secondary" data-icon="chevron_right">chevron_right</span>
+</button>
+</section>
+<!-- Log Out Action -->
+<div class="flex justify-center mb-xl">
+<button class="px-xl py-sm border border-outline rounded-full text-primary font-label-md text-label-md hover:bg-surface-container-low transition-colors duration-200">
+                Log Out
+            </button>
+</div>
+</main>
+<!-- Bottom Nav Bar -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 backdrop-blur-md shadow-lg bg-tertiary/90 dark:bg-tertiary/90">
+<div class="flex justify-around items-center h-20 px-4 pb-safe">
+<!-- Home (Inactive) -->
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest rounded-full w-16 h-16 active:scale-90 transition-transform">
+<span class="material-symbols-outlined mb-1" data-icon="home">home</span>
+<span class="font-body-md text-label-sm">Home</span>
+</button>
+<!-- Menu (Inactive) -->
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest rounded-full w-16 h-16 active:scale-90 transition-transform">
+<span class="material-symbols-outlined mb-1" data-icon="restaurant_menu">restaurant_menu</span>
+<span class="font-body-md text-label-sm">Menu</span>
+</button>
+<!-- Orders (Inactive) -->
+<button class="flex flex-col items-center justify-center text-secondary dark:text-secondary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest rounded-full w-16 h-16 active:scale-90 transition-transform">
+<span class="material-symbols-outlined mb-1" data-icon="map">map</span>
+<span class="font-body-md text-label-sm">Orders</span>
+</button>
+<!-- Profile (Active) -->
+<button class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim font-bold hover:bg-surface-container-low dark:hover:bg-surface-container-highest rounded-full w-16 h-16 active:scale-90 transition-transform">
+<span class="material-symbols-outlined mb-1" data-icon="person" data-weight="fill">person</span>
+<span class="font-body-md text-label-sm">Profile</span>
+</button>
+</div>
+</nav>
+</body></html>
