@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:spicy/core/locale/app_locale.dart';
 import 'package:spicy/core/theme/app_theme.dart';
 import 'package:spicy/core/widgets/price_label.dart';
 import 'package:spicy/features/auth/presentation/cubit/auth_cubit.dart';
@@ -110,15 +111,28 @@ class _ManagerDashboardScreenState extends State<ManagerDashboardScreen> {
     );
   }
 
-  String get _dateLabel => switch (_dateRange) {
-    _ManagerDateRange.today => 'Сегодня',
-    _ManagerDateRange.yesterday => 'Вчера',
-    _ManagerDateRange.last7Days => 'Последние 7 дней',
+  String _dateLabel(AppLocale locale) => switch (_dateRange) {
+    _ManagerDateRange.today => locale.text(
+      ru: 'Сегодня',
+      en: 'Today',
+      ar: 'اليوم',
+    ),
+    _ManagerDateRange.yesterday => locale.text(
+      ru: 'Вчера',
+      en: 'Yesterday',
+      ar: 'أمس',
+    ),
+    _ManagerDateRange.last7Days => locale.text(
+      ru: 'Последние 7 дней',
+      en: 'Last 7 days',
+      ar: 'آخر 7 أيام',
+    ),
     _ManagerDateRange.customDay =>
       '${_selectedDay.day.toString().padLeft(2, '0')}.${_selectedDay.month.toString().padLeft(2, '0')}.${_selectedDay.year}',
   };
 
   Future<void> _selectDateRange(_ManagerDateRange range) async {
+    final locale = context.read<AppLocale>();
     var selectedDay = DateTime.now();
     if (range == _ManagerDateRange.customDay) {
       final day = await showDatePicker(
@@ -126,7 +140,11 @@ class _ManagerDashboardScreenState extends State<ManagerDashboardScreen> {
         initialDate: _selectedDay,
         firstDate: DateTime(2020),
         lastDate: DateTime.now(),
-        helpText: 'Выберите дату',
+        helpText: locale.text(
+          ru: 'Выберите дату',
+          en: 'Choose a date',
+          ar: 'اختر تاريخاً',
+        ),
       );
       if (day == null || !mounted) return;
       selectedDay = day;
@@ -140,139 +158,159 @@ class _ManagerDashboardScreenState extends State<ManagerDashboardScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: Text(
-        'Панель менеджера',
-        style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.w700),
-      ),
-      actions: [
-        IconButton(
-          tooltip: 'Выйти',
-          onPressed: () => context.read<AuthCubit>().logout(),
-          icon: const Icon(Icons.logout_rounded),
+  Widget build(BuildContext context) {
+    final locale = context.watch<AppLocale>();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          locale.text(
+            ru: 'Панель менеджера',
+            en: 'Manager Dashboard',
+            ar: 'لوحة المدير',
+          ),
+          style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.w700),
         ),
-      ],
-    ),
-    body: FutureBuilder<_ManagerData>(
-      future: _data,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done) {
-          return const Center(
-            child: CircularProgressIndicator(color: AppTheme.primary),
-          );
-        }
-        if (snapshot.hasError) {
-          return Center(
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Text(
-                snapshot.error.toString().replaceFirst('Bad state: ', ''),
-                textAlign: TextAlign.center,
-                style: GoogleFonts.inter(color: AppTheme.secondary),
-              ),
-            ),
-          );
-        }
-        final data = snapshot.data!;
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (mounted) _ensureLiveOrders(data.branchId);
-        });
-        final openOrders = data.orders
-            .where((order) => !_isFinished(order['status'] as String))
-            .toList(growable: false);
-        return RefreshIndicator(
-          color: AppTheme.primary,
-          onRefresh: () async {
-            setState(() {
-              _data = _load();
-            });
-            await _data;
-          },
-          child: ListView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.all(20),
-            children: [
-              Text(
-                data.branchName,
-                style: GoogleFonts.playfairDisplay(
-                  fontSize: 26,
-                  fontWeight: FontWeight.w700,
+        actions: [
+          IconButton(
+            tooltip: locale.logout,
+            onPressed: () => context.read<AuthCubit>().logout(),
+            icon: const Icon(Icons.logout_rounded),
+          ),
+        ],
+      ),
+      body: FutureBuilder<_ManagerData>(
+        future: _data,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const Center(
+              child: CircularProgressIndicator(color: AppTheme.primary),
+            );
+          }
+          if (snapshot.hasError) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Text(
+                  snapshot.error.toString().replaceFirst('Bad state: ', ''),
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.inter(color: AppTheme.secondary),
                 ),
               ),
-              const SizedBox(height: 4),
-              Text(
-                data.address,
-                style: GoogleFonts.inter(color: AppTheme.secondary),
-              ),
-              const SizedBox(height: 14),
-              _ManagerDatePicker(
-                selected: _dateRange,
-                label: _dateLabel,
-                onSelected: _selectDateRange,
-              ),
-              const SizedBox(height: 22),
-              _OpenOrderMetric(value: openOrders.length),
-              const SizedBox(height: 12),
-              _ManagerActionCard(
-                icon: Icons.restaurant_menu_rounded,
-                title: 'Наличие меню',
-                subtitle: 'Отметить, что есть или временно нет',
-                onTap: () => context.push('/manager/menu'),
-              ),
-              const SizedBox(height: 28),
-              Text(
-                'Отзывы филиала',
-                style: GoogleFonts.playfairDisplay(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SizedBox(height: 12),
-              if (data.reviews.isEmpty)
-                const Text('Отзывов пока нет.')
-              else
-                ...data.reviews.map(
-                  (review) => _ManagerReviewCard(review: review),
-                ),
-              const SizedBox(height: 28),
-              Text(
-                'Заказы · $_dateLabel',
-                style: GoogleFonts.playfairDisplay(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SizedBox(height: 12),
-              if (data.orders.isEmpty)
-                const _ManagerEmptyOrders()
-              else
-                ...data.orders.map(
-                  (order) => _ManagerOrderCard(
-                    order: order,
-                    onTap: () => context.push('/manager/order/${order['id']}'),
-                    onStatusChanged: (nextStatus) async {
-                      await Supabase.instance.client.rpc(
-                        'manager_update_order_status',
-                        params: {
-                          'p_order_id': order['id'],
-                          'p_next_status': nextStatus,
-                        },
-                      );
-                      if (mounted) {
-                        setState(() {
-                          _data = _load();
-                        });
-                      }
-                    },
+            );
+          }
+          final data = snapshot.data!;
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) _ensureLiveOrders(data.branchId);
+          });
+          final openOrders = data.orders
+              .where((order) => !_isFinished(order['status'] as String))
+              .toList(growable: false);
+          return RefreshIndicator(
+            color: AppTheme.primary,
+            onRefresh: () async {
+              setState(() {
+                _data = _load();
+              });
+              await _data;
+            },
+            child: ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: const EdgeInsets.all(20),
+              children: [
+                Text(
+                  data.branchName,
+                  style: GoogleFonts.playfairDisplay(
+                    fontSize: 26,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
-            ],
-          ),
-        );
-      },
-    ),
-  );
+                const SizedBox(height: 4),
+                Text(
+                  data.address,
+                  style: GoogleFonts.inter(color: AppTheme.secondary),
+                ),
+                const SizedBox(height: 14),
+                _ManagerDatePicker(
+                  selected: _dateRange,
+                  label: _dateLabel(locale),
+                  onSelected: _selectDateRange,
+                ),
+                const SizedBox(height: 22),
+                _OpenOrderMetric(value: openOrders.length),
+                const SizedBox(height: 12),
+                _ManagerActionCard(
+                  icon: Icons.restaurant_menu_rounded,
+                  title: locale.text(
+                    ru: 'Наличие меню',
+                    en: 'Menu availability',
+                    ar: 'توفر القائمة',
+                  ),
+                  subtitle: locale.text(
+                    ru: 'Отметить, что есть или временно нет',
+                    en: 'Mark items as available or temporarily unavailable',
+                    ar: 'حدد العناصر المتاحة أو غير المتاحة مؤقتاً',
+                  ),
+                  onTap: () => context.push('/manager/menu'),
+                ),
+                const SizedBox(height: 28),
+                Text(
+                  locale.text(
+                    ru: 'Отзывы филиала',
+                    en: 'Branch reviews',
+                    ar: 'تقييمات الفرع',
+                  ),
+                  style: GoogleFonts.playfairDisplay(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                if (data.reviews.isEmpty)
+                  Text(locale.noReviews)
+                else
+                  ...data.reviews.map(
+                    (review) => _ManagerReviewCard(review: review),
+                  ),
+                const SizedBox(height: 28),
+                Text(
+                  '${locale.orders} · ${_dateLabel(locale)}',
+                  style: GoogleFonts.playfairDisplay(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                if (data.orders.isEmpty)
+                  const _ManagerEmptyOrders()
+                else
+                  ...data.orders.map(
+                    (order) => _ManagerOrderCard(
+                      order: order,
+                      onTap: () =>
+                          context.push('/manager/order/${order['id']}'),
+                      onStatusChanged: (nextStatus) async {
+                        await Supabase.instance.client.rpc(
+                          'manager_update_order_status',
+                          params: {
+                            'p_order_id': order['id'],
+                            'p_next_status': nextStatus,
+                          },
+                        );
+                        if (mounted) {
+                          setState(() {
+                            _data = _load();
+                          });
+                        }
+                      },
+                    ),
+                  ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
 
   bool _isFinished(String status) =>
       ['completed', 'cancelled', 'rejected'].contains(status);
@@ -304,12 +342,41 @@ class _ManagerDatePicker extends StatelessWidget {
     spacing: 8,
     runSpacing: 8,
     children: [
-      _chip('Сегодня', _ManagerDateRange.today),
-      _chip('Вчера', _ManagerDateRange.yesterday),
-      _chip('7 дней', _ManagerDateRange.last7Days),
+      _chip(
+        context.watch<AppLocale>().text(
+          ru: 'Сегодня',
+          en: 'Today',
+          ar: 'اليوم',
+        ),
+        _ManagerDateRange.today,
+      ),
+      _chip(
+        context.watch<AppLocale>().text(
+          ru: 'Вчера',
+          en: 'Yesterday',
+          ar: 'أمس',
+        ),
+        _ManagerDateRange.yesterday,
+      ),
+      _chip(
+        context.watch<AppLocale>().text(
+          ru: '7 дней',
+          en: '7 days',
+          ar: '7 أيام',
+        ),
+        _ManagerDateRange.last7Days,
+      ),
       ActionChip(
         avatar: const Icon(Icons.calendar_today_outlined, size: 16),
-        label: Text(selected == _ManagerDateRange.customDay ? label : 'Дата'),
+        label: Text(
+          selected == _ManagerDateRange.customDay
+              ? label
+              : context.watch<AppLocale>().text(
+                  ru: 'Дата',
+                  en: 'Date',
+                  ar: 'التاريخ',
+                ),
+        ),
         onPressed: () => onSelected(_ManagerDateRange.customDay),
       ),
     ],
@@ -359,7 +426,7 @@ class _ManagerReviewCard extends StatelessWidget {
                 Icon(Icons.star_rounded, color: const Color(0xFFF9A825)),
                 const SizedBox(width: 4),
                 Text(
-                  '$rating из 5',
+                  context.watch<AppLocale>().ratingOutOfFive(rating),
                   style: const TextStyle(fontWeight: FontWeight.w700),
                 ),
                 const Spacer(),
@@ -447,7 +514,14 @@ class _OpenOrderMetric extends StatelessWidget {
       children: [
         const Icon(Icons.receipt_long_rounded, color: AppTheme.primary),
         const SizedBox(width: 12),
-        Text('В работе', style: GoogleFonts.inter(fontWeight: FontWeight.w700)),
+        Text(
+          context.watch<AppLocale>().text(
+            ru: 'В работе',
+            en: 'In progress',
+            ar: 'قيد التنفيذ',
+          ),
+          style: GoogleFonts.inter(fontWeight: FontWeight.w700),
+        ),
         const Spacer(),
         Text(
           '$value',
@@ -470,6 +544,7 @@ class _ManagerOrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.watch<AppLocale>();
     final nextStatus = switch (order['status'] as String) {
       'pending' => 'accepted',
       'accepted' => 'preparing',
@@ -478,10 +553,10 @@ class _ManagerOrderCard extends StatelessWidget {
       _ => null,
     };
     final nextLabel = switch (nextStatus) {
-      'accepted' => 'Принять',
-      'preparing' => 'Готовить',
-      'ready_for_pickup' => 'Готов',
-      'completed' => 'Выдан',
+      'accepted' => locale.text(ru: 'Принять', en: 'Accept', ar: 'قبول'),
+      'preparing' => locale.text(ru: 'Готовить', en: 'Prepare', ar: 'تحضير'),
+      'ready_for_pickup' => locale.text(ru: 'Готов', en: 'Ready', ar: 'جاهز'),
+      'completed' => locale.text(ru: 'Выдан', en: 'Complete', ar: 'إكمال'),
       _ => '',
     };
     return Card(
@@ -498,12 +573,12 @@ class _ManagerOrderCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Заказ №${order['daily_order_number']}',
+                      locale.orderNumber(order['daily_order_number']),
                       style: GoogleFonts.inter(fontWeight: FontWeight.w700),
                     ),
                     const SizedBox(height: 3),
                     Text(
-                      '${order['contact_name']} · ${_statusLabel(order['status'] as String)}',
+                      '${order['contact_name']} · ${locale.databaseOrderStatus(order['status'] as String)}',
                       style: GoogleFonts.inter(
                         fontSize: 12,
                         color: AppTheme.secondary,
@@ -535,17 +610,6 @@ class _ManagerOrderCard extends StatelessWidget {
       ),
     );
   }
-
-  String _statusLabel(String status) => switch (status) {
-    'pending' => 'Новый',
-    'accepted' => 'Принят',
-    'preparing' => 'Готовится',
-    'ready_for_pickup' => 'Готов',
-    'completed' => 'Завершён',
-    'cancelled' => 'Отменён',
-    'rejected' => 'Отклонён',
-    _ => status,
-  };
 }
 
 class _ManagerEmptyOrders extends StatelessWidget {
@@ -556,7 +620,11 @@ class _ManagerEmptyOrders extends StatelessWidget {
     padding: const EdgeInsets.symmetric(vertical: 36),
     child: Center(
       child: Text(
-        'Для этого филиала пока нет заказов.',
+        context.watch<AppLocale>().text(
+          ru: 'Для этого филиала пока нет заказов.',
+          en: 'There are no orders for this branch yet.',
+          ar: 'لا توجد طلبات لهذا الفرع بعد.',
+        ),
         style: GoogleFonts.inter(color: AppTheme.secondary),
       ),
     ),

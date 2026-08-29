@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
+  static const List<String> arabicFallback = ['NotoSansArabic'];
   // Colors
   static const Color surface = Color(0xFFFFF8F3);
   static const Color surfaceDim = Color(0xFFE0D9D2);
@@ -59,45 +60,45 @@ class AppTheme {
           letterSpacing: -0.02 * 48,
           height: 56 / 48,
           color: onBackground,
-        ),
+        ).copyWith(fontFamilyFallback: arabicFallback),
         headlineLarge: GoogleFonts.playfairDisplay(
           fontSize: 32,
           fontWeight: FontWeight.w700,
           height: 40 / 32,
           color: onBackground,
-        ),
+        ).copyWith(fontFamilyFallback: arabicFallback),
         headlineMedium: GoogleFonts.playfairDisplay(
           fontSize: 24,
           fontWeight: FontWeight.w600,
           height: 32 / 24,
           color: onBackground,
-        ),
+        ).copyWith(fontFamilyFallback: arabicFallback),
         bodyLarge: GoogleFonts.inter(
           fontSize: 18,
           fontWeight: FontWeight.w400,
           height: 28 / 18,
           color: secondary,
-        ),
+        ).copyWith(fontFamilyFallback: arabicFallback),
         bodyMedium: GoogleFonts.inter(
           fontSize: 16,
           fontWeight: FontWeight.w400,
           height: 24 / 16,
           color: secondary,
-        ),
+        ).copyWith(fontFamilyFallback: arabicFallback),
         labelLarge: GoogleFonts.inter(
           fontSize: 14,
           fontWeight: FontWeight.w500,
           letterSpacing: 0.01 * 14,
           height: 20 / 14,
           color: secondary,
-        ),
+        ).copyWith(fontFamilyFallback: arabicFallback),
         labelMedium: GoogleFonts.inter(
           fontSize: 12,
           fontWeight: FontWeight.w600,
           letterSpacing: 0.05 * 12,
           height: 16 / 12,
           color: secondary,
-        ),
+        ).copyWith(fontFamilyFallback: arabicFallback),
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: surface,

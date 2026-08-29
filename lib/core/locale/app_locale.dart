@@ -35,6 +35,12 @@ class AppLocale extends ChangeNotifier {
     return isEnglish ? en : ru;
   }
 
+  /// Use for a small number of role-specific labels that do not belong in the
+  /// customer-facing string catalogue. Keep all three values together so a
+  /// new dashboard label cannot accidentally be Russian-only.
+  String text({required String ru, required String en, required String ar}) =>
+      _translated(ru, en, ar);
+
   void setLocale(Locale locale) {
     final code = _normalizedCode(locale.languageCode);
     if (_locale.languageCode == code) return;
@@ -299,6 +305,23 @@ class AppLocale extends ChangeNotifier {
           };
     return map[status] ?? status;
   }
+
+  String databaseOrderStatus(String status) {
+    final appStatus = switch (status) {
+      'pending' => 'placed',
+      'accepted' => 'confirmed',
+      'preparing' => 'preparing',
+      'ready_for_pickup' => 'readyForPickup',
+      'out_for_delivery' => 'onTheWay',
+      'completed' => 'delivered',
+      'cancelled' || 'rejected' => 'cancelled',
+      _ => status,
+    };
+    return orderStatus(appStatus);
+  }
+
+  String ratingOutOfFive(int rating) =>
+      _translated('$rating из 5', '$rating out of 5', '$rating من 5');
 
   String orderNumber(Object number) =>
       _translated('Заказ №$number', 'Order #$number', 'الطلب رقم $number');

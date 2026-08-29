@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:spicy/core/locale/app_locale.dart';
 import 'package:spicy/core/theme/app_theme.dart';
 import 'package:spicy/core/widgets/price_label.dart';
 import 'package:spicy/features/auth/presentation/cubit/auth_cubit.dart';
@@ -59,15 +60,28 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
     return List<Map<String, dynamic>>.from(response);
   }
 
-  String get _dateRangeLabel => switch (_dateRange) {
-    _DashboardDateRange.today => 'Сегодня',
-    _DashboardDateRange.yesterday => 'Вчера',
-    _DashboardDateRange.last7Days => 'Последние 7 дней',
+  String _dateRangeLabel(AppLocale locale) => switch (_dateRange) {
+    _DashboardDateRange.today => locale.text(
+      ru: 'Сегодня',
+      en: 'Today',
+      ar: 'اليوم',
+    ),
+    _DashboardDateRange.yesterday => locale.text(
+      ru: 'Вчера',
+      en: 'Yesterday',
+      ar: 'أمس',
+    ),
+    _DashboardDateRange.last7Days => locale.text(
+      ru: 'Последние 7 дней',
+      en: 'Last 7 days',
+      ar: 'آخر 7 أيام',
+    ),
     _DashboardDateRange.customDay =>
       '${_selectedDay.day.toString().padLeft(2, '0')}.${_selectedDay.month.toString().padLeft(2, '0')}.${_selectedDay.year}',
   };
 
   Future<void> _changeDateRange(_DashboardDateRange range) async {
+    final locale = context.read<AppLocale>();
     var selectedDay = DateTime.now();
     if (range == _DashboardDateRange.customDay) {
       final day = await showDatePicker(
@@ -75,7 +89,11 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
         initialDate: _selectedDay,
         firstDate: DateTime(2020),
         lastDate: DateTime.now(),
-        helpText: 'Выберите дату',
+        helpText: locale.text(
+          ru: 'Выберите дату',
+          en: 'Choose a date',
+          ar: 'اختر تاريخاً',
+        ),
       );
       if (day == null || !mounted) return;
       selectedDay = day;
@@ -92,16 +110,21 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final user = context.read<AuthCubit>().state.user;
+    final locale = context.watch<AppLocale>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppTheme.surface,
         title: Text(
-          'Панель владельца',
+          locale.text(
+            ru: 'Панель владельца',
+            en: 'Owner Dashboard',
+            ar: 'لوحة المالك',
+          ),
           style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.w700),
         ),
         actions: [
           IconButton(
-            tooltip: 'Выйти',
+            tooltip: locale.logout,
             onPressed: () => context.read<AuthCubit>().logout(),
             icon: const Icon(Icons.logout_rounded),
           ),
@@ -135,7 +158,9 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
           final branches = <String, List<Map<String, dynamic>>>{};
           for (final order in validOrders) {
             final branch = order['branches'] as Map<String, dynamic>?;
-            final name = branch?['name'] as String? ?? 'Филиал';
+            final name =
+                branch?['name'] as String? ??
+                locale.text(ru: 'Филиал', en: 'Branch', ar: 'الفرع');
             (branches[name] ??= []).add(order);
           }
           return RefreshIndicator(
@@ -152,7 +177,11 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
               padding: const EdgeInsets.all(20),
               children: [
                 Text(
-                  'Здравствуйте, ${user.name}',
+                  locale.text(
+                    ru: 'Здравствуйте, ${user.name}',
+                    en: 'Hello, ${user.name}',
+                    ar: 'مرحباً، ${user.name}',
+                  ),
                   style: GoogleFonts.inter(
                     fontSize: 15,
                     color: AppTheme.secondary,
@@ -160,7 +189,7 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Все филиалы · $_dateRangeLabel',
+                  '${locale.text(ru: 'Все филиалы', en: 'All branches', ar: 'كل الفروع')} · ${_dateRangeLabel(locale)}',
                   style: GoogleFonts.playfairDisplay(
                     fontSize: 27,
                     fontWeight: FontWeight.w700,
@@ -169,7 +198,7 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
                 const SizedBox(height: 14),
                 _DateRangePicker(
                   selected: _dateRange,
-                  label: _dateRangeLabel,
+                  label: _dateRangeLabel(locale),
                   onSelected: _changeDateRange,
                 ),
                 const SizedBox(height: 20),
@@ -178,7 +207,7 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
                     Expanded(
                       child: _MetricCard(
                         icon: Icons.receipt_long_rounded,
-                        label: 'Заказы',
+                        label: locale.orders,
                         value: '${validOrders.length}',
                       ),
                     ),
@@ -186,7 +215,11 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
                     Expanded(
                       child: _MetricCard(
                         icon: Icons.payments_outlined,
-                        label: 'Сумма заказов',
+                        label: locale.text(
+                          ru: 'Сумма заказов',
+                          en: 'Order revenue',
+                          ar: 'إجمالي الطلبات',
+                        ),
                         valueWidget: PriceLabel(
                           price: total / 100,
                           style: GoogleFonts.inter(
@@ -202,7 +235,11 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
                 if (active > 0) ...[
                   const SizedBox(height: 10),
                   Text(
-                    'В работе: $active',
+                    locale.text(
+                      ru: 'В работе: $active',
+                      en: 'In progress: $active',
+                      ar: 'قيد التنفيذ: $active',
+                    ),
                     style: GoogleFonts.inter(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
@@ -213,7 +250,11 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
                 if (branches.isNotEmpty) ...[
                   const SizedBox(height: 28),
                   Text(
-                    'По филиалам',
+                    locale.text(
+                      ru: 'По филиалам',
+                      en: 'By branch',
+                      ar: 'حسب الفرع',
+                    ),
                     style: GoogleFonts.playfairDisplay(
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
@@ -229,7 +270,11 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
                 ],
                 const SizedBox(height: 28),
                 Text(
-                  'Управление',
+                  locale.text(
+                    ru: 'Управление',
+                    en: 'Management',
+                    ar: 'الإدارة',
+                  ),
                   style: GoogleFonts.playfairDisplay(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
@@ -238,25 +283,53 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
                 const SizedBox(height: 12),
                 _ManagementCard(
                   icon: Icons.restaurant_menu_rounded,
-                  title: 'Меню и цены',
-                  subtitle: 'Блюда, варианты, изображения и доступность',
+                  title: locale.text(
+                    ru: 'Меню и цены',
+                    en: 'Menu and prices',
+                    ar: 'القائمة والأسعار',
+                  ),
+                  subtitle: locale.text(
+                    ru: 'Блюда, варианты, изображения и доступность',
+                    en: 'Items, options, images and availability',
+                    ar: 'الأصناف والخيارات والصور والتوفر',
+                  ),
                   onTap: () => context.push('/owner/menu'),
                 ),
                 _ManagementCard(
                   icon: Icons.tune_rounded,
-                  title: 'Добавки и удаления',
-                  subtitle: 'Бесплатные или платные опции для каждого блюда',
+                  title: locale.text(
+                    ru: 'Добавки и удаления',
+                    en: 'Add-ons and removals',
+                    ar: 'الإضافات والحذف',
+                  ),
+                  subtitle: locale.text(
+                    ru: 'Бесплатные или платные опции для каждого блюда',
+                    en: 'Free or paid choices for each item',
+                    ar: 'خيارات مجانية أو مدفوعة لكل صنف',
+                  ),
                   onTap: () => context.push('/owner/modifiers'),
                 ),
                 _ManagementCard(
                   icon: Icons.storefront_rounded,
-                  title: 'Филиалы и менеджеры',
-                  subtitle: 'Адреса, работа филиалов и доступ сотрудников',
+                  title: locale.text(
+                    ru: 'Филиалы и менеджеры',
+                    en: 'Branches and managers',
+                    ar: 'الفروع والمديرون',
+                  ),
+                  subtitle: locale.text(
+                    ru: 'Адреса, работа филиалов и доступ сотрудников',
+                    en: 'Addresses, branch operations and staff access',
+                    ar: 'العناوين وتشغيل الفروع وصلاحيات الموظفين',
+                  ),
                   onTap: () => context.push('/owner/branches'),
                 ),
                 const SizedBox(height: 28),
                 Text(
-                  'Последние отзывы',
+                  locale.text(
+                    ru: 'Последние отзывы',
+                    en: 'Latest reviews',
+                    ar: 'أحدث التقييمات',
+                  ),
                   style: GoogleFonts.playfairDisplay(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
@@ -271,7 +344,13 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
                       return const Center(child: CircularProgressIndicator());
                     }
                     if (reviewsSnapshot.hasError) {
-                      return const Text('Не удалось загрузить отзывы.');
+                      return Text(
+                        locale.text(
+                          ru: 'Не удалось загрузить отзывы.',
+                          en: 'Could not load reviews.',
+                          ar: 'تعذر تحميل التقييمات.',
+                        ),
+                      );
                     }
                     final allReviews = reviewsSnapshot.data ?? const [];
                     final branchNames =
@@ -281,7 +360,11 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
                                   (review['branches']
                                           as Map<String, dynamic>?)?['name']
                                       as String? ??
-                                  'Филиал',
+                                  locale.text(
+                                    ru: 'Филиал',
+                                    en: 'Branch',
+                                    ar: 'الفرع',
+                                  ),
                             )
                             .toSet()
                             .toList()
@@ -292,7 +375,11 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
                               (review['branches']
                                       as Map<String, dynamic>?)?['name']
                                   as String? ??
-                              'Филиал';
+                              locale.text(
+                                ru: 'Филиал',
+                                en: 'Branch',
+                                ar: 'الفرع',
+                              );
                           final rating = review['rating'] as int;
                           return (_reviewBranchFilter == null ||
                                   _reviewBranchFilter == branchName) &&
@@ -307,9 +394,17 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
                         SizedBox(
                           width: 240,
                           child: _ReviewFilter<String>(
-                            label: 'Филиал',
+                            label: locale.text(
+                              ru: 'Филиал',
+                              en: 'Branch',
+                              ar: 'الفرع',
+                            ),
                             value: _reviewBranchFilter,
-                            allLabel: 'Все филиалы',
+                            allLabel: locale.text(
+                              ru: 'Все филиалы',
+                              en: 'All branches',
+                              ar: 'كل الفروع',
+                            ),
                             values: branchNames,
                             onChanged: (value) =>
                                 setState(() => _reviewBranchFilter = value),
@@ -318,9 +413,17 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
                         SizedBox(
                           width: 180,
                           child: _ReviewFilter<int>(
-                            label: 'Оценка',
+                            label: locale.text(
+                              ru: 'Оценка',
+                              en: 'Rating',
+                              ar: 'التقييم',
+                            ),
                             value: _reviewRatingFilter,
-                            allLabel: 'Все оценки',
+                            allLabel: locale.text(
+                              ru: 'Все оценки',
+                              en: 'All ratings',
+                              ar: 'كل التقييمات',
+                            ),
                             values: List.generate(5, (index) => index + 1),
                             valueLabel: (rating) => '$rating ★',
                             onChanged: (value) =>
@@ -330,7 +433,7 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
                       ],
                     );
                     if (allReviews.isEmpty) {
-                      return const Text('Отзывов пока нет.');
+                      return Text(locale.noReviews);
                     }
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -338,7 +441,13 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
                         filters,
                         const SizedBox(height: 12),
                         if (reviews.isEmpty)
-                          const Text('По выбранным фильтрам отзывов нет.')
+                          Text(
+                            locale.text(
+                              ru: 'По выбранным фильтрам отзывов нет.',
+                              en: 'No reviews match the selected filters.',
+                              ar: 'لا توجد تقييمات تطابق عوامل التصفية المختارة.',
+                            ),
+                          )
                         else
                           ...reviews.map(
                             (review) => _OwnerReviewCard(review: review),
@@ -349,7 +458,11 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
                 ),
                 const SizedBox(height: 28),
                 Text(
-                  'Заказы за выбранный период',
+                  locale.text(
+                    ru: 'Заказы за выбранный период',
+                    en: 'Orders for selected period',
+                    ar: 'طلبات الفترة المختارة',
+                  ),
                   style: GoogleFonts.playfairDisplay(
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
@@ -437,13 +550,16 @@ class _OwnerReviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.watch<AppLocale>();
     final branch = review['branches'] as Map<String, dynamic>?;
     final rating = review['rating'] as int;
     return Card(
       margin: const EdgeInsets.only(bottom: 10),
       child: ListTile(
         leading: const Icon(Icons.star_rounded, color: Color(0xFFF9A825)),
-        title: Text('$rating из 5 · ${branch?['name'] ?? 'Филиал'}'),
+        title: Text(
+          '${locale.ratingOutOfFive(rating)} · ${branch?['name'] ?? locale.text(ru: 'Филиал', en: 'Branch', ar: 'الفرع')}',
+        ),
         subtitle: Text(review['comment'] as String),
       ),
     );
@@ -467,12 +583,41 @@ class _DateRangePicker extends StatelessWidget {
     spacing: 8,
     runSpacing: 8,
     children: [
-      _dateChip('Сегодня', _DashboardDateRange.today),
-      _dateChip('Вчера', _DashboardDateRange.yesterday),
-      _dateChip('7 дней', _DashboardDateRange.last7Days),
+      _dateChip(
+        context.watch<AppLocale>().text(
+          ru: 'Сегодня',
+          en: 'Today',
+          ar: 'اليوم',
+        ),
+        _DashboardDateRange.today,
+      ),
+      _dateChip(
+        context.watch<AppLocale>().text(
+          ru: 'Вчера',
+          en: 'Yesterday',
+          ar: 'أمس',
+        ),
+        _DashboardDateRange.yesterday,
+      ),
+      _dateChip(
+        context.watch<AppLocale>().text(
+          ru: '7 дней',
+          en: '7 days',
+          ar: '7 أيام',
+        ),
+        _DashboardDateRange.last7Days,
+      ),
       ActionChip(
         avatar: const Icon(Icons.calendar_today_outlined, size: 16),
-        label: Text(selected == _DashboardDateRange.customDay ? label : 'Дата'),
+        label: Text(
+          selected == _DashboardDateRange.customDay
+              ? label
+              : context.watch<AppLocale>().text(
+                  ru: 'Дата',
+                  en: 'Date',
+                  ar: 'التاريخ',
+                ),
+        ),
         onPressed: () => onSelected(_DashboardDateRange.customDay),
       ),
     ],
@@ -519,7 +664,11 @@ class _BranchSummaryCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                '${orders.length} заказов',
+                context.watch<AppLocale>().text(
+                  ru: '${orders.length} заказов',
+                  en: '${orders.length} orders',
+                  ar: '${orders.length} طلبات',
+                ),
                 style: GoogleFonts.inter(fontSize: 12),
               ),
               const SizedBox(height: 3),
@@ -647,17 +796,18 @@ class _OwnerOrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.watch<AppLocale>();
     final branch = order['branches'] as Map<String, dynamic>?;
     return Card(
       margin: const EdgeInsets.only(bottom: 10),
       child: ListTile(
         onTap: onTap,
         title: Text(
-          'Заказ №${order['daily_order_number']}',
+          locale.orderNumber(order['daily_order_number']),
           style: GoogleFonts.inter(fontWeight: FontWeight.w700),
         ),
         subtitle: Text(
-          '${branch?['name'] ?? 'Филиал'} · ${_statusLabel(order['status'] as String)}',
+          '${branch?['name'] ?? locale.text(ru: 'Филиал', en: 'Branch', ar: 'الفرع')} · ${locale.databaseOrderStatus(order['status'] as String)}',
         ),
         trailing: Column(
           mainAxisSize: MainAxisSize.min,
@@ -675,10 +825,13 @@ class _OwnerOrderCard extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 onSelected: onStatusChanged,
                 itemBuilder: (_) => [
-                  PopupMenuItem(value: _nextStatus!, child: Text(_nextLabel)),
+                  PopupMenuItem(
+                    value: _nextStatus!,
+                    child: Text(_nextLabel(locale)),
+                  ),
                 ],
                 child: Text(
-                  _nextLabel,
+                  _nextLabel(locale),
                   style: GoogleFonts.inter(
                     fontSize: 11,
                     color: AppTheme.primary,
@@ -692,16 +845,6 @@ class _OwnerOrderCard extends StatelessWidget {
     );
   }
 
-  String _statusLabel(String status) => switch (status) {
-    'pending' => 'Новый',
-    'accepted' => 'Принят',
-    'preparing' => 'Готовится',
-    'ready_for_pickup' => 'Готов',
-    'completed' => 'Завершён',
-    'cancelled' => 'Отменён',
-    _ => status,
-  };
-
   String? get _nextStatus => switch (order['status'] as String) {
     'pending' => 'accepted',
     'accepted' => 'preparing',
@@ -710,11 +853,11 @@ class _OwnerOrderCard extends StatelessWidget {
     _ => null,
   };
 
-  String get _nextLabel => switch (_nextStatus) {
-    'accepted' => 'Принять',
-    'preparing' => 'Готовить',
-    'ready_for_pickup' => 'Готов',
-    'completed' => 'Завершить',
+  String _nextLabel(AppLocale locale) => switch (_nextStatus) {
+    'accepted' => locale.text(ru: 'Принять', en: 'Accept', ar: 'قبول'),
+    'preparing' => locale.text(ru: 'Готовить', en: 'Prepare', ar: 'تحضير'),
+    'ready_for_pickup' => locale.text(ru: 'Готов', en: 'Ready', ar: 'جاهز'),
+    'completed' => locale.text(ru: 'Завершить', en: 'Complete', ar: 'إكمال'),
     _ => '',
   };
 }
@@ -722,9 +865,9 @@ class _OwnerOrderCard extends StatelessWidget {
 class _EmptyOrders extends StatelessWidget {
   const _EmptyOrders();
   @override
-  Widget build(BuildContext context) => const Padding(
-    padding: EdgeInsets.all(24),
-    child: Center(child: Text('Заказов пока нет')),
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.all(24),
+    child: Center(child: Text(context.watch<AppLocale>().noOrders)),
   );
 }
 
@@ -736,7 +879,11 @@ class _DashboardError extends StatelessWidget {
     child: Padding(
       padding: const EdgeInsets.all(24),
       child: Text(
-        'Не удалось загрузить панель: $error',
+        context.watch<AppLocale>().text(
+          ru: 'Не удалось загрузить панель: $error',
+          en: 'Could not load dashboard: $error',
+          ar: 'تعذر تحميل لوحة التحكم: $error',
+        ),
         textAlign: TextAlign.center,
       ),
     ),

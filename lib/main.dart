@@ -53,7 +53,10 @@ Future<void> main() async {
   );
   final menuRepository = MenuRepositoryImpl(dataSource: menuDataSource);
   final cartRepository = CartRepositoryImpl();
-  final orderRepository = OrderRepositoryImpl(client: supabaseClient);
+  final orderRepository = OrderRepositoryImpl(
+    client: supabaseClient,
+    locale: appLocale,
+  );
   final reviewRepository = ReviewRepositoryImpl(
     dataSource: SupabaseReviewDataSource(client: supabaseClient),
   );

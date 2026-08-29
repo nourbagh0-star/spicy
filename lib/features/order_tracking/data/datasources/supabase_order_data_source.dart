@@ -1,4 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:spicy/core/locale/app_locale.dart';
 import 'package:spicy/features/cart/domain/entities/cart_item.dart';
 import 'package:spicy/features/menu/domain/entities/menu_item.dart';
 import 'package:spicy/features/menu/domain/entities/menu_item_variant.dart';
@@ -7,8 +8,9 @@ import 'package:spicy/features/order_tracking/domain/entities/order.dart';
 
 class SupabaseOrderDataSource {
   final SupabaseClient? client;
+  final AppLocale locale;
 
-  SupabaseOrderDataSource({required this.client});
+  SupabaseOrderDataSource({required this.client, required this.locale});
 
   Future<Order> placePickupCashOrder({
     required String branchId,
@@ -67,7 +69,7 @@ class SupabaseOrderDataSource {
           'branches(name, address), '
           'order_items(menu_item_id, menu_item_variant_id, item_name, '
           'item_description, image_url, quantity, unit_price_kopeks, variant_name, '
-          'modifier_snapshot, special_instructions)',
+          'modifier_snapshot, localization_snapshot, special_instructions)',
         );
   }
 
@@ -98,20 +100,27 @@ class SupabaseOrderDataSource {
 
   CartItem _toCartItem(Map<String, dynamic> data) {
     final priceKopeks = data['unit_price_kopeks'] as int;
+    final translation = _translationFor(data['localization_snapshot']);
     final menuItemId = data['menu_item_id'] as String? ?? 'removed-menu-item';
     final variantId =
         data['menu_item_variant_id'] as String? ?? 'removed-variant';
     final variant = MenuItemVariant(
       id: variantId,
-      name: data['variant_name'] as String,
+      name:
+          translation['variant_name'] as String? ??
+          data['variant_name'] as String,
       code: 'snapshot',
       priceKopeks: priceKopeks,
     );
     return CartItem(
       menuItem: MenuItem(
         id: menuItemId,
-        name: data['item_name'] as String,
-        description: data['item_description'] as String? ?? '',
+        name:
+            translation['item_name'] as String? ?? data['item_name'] as String,
+        description:
+            translation['item_description'] as String? ??
+            data['item_description'] as String? ??
+            '',
         displayPrice: '',
         prices: [variant.priceRubles],
         variants: [variant],
@@ -122,8 +131,18 @@ class SupabaseOrderDataSource {
       variant: variant,
       quantity: data['quantity'] as int,
       specialInstructions: data['special_instructions'] as String?,
-      modifiers: _snapshotModifiers(data['modifier_snapshot']),
+      modifiers: _snapshotModifiers(
+        translation['modifiers'] ?? data['modifier_snapshot'],
+      ),
     );
+  }
+
+  Map<String, dynamic> _translationFor(dynamic rawSnapshot) {
+    if (rawSnapshot is! Map) return const {};
+    final snapshots = Map<String, dynamic>.from(rawSnapshot);
+    final selected = snapshots[locale.languageCode] ?? snapshots['ru'];
+    if (selected is! Map) return const {};
+    return Map<String, dynamic>.from(selected);
   }
 
   List<MenuItemModifierOption> _snapshotModifiers(dynamic rawSnapshot) {

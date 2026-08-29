@@ -72,6 +72,11 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - lib/menu-data.json
+
+  fonts:
+    - family: NotoSansArabic
+      fonts:
+        - asset: assets/fonts/NotoSansArabic-Variable.ttf
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

@@ -17,10 +17,24 @@ class OrdersScreen extends StatefulWidget {
 }
 
 class _OrdersScreenState extends State<OrdersScreen> {
+  late final AppLocale _locale;
+
   @override
   void initState() {
     super.initState();
+    _locale = context.read<AppLocale>();
+    _locale.addListener(_reloadForLanguageChange);
     context.read<OrderTrackingCubit>().loadOrders();
+  }
+
+  @override
+  void dispose() {
+    _locale.removeListener(_reloadForLanguageChange);
+    super.dispose();
+  }
+
+  void _reloadForLanguageChange() {
+    if (mounted) context.read<OrderTrackingCubit>().loadOrders();
   }
 
   @override

@@ -5,7 +5,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:spicy/core/locale/app_locale.dart';
 import 'package:spicy/core/theme/app_theme.dart';
 
 class OwnerMenuScreen extends StatefulWidget {
@@ -98,173 +100,242 @@ class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => _OwnerScaffold(
-    title: 'Меню и цены',
-    body: FutureBuilder<_MenuAdminData>(
-      future: _data,
-      builder: (context, snapshot) {
-        if (!snapshot.hasData)
-          return const Center(
-            child: CircularProgressIndicator(color: AppTheme.primary),
-          );
-        final data = snapshot.data!;
-        final selectedBranchId =
-            _selectedBranchId ?? data.branches.first['id'] as String;
-        bool isCategoryOpen(String categoryId) => data.categoryAvailability.any(
-          (setting) =>
-              setting['branch_id'] == selectedBranchId &&
-              setting['category_id'] == categoryId &&
-              setting['is_available'] == true,
-        );
-        final branchLines = data.lines
-            .where((line) => line.branchId == selectedBranchId)
-            .where(
-              (line) =>
-                  _categoryFilter == 'all' ||
-                  line.categoryId == _categoryFilter,
-            )
-            // With "All sections", show what customers can actually order.
-            // Selecting a particular closed section still lets the owner edit it.
-            .where(
-              (line) =>
-                  _categoryFilter != 'all' || isCategoryOpen(line.categoryId),
-            )
-            .where(
-              (line) =>
-                  _availabilityFilter == 'all' ||
-                  (_availabilityFilter == 'available'
-                      ? line.isAvailable
-                      : !line.isAvailable),
-            )
-            .toList(growable: false);
-        return ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            Text(
-              'Цена и доступность ниже относятся только к выбранному филиалу.',
-              style: GoogleFonts.inter(color: AppTheme.secondary),
-            ),
-            const SizedBox(height: 12),
-            DropdownButtonFormField<String>(
-              initialValue: selectedBranchId,
-              decoration: const InputDecoration(labelText: 'Филиал'),
-              items: data.branches
-                  .map(
-                    (branch) => DropdownMenuItem(
-                      value: branch['id'] as String,
-                      child: Text(branch['name'] as String),
-                    ),
-                  )
-                  .toList(),
-              onChanged: (value) => setState(() => _selectedBranchId = value),
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                Expanded(
-                  child: DropdownButtonFormField<String>(
-                    initialValue: _categoryFilter,
-                    decoration: const InputDecoration(labelText: 'Раздел'),
-                    items: [
-                      const DropdownMenuItem(
-                        value: 'all',
-                        child: Text('Все разделы'),
+  Widget build(BuildContext context) {
+    final locale = context.watch<AppLocale>();
+    return _OwnerScaffold(
+      title: locale.text(
+        ru: 'Меню и цены',
+        en: 'Menu and prices',
+        ar: 'القائمة والأسعار',
+      ),
+      body: FutureBuilder<_MenuAdminData>(
+        future: _data,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData)
+            return const Center(
+              child: CircularProgressIndicator(color: AppTheme.primary),
+            );
+          final data = snapshot.data!;
+          final selectedBranchId =
+              _selectedBranchId ?? data.branches.first['id'] as String;
+          bool isCategoryOpen(String categoryId) =>
+              data.categoryAvailability.any(
+                (setting) =>
+                    setting['branch_id'] == selectedBranchId &&
+                    setting['category_id'] == categoryId &&
+                    setting['is_available'] == true,
+              );
+          final branchLines = data.lines
+              .where((line) => line.branchId == selectedBranchId)
+              .where(
+                (line) =>
+                    _categoryFilter == 'all' ||
+                    line.categoryId == _categoryFilter,
+              )
+              // With "All sections", show what customers can actually order.
+              // Selecting a particular closed section still lets the owner edit it.
+              .where(
+                (line) =>
+                    _categoryFilter != 'all' || isCategoryOpen(line.categoryId),
+              )
+              .where(
+                (line) =>
+                    _availabilityFilter == 'all' ||
+                    (_availabilityFilter == 'available'
+                        ? line.isAvailable
+                        : !line.isAvailable),
+              )
+              .toList(growable: false);
+          return ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              Text(
+                locale.text(
+                  ru: 'Цена и доступность ниже относятся только к выбранному филиалу.',
+                  en: 'Prices and availability below apply only to the selected branch.',
+                  ar: 'الأسعار والتوفر أدناه تنطبق على الفرع المختار فقط.',
+                ),
+                style: GoogleFonts.inter(color: AppTheme.secondary),
+              ),
+              const SizedBox(height: 12),
+              DropdownButtonFormField<String>(
+                initialValue: selectedBranchId,
+                decoration: InputDecoration(
+                  labelText: locale.text(
+                    ru: 'Филиал',
+                    en: 'Branch',
+                    ar: 'الفرع',
+                  ),
+                ),
+                items: data.branches
+                    .map(
+                      (branch) => DropdownMenuItem(
+                        value: branch['id'] as String,
+                        child: Text(branch['name'] as String),
                       ),
-                      ...data.categories.map(
-                        (category) => DropdownMenuItem(
-                          value: category['category_id'] as String,
-                          child: Text(category['name'] as String),
+                    )
+                    .toList(),
+                onChanged: (value) => setState(() => _selectedBranchId = value),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                children: [
+                  Expanded(
+                    child: DropdownButtonFormField<String>(
+                      initialValue: _categoryFilter,
+                      decoration: InputDecoration(
+                        labelText: locale.text(
+                          ru: 'Раздел',
+                          en: 'Category',
+                          ar: 'القسم',
                         ),
                       ),
-                    ],
-                    onChanged: (value) =>
-                        setState(() => _categoryFilter = value!),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: DropdownButtonFormField<String>(
-                    initialValue: _availabilityFilter,
-                    decoration: const InputDecoration(labelText: 'Статус'),
-                    items: const [
-                      DropdownMenuItem(value: 'all', child: Text('Все')),
-                      DropdownMenuItem(value: 'available', child: Text('Есть')),
-                      DropdownMenuItem(
-                        value: 'unavailable',
-                        child: Text('Нет'),
-                      ),
-                    ],
-                    onChanged: (value) =>
-                        setState(() => _availabilityFilter = value!),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Text(
-              'Разделы в этом филиале',
-              style: GoogleFonts.playfairDisplay(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            ...data.categories.map((category) {
-              final setting = data.categoryAvailability.firstWhere(
-                (row) =>
-                    row['branch_id'] == selectedBranchId &&
-                    row['category_id'] == category['category_id'],
-              );
-              final enabled = setting['is_available'] as bool;
-              return SwitchListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(category['name'] as String),
-                subtitle: Text(
-                  enabled
-                      ? 'Раздел открыт в этом филиале'
-                      : 'Раздел закрыт в этом филиале',
-                ),
-                value: enabled,
-                onChanged: (value) async {
-                  await Supabase.instance.client
-                      .from('branch_menu_categories')
-                      .update({'is_available': value})
-                      .eq('branch_id', selectedBranchId)
-                      .eq('category_id', category['category_id']);
-                  if (mounted)
-                    setState(() {
-                      _data = _load();
-                    });
-                },
-                activeThumbColor: AppTheme.primary,
-              );
-            }),
-            const Divider(),
-            ...branchLines.map(
-              (line) => Card(
-                child: ListTile(
-                  title: Text(
-                    line.itemName,
-                    style: GoogleFonts.inter(fontWeight: FontWeight.w700),
-                  ),
-                  subtitle: Text(
-                    '${line.variantName} · ${line.isAvailable ? 'Доступно' : 'Скрыто'}',
-                  ),
-                  trailing: Text(
-                    '${(line.priceKopeks / 100).toStringAsFixed(0)} ₽',
-                    style: GoogleFonts.inter(
-                      fontWeight: FontWeight.w700,
-                      color: AppTheme.primary,
+                      items: [
+                        DropdownMenuItem(
+                          value: 'all',
+                          child: Text(
+                            locale.text(
+                              ru: 'Все разделы',
+                              en: 'All categories',
+                              ar: 'كل الأقسام',
+                            ),
+                          ),
+                        ),
+                        ...data.categories.map(
+                          (category) => DropdownMenuItem(
+                            value: category['category_id'] as String,
+                            child: Text(category['name'] as String),
+                          ),
+                        ),
+                      ],
+                      onChanged: (value) =>
+                          setState(() => _categoryFilter = value!),
                     ),
                   ),
-                  onTap: () => _editLine(context, data.branches, line),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: DropdownButtonFormField<String>(
+                      initialValue: _availabilityFilter,
+                      decoration: InputDecoration(
+                        labelText: locale.text(
+                          ru: 'Статус',
+                          en: 'Status',
+                          ar: 'الحالة',
+                        ),
+                      ),
+                      items: [
+                        DropdownMenuItem(
+                          value: 'all',
+                          child: Text(
+                            locale.text(ru: 'Все', en: 'All', ar: 'الكل'),
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: 'available',
+                          child: Text(
+                            locale.text(
+                              ru: 'Есть',
+                              en: 'Available',
+                              ar: 'متاح',
+                            ),
+                          ),
+                        ),
+                        DropdownMenuItem(
+                          value: 'unavailable',
+                          child: Text(
+                            locale.text(
+                              ru: 'Нет',
+                              en: 'Unavailable',
+                              ar: 'غير متاح',
+                            ),
+                          ),
+                        ),
+                      ],
+                      onChanged: (value) =>
+                          setState(() => _availabilityFilter = value!),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Text(
+                locale.text(
+                  ru: 'Разделы в этом филиале',
+                  en: 'Categories in this branch',
+                  ar: 'الأقسام في هذا الفرع',
+                ),
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
-            ),
-          ],
-        );
-      },
-    ),
-  );
+              ...data.categories.map((category) {
+                final setting = data.categoryAvailability.firstWhere(
+                  (row) =>
+                      row['branch_id'] == selectedBranchId &&
+                      row['category_id'] == category['category_id'],
+                );
+                final enabled = setting['is_available'] as bool;
+                return SwitchListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(category['name'] as String),
+                  subtitle: Text(
+                    enabled
+                        ? locale.text(
+                            ru: 'Раздел открыт в этом филиале',
+                            en: 'Category open in this branch',
+                            ar: 'القسم مفتوح في هذا الفرع',
+                          )
+                        : locale.text(
+                            ru: 'Раздел закрыт в этом филиале',
+                            en: 'Category closed in this branch',
+                            ar: 'القسم مغلق في هذا الفرع',
+                          ),
+                  ),
+                  value: enabled,
+                  onChanged: (value) async {
+                    await Supabase.instance.client
+                        .from('branch_menu_categories')
+                        .update({'is_available': value})
+                        .eq('branch_id', selectedBranchId)
+                        .eq('category_id', category['category_id']);
+                    if (mounted)
+                      setState(() {
+                        _data = _load();
+                      });
+                  },
+                  activeThumbColor: AppTheme.primary,
+                );
+              }),
+              const Divider(),
+              ...branchLines.map(
+                (line) => Card(
+                  child: ListTile(
+                    title: Text(
+                      line.itemName,
+                      style: GoogleFonts.inter(fontWeight: FontWeight.w700),
+                    ),
+                    subtitle: Text(
+                      '${line.variantName} · ${line.isAvailable ? locale.text(ru: 'Доступно', en: 'Available', ar: 'متاح') : locale.text(ru: 'Скрыто', en: 'Hidden', ar: 'مخفي')}',
+                    ),
+                    trailing: Text(
+                      '${(line.priceKopeks / 100).toStringAsFixed(0)} ₽',
+                      style: GoogleFonts.inter(
+                        fontWeight: FontWeight.w700,
+                        color: AppTheme.primary,
+                      ),
+                    ),
+                    onTap: () => _editLine(context, data.branches, line),
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
   Future<void> _editLine(
     BuildContext context,
     List<Map<String, dynamic>> branches,
@@ -656,61 +727,85 @@ class _OwnerModifiersScreenState extends State<OwnerModifiersScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => _OwnerScaffold(
-    title: 'Добавки и удаления',
-    actions: [
-      IconButton(
-        onPressed: () => _addGroup(context),
-        icon: const Icon(Icons.add),
+  Widget build(BuildContext context) {
+    final locale = context.watch<AppLocale>();
+    return _OwnerScaffold(
+      title: locale.text(
+        ru: 'Добавки и удаления',
+        en: 'Add-ons and removals',
+        ar: 'الإضافات والحذف',
       ),
-    ],
-    body: FutureBuilder<_ModifierData>(
-      future: _data,
-      builder: (context, snapshot) {
-        if (!snapshot.hasData)
-          return const Center(
-            child: CircularProgressIndicator(color: AppTheme.primary),
-          );
-        final data = snapshot.data!;
-        return ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            Text(
-              'Создайте опцию сразу: название и цена появятся у клиентов.',
-              style: GoogleFonts.inter(color: AppTheme.secondary),
-            ),
-            const SizedBox(height: 12),
-            ...data.groups.map(
-              (group) => Card(
-                child: ListTile(
-                  title: Text(data.names[group['id']] ?? group['code']),
-                  subtitle: Text(
-                    'Для: ${data.targetName(group)} · до ${group['maximum_selections']} вариантов',
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        tooltip: 'Добавить ещё вариант',
-                        icon: const Icon(Icons.add_circle_outline),
-                        onPressed: () => _addOption(context, group),
+      actions: [
+        IconButton(
+          onPressed: () => _addGroup(context),
+          icon: const Icon(Icons.add),
+        ),
+      ],
+      body: FutureBuilder<_ModifierData>(
+        future: _data,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData)
+            return const Center(
+              child: CircularProgressIndicator(color: AppTheme.primary),
+            );
+          final data = snapshot.data!;
+          return ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              Text(
+                locale.text(
+                  ru: 'Создайте опцию сразу: название и цена появятся у клиентов.',
+                  en: 'Create an option: its name and price will appear for customers.',
+                  ar: 'أنشئ خياراً: سيظهر اسمه وسعره للعملاء.',
+                ),
+                style: GoogleFonts.inter(color: AppTheme.secondary),
+              ),
+              const SizedBox(height: 12),
+              ...data.groups.map(
+                (group) => Card(
+                  child: ListTile(
+                    title: Text(data.names[group['id']] ?? group['code']),
+                    subtitle: Text(
+                      locale.text(
+                        ru: 'Для: ${data.targetName(group)} · до ${group['maximum_selections']} вариантов',
+                        en: 'For: ${data.targetName(group)} · up to ${group['maximum_selections']} options',
+                        ar: 'لـ: ${data.targetName(group)} · حتى ${group['maximum_selections']} خيارات',
                       ),
-                      IconButton(
-                        tooltip: 'Удалить группу',
-                        icon: const Icon(Icons.delete_outline),
-                        color: AppTheme.primary,
-                        onPressed: () => _deleteGroup(context, group),
-                      ),
-                    ],
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          tooltip: locale.text(
+                            ru: 'Добавить ещё вариант',
+                            en: 'Add another option',
+                            ar: 'إضافة خيار آخر',
+                          ),
+                          icon: const Icon(Icons.add_circle_outline),
+                          onPressed: () => _addOption(context, group),
+                        ),
+                        IconButton(
+                          tooltip: locale.text(
+                            ru: 'Удалить группу',
+                            en: 'Delete group',
+                            ar: 'حذف المجموعة',
+                          ),
+                          icon: const Icon(Icons.delete_outline),
+                          color: AppTheme.primary,
+                          onPressed: () => _deleteGroup(context, group),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
-        );
-      },
-    ),
-  );
+            ],
+          );
+        },
+      ),
+    );
+  }
+
   Future<void> _addGroup(BuildContext context) async {
     final data = await _data;
     var scope = 'item';
@@ -979,59 +1074,71 @@ class _OwnerBranchesScreenState extends State<OwnerBranchesScreen> {
             .order('name'),
       );
   @override
-  Widget build(BuildContext context) => _OwnerScaffold(
-    title: 'Филиалы и менеджеры',
-    actions: [
-      IconButton(
-        onPressed: () => _assignManager(context),
-        icon: const Icon(Icons.person_add_alt_1),
+  Widget build(BuildContext context) {
+    final locale = context.watch<AppLocale>();
+    return _OwnerScaffold(
+      title: locale.text(
+        ru: 'Филиалы и менеджеры',
+        en: 'Branches and managers',
+        ar: 'الفروع والمديرون',
       ),
-    ],
-    body: FutureBuilder<List<Map<String, dynamic>>>(
-      future: _branches,
-      builder: (context, snapshot) {
-        if (!snapshot.hasData)
-          return const Center(
-            child: CircularProgressIndicator(color: AppTheme.primary),
-          );
-        return ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            Text(
-              'Нажмите на филиал, чтобы изменить его данные. Кнопка сверху назначает менеджера по email.',
-              style: GoogleFonts.inter(color: AppTheme.secondary),
-            ),
-            const SizedBox(height: 12),
-            ...snapshot.data!.map(
-              (branch) => Card(
-                child: ListTile(
-                  title: Text(
-                    branch['name'],
-                    style: GoogleFonts.inter(fontWeight: FontWeight.w700),
+      actions: [
+        IconButton(
+          onPressed: () => _assignManager(context),
+          icon: const Icon(Icons.person_add_alt_1),
+        ),
+      ],
+      body: FutureBuilder<List<Map<String, dynamic>>>(
+        future: _branches,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData)
+            return const Center(
+              child: CircularProgressIndicator(color: AppTheme.primary),
+            );
+          return ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              Text(
+                locale.text(
+                  ru: 'Нажмите на филиал, чтобы изменить его данные. Кнопка сверху назначает менеджера по email.',
+                  en: 'Tap a branch to edit it. The button above assigns a manager by email.',
+                  ar: 'اضغط على الفرع لتعديله. الزر أعلاه يعيّن مديراً عبر البريد الإلكتروني.',
+                ),
+                style: GoogleFonts.inter(color: AppTheme.secondary),
+              ),
+              const SizedBox(height: 12),
+              ...snapshot.data!.map(
+                (branch) => Card(
+                  child: ListTile(
+                    title: Text(
+                      branch['name'],
+                      style: GoogleFonts.inter(fontWeight: FontWeight.w700),
+                    ),
+                    subtitle: Text(branch['address']),
+                    trailing: Switch(
+                      value: branch['is_active'] as bool,
+                      onChanged: (active) async {
+                        await Supabase.instance.client
+                            .from('branches')
+                            .update({'is_active': active})
+                            .eq('id', branch['id']);
+                        setState(() {
+                          _branches = _load();
+                        });
+                      },
+                      activeColor: AppTheme.primary,
+                    ),
+                    onTap: () => _editBranch(context, branch),
                   ),
-                  subtitle: Text(branch['address']),
-                  trailing: Switch(
-                    value: branch['is_active'] as bool,
-                    onChanged: (active) async {
-                      await Supabase.instance.client
-                          .from('branches')
-                          .update({'is_active': active})
-                          .eq('id', branch['id']);
-                      setState(() {
-                        _branches = _load();
-                      });
-                    },
-                    activeColor: AppTheme.primary,
-                  ),
-                  onTap: () => _editBranch(context, branch),
                 ),
               ),
-            ),
-          ],
-        );
-      },
-    ),
-  );
+            ],
+          );
+        },
+      ),
+    );
+  }
+
   Future<void> _editBranch(
     BuildContext context,
     Map<String, dynamic> branch,

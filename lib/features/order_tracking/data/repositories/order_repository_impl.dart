@@ -1,4 +1,5 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:spicy/core/locale/app_locale.dart';
 import 'package:spicy/features/cart/domain/entities/cart_item.dart';
 import 'package:spicy/features/order_tracking/data/datasources/supabase_order_data_source.dart';
 import 'package:spicy/features/order_tracking/domain/entities/order.dart';
@@ -7,8 +8,10 @@ import 'package:spicy/features/order_tracking/domain/repositories/order_reposito
 class OrderRepositoryImpl implements OrderRepository {
   final SupabaseOrderDataSource _dataSource;
 
-  OrderRepositoryImpl({required SupabaseClient? client})
-    : _dataSource = SupabaseOrderDataSource(client: client);
+  OrderRepositoryImpl({
+    required SupabaseClient? client,
+    required AppLocale locale,
+  }) : _dataSource = SupabaseOrderDataSource(client: client, locale: locale);
 
   @override
   Future<List<Order>> getOrders() async {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:spicy/core/locale/app_locale.dart';
 import 'package:spicy/core/theme/app_theme.dart';
 
 class ManagerMenuAvailabilityScreen extends StatefulWidget {
@@ -24,7 +26,7 @@ class _ManagerMenuAvailabilityScreenState
         .eq('id', db.auth.currentUser!.id)
         .single();
     final branchId = profile['assigned_branch_id'] as String?;
-    if (branchId == null) throw StateError('Филиал не назначен.');
+    if (branchId == null) throw StateError('manager_branch_not_assigned');
 
     final categories = List<Map<String, dynamic>>.from(
       await db
@@ -94,123 +96,177 @@ class _ManagerMenuAvailabilityScreenState
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: Text(
-        'Наличие меню',
-        style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.w700),
+  Widget build(BuildContext context) {
+    final locale = context.watch<AppLocale>();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          locale.text(
+            ru: 'Наличие меню',
+            en: 'Menu availability',
+            ar: 'توفر القائمة',
+          ),
+          style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.w700),
+        ),
       ),
-    ),
-    body: FutureBuilder<_AvailabilityData>(
-      future: _data,
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Center(child: Text(snapshot.error.toString()));
-        }
-        if (!snapshot.hasData) {
-          return const Center(
-            child: CircularProgressIndicator(color: AppTheme.primary),
-          );
-        }
-        final data = snapshot.data!;
-        final lines = data.lines
-            .where((line) {
-              if (_filter == 'available') return line.isAvailable;
-              if (_filter == 'unavailable') return !line.isAvailable;
-              return true;
-            })
-            .toList(growable: false);
-        return ListView(
-          padding: const EdgeInsets.all(20),
-          children: [
-            Text(
-              'Изменения действуют только для вашего филиала.',
-              style: GoogleFonts.inter(color: AppTheme.secondary),
-            ),
-            const SizedBox(height: 12),
-            DropdownButtonFormField<String>(
-              initialValue: _filter,
-              decoration: const InputDecoration(labelText: 'Показать'),
-              items: const [
-                DropdownMenuItem(value: 'all', child: Text('Все блюда')),
-                DropdownMenuItem(value: 'available', child: Text('Есть')),
-                DropdownMenuItem(value: 'unavailable', child: Text('Нет')),
-              ],
-              onChanged: (value) => setState(() => _filter = value!),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'Разделы',
-              style: GoogleFonts.playfairDisplay(
-                fontSize: 21,
-                fontWeight: FontWeight.w700,
+      body: FutureBuilder<_AvailabilityData>(
+        future: _data,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            final message =
+                snapshot.error.toString().contains(
+                  'manager_branch_not_assigned',
+                )
+                ? locale.text(
+                    ru: 'Вам ещё не назначили филиал. Обратитесь к владельцу.',
+                    en: 'A branch has not been assigned to you yet. Contact the owner.',
+                    ar: 'لم يتم تعيين فرع لك بعد. تواصل مع المالك.',
+                  )
+                : snapshot.error.toString();
+            return Center(child: Text(message, textAlign: TextAlign.center));
+          }
+          if (!snapshot.hasData) {
+            return const Center(
+              child: CircularProgressIndicator(color: AppTheme.primary),
+            );
+          }
+          final data = snapshot.data!;
+          final lines = data.lines
+              .where((line) {
+                if (_filter == 'available') return line.isAvailable;
+                if (_filter == 'unavailable') return !line.isAvailable;
+                return true;
+              })
+              .toList(growable: false);
+          return ListView(
+            padding: const EdgeInsets.all(20),
+            children: [
+              Text(
+                locale.text(
+                  ru: 'Изменения действуют только для вашего филиала.',
+                  en: 'Changes apply only to your branch.',
+                  ar: 'التغييرات تنطبق على فرعك فقط.',
+                ),
+                style: GoogleFonts.inter(color: AppTheme.secondary),
               ),
-            ),
-            const SizedBox(height: 6),
-            ...data.categories.map((category) {
-              final row = data.categoryRows.firstWhere(
-                (row) => row['category_id'] == category['category_id'],
-              );
-              final enabled = row['is_available'] as bool;
-              return SwitchListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(category['name'] as String),
-                subtitle: Text(enabled ? 'Раздел открыт' : 'Раздел закрыт'),
-                value: enabled,
-                activeThumbColor: AppTheme.primary,
-                onChanged: (value) async {
-                  await Supabase.instance.client
-                      .from('branch_menu_categories')
-                      .update({'is_available': value})
-                      .eq('branch_id', data.branchId)
-                      .eq('category_id', category['category_id']);
-                  if (mounted) {
-                    setState(() {
-                      _data = _load();
-                    });
-                  }
-                },
-              );
-            }),
-            const Divider(),
-            const SizedBox(height: 14),
-            Text(
-              'Блюда',
-              style: GoogleFonts.playfairDisplay(
-                fontSize: 21,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(height: 6),
-            ...lines.map(
-              (line) => Card(
-                child: SwitchListTile(
-                  title: Text(line.itemName),
-                  subtitle: Text(
-                    '${line.variantName} · ${line.isAvailable ? 'Есть' : 'Нет'}',
+              const SizedBox(height: 12),
+              DropdownButtonFormField<String>(
+                initialValue: _filter,
+                decoration: InputDecoration(
+                  labelText: locale.text(ru: 'Показать', en: 'Show', ar: 'عرض'),
+                ),
+                items: [
+                  DropdownMenuItem(
+                    value: 'all',
+                    child: Text(
+                      locale.text(
+                        ru: 'Все блюда',
+                        en: 'All items',
+                        ar: 'كل الأصناف',
+                      ),
+                    ),
                   ),
-                  value: line.isAvailable,
+                  DropdownMenuItem(
+                    value: 'available',
+                    child: Text(
+                      locale.text(ru: 'Есть', en: 'Available', ar: 'متاح'),
+                    ),
+                  ),
+                  DropdownMenuItem(
+                    value: 'unavailable',
+                    child: Text(
+                      locale.text(ru: 'Нет', en: 'Unavailable', ar: 'غير متاح'),
+                    ),
+                  ),
+                ],
+                onChanged: (value) => setState(() => _filter = value!),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                locale.text(ru: 'Разделы', en: 'Categories', ar: 'الأقسام'),
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: 21,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: 6),
+              ...data.categories.map((category) {
+                final row = data.categoryRows.firstWhere(
+                  (row) => row['category_id'] == category['category_id'],
+                );
+                final enabled = row['is_available'] as bool;
+                return SwitchListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(category['name'] as String),
+                  subtitle: Text(
+                    enabled
+                        ? locale.text(
+                            ru: 'Раздел открыт',
+                            en: 'Category open',
+                            ar: 'القسم مفتوح',
+                          )
+                        : locale.text(
+                            ru: 'Раздел закрыт',
+                            en: 'Category closed',
+                            ar: 'القسم مغلق',
+                          ),
+                  ),
+                  value: enabled,
                   activeThumbColor: AppTheme.primary,
                   onChanged: (value) async {
                     await Supabase.instance.client
-                        .from('branch_menu_item_variants')
+                        .from('branch_menu_categories')
                         .update({'is_available': value})
                         .eq('branch_id', data.branchId)
-                        .eq('menu_item_variant_id', line.variantId);
+                        .eq('category_id', category['category_id']);
                     if (mounted) {
                       setState(() {
                         _data = _load();
                       });
                     }
                   },
+                );
+              }),
+              const Divider(),
+              const SizedBox(height: 14),
+              Text(
+                locale.text(ru: 'Блюда', en: 'Items', ar: 'الأصناف'),
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: 21,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
-            ),
-          ],
-        );
-      },
-    ),
-  );
+              const SizedBox(height: 6),
+              ...lines.map(
+                (line) => Card(
+                  child: SwitchListTile(
+                    title: Text(line.itemName),
+                    subtitle: Text(
+                      '${line.variantName} · ${line.isAvailable ? locale.text(ru: 'Есть', en: 'Available', ar: 'متاح') : locale.text(ru: 'Нет', en: 'Unavailable', ar: 'غير متاح')}',
+                    ),
+                    value: line.isAvailable,
+                    activeThumbColor: AppTheme.primary,
+                    onChanged: (value) async {
+                      await Supabase.instance.client
+                          .from('branch_menu_item_variants')
+                          .update({'is_available': value})
+                          .eq('branch_id', data.branchId)
+                          .eq('menu_item_variant_id', line.variantId);
+                      if (mounted) {
+                        setState(() {
+                          _data = _load();
+                        });
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
 }
 
 class _AvailabilityData {
