@@ -30,13 +30,15 @@ class OrderTrackingScreen extends StatefulWidget {
 class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
   late final RealtimeChannel _orderChannel;
   late final AppLocale _locale;
+  late final OrderTrackingCubit _orderTrackingCubit;
 
   @override
   void initState() {
     super.initState();
     _locale = context.read<AppLocale>();
+    _orderTrackingCubit = context.read<OrderTrackingCubit>();
     _locale.addListener(_reloadForLanguageChange);
-    context.read<OrderTrackingCubit>().loadOrderDetail(widget.orderId);
+    _orderTrackingCubit.loadOrderDetail(widget.orderId);
     _orderChannel = Supabase.instance.client
         .channel('customer-order-${widget.orderId}')
         .onPostgresChanges(
@@ -50,9 +52,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
           ),
           callback: (_) {
             if (mounted) {
-              context.read<OrderTrackingCubit>().refreshOrderDetail(
-                widget.orderId,
-              );
+              _orderTrackingCubit.refreshOrderDetail(widget.orderId);
             }
           },
         )
@@ -68,7 +68,7 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
 
   void _reloadForLanguageChange() {
     if (mounted) {
-      context.read<OrderTrackingCubit>().refreshOrderDetail(widget.orderId);
+      _orderTrackingCubit.refreshOrderDetail(widget.orderId);
     }
   }
 

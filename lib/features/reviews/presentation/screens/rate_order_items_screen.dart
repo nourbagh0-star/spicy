@@ -24,7 +24,9 @@ class _RateOrderItemsScreenState extends State<RateOrderItemsScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _loadItems());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _loadItems();
+    });
   }
 
   void _loadItems() {
@@ -40,6 +42,7 @@ class _RateOrderItemsScreenState extends State<RateOrderItemsScreen> {
     return BlocListener<ReviewsCubit, ReviewsState>(
       listener: (context, state) {
         if (state is ItemRatingsSubmitted) {
+          if (!context.mounted) return;
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text(locale.itemRatingsSubmitted)));
