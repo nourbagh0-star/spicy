@@ -36,4 +36,33 @@ class ReviewsCubit extends Cubit<ReviewsState> {
       emit(ReviewsError(e.toString()));
     }
   }
+
+  Future<void> loadReviewableOrderItems({
+    required String orderId,
+    required String languageCode,
+  }) async {
+    emit(ItemRatingsLoading());
+    try {
+      final items = await _repository.getReviewableOrderItems(
+        orderId,
+        languageCode,
+      );
+      emit(ItemRatingsLoaded(items));
+    } catch (e) {
+      emit(ReviewsError(e.toString()));
+    }
+  }
+
+  Future<void> submitItemRatings({
+    required String orderId,
+    required Map<String, int> ratings,
+  }) async {
+    emit(ItemRatingsSubmitting());
+    try {
+      await _repository.submitItemRatings(orderId: orderId, ratings: ratings);
+      emit(ItemRatingsSubmitted());
+    } catch (e) {
+      emit(ReviewsError(e.toString()));
+    }
+  }
 }

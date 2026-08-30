@@ -46,7 +46,7 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
         }
       },
       child: Scaffold(
-        appBar: AppBar(title: Text(locale.leaveReview)),
+        appBar: AppBar(title: Text(locale.reviewBranch)),
         body: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(

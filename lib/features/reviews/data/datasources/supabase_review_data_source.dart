@@ -1,4 +1,5 @@
 import 'package:spicy/features/reviews/domain/entities/review.dart';
+import 'package:spicy/features/reviews/domain/entities/reviewable_order_item.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabaseReviewDataSource {
@@ -36,6 +37,46 @@ class SupabaseReviewDataSource {
         .select('id, order_id, branch_id, rating, comment, created_at')
         .single();
     return _toReview(row);
+  }
+
+  Future<List<ReviewableOrderItem>> getReviewableOrderItems(
+    String orderId,
+    String languageCode,
+  ) async {
+    final rows =
+        await _client.rpc(
+              'get_order_item_rating_choices',
+              params: {'p_order_id': orderId, 'p_language_code': languageCode},
+            )
+            as List<dynamic>;
+    return rows
+        .map((row) {
+          final data = row as Map<String, dynamic>;
+          return ReviewableOrderItem(
+            orderItemId: data['order_item_id'] as String,
+            name: data['item_name'] as String,
+            variantName: data['variant_name'] as String? ?? '',
+            imageUrl: data['image_url'] as String? ?? '',
+            quantity: data['quantity'] as int,
+            alreadyRated: data['already_rated'] as bool,
+          );
+        })
+        .toList(growable: false);
+  }
+
+  Future<void> submitItemRatings({
+    required String orderId,
+    required Map<String, int> ratings,
+  }) {
+    return _client.rpc(
+      'submit_order_item_ratings',
+      params: {
+        'p_order_id': orderId,
+        'p_ratings': ratings.entries
+            .map((entry) => {'order_item_id': entry.key, 'rating': entry.value})
+            .toList(growable: false),
+      },
+    );
   }
 
   Review _toReview(Map<String, dynamic> row) => Review(

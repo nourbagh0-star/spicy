@@ -3,6 +3,7 @@ import 'package:spicy/core/locale/app_locale.dart';
 import 'package:spicy/features/menu/domain/entities/menu_item.dart';
 import 'package:spicy/features/menu/domain/entities/menu_item_variant.dart';
 import 'package:spicy/features/menu/domain/entities/menu_item_modifier.dart';
+import 'package:spicy/features/menu/domain/entities/branch_rating_summary.dart';
 
 class SupabaseMenuDataSource {
   final SupabaseClient? client;
@@ -25,6 +26,10 @@ class SupabaseMenuDataSource {
           'p_branch_id': branchId,
           'p_language_code': locale.languageCode,
         },
+      ),
+      _requireClient().rpc(
+        'get_branch_menu_item_ratings',
+        params: {'p_branch_id': branchId},
       ),
     ]);
     final rows = results[0] as List<dynamic>;
@@ -56,6 +61,15 @@ class SupabaseMenuDataSource {
       modifiersByItem[itemId] = groups;
     }
 
+    final ratingsByItem = <String, ({double average, int count})>{};
+    for (final row in results[2] as List<dynamic>) {
+      final data = row as Map<String, dynamic>;
+      ratingsByItem[data['menu_item_id'] as String] = (
+        average: (data['average_rating'] as num).toDouble(),
+        count: (data['rating_count'] as num).toInt(),
+      );
+    }
+
     final byId = <String, _MenuItemBuilder>{};
     for (final row in rows) {
       final data = row as Map<String, dynamic>;
@@ -66,9 +80,27 @@ class SupabaseMenuDataSource {
 
     return byId.values
         .map(
-          (builder) => builder.build(modifiersByItem[builder.id] ?? const []),
+          (builder) => builder.build(
+            modifiersByItem[builder.id] ?? const [],
+            ratingsByItem[builder.id],
+          ),
         )
         .toList(growable: false);
+  }
+
+  Future<BranchRatingSummary> getBranchRatingSummary(String branchId) async {
+    final rows =
+        await _requireClient().rpc(
+              'get_branch_rating_summary',
+              params: {'p_branch_id': branchId},
+            )
+            as List<dynamic>;
+    if (rows.isEmpty) return const BranchRatingSummary();
+    final data = rows.first as Map<String, dynamic>;
+    return BranchRatingSummary(
+      averageRating: (data['average_rating'] as num).toDouble(),
+      reviewCount: (data['review_count'] as num).toInt(),
+    );
   }
 
   SupabaseClient _requireClient() {
@@ -101,7 +133,10 @@ class _MenuItemBuilder {
     );
   }
 
-  MenuItem build(List<MenuItemModifierGroup> modifierGroups) {
+  MenuItem build(
+    List<MenuItemModifierGroup> modifierGroups,
+    ({double average, int count})? rating,
+  ) {
     return MenuItem(
       id: _item['menu_item_id'] as String,
       name: _item['item_name'] as String,
@@ -114,6 +149,8 @@ class _MenuItemBuilder {
       category: _item['category_name'] as String,
       sandwichType: _item['sandwich_type'] as String?,
       modifierGroups: modifierGroups,
+      rating: rating?.average ?? 0,
+      reviewCount: rating?.count ?? 0,
     );
   }
 }

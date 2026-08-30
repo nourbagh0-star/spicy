@@ -14,6 +14,7 @@ import 'package:spicy/features/order_tracking/presentation/screens/order_trackin
 import 'package:spicy/features/order_tracking/presentation/screens/orders_screen.dart';
 import 'package:spicy/features/reviews/presentation/screens/reviews_screen.dart';
 import 'package:spicy/features/reviews/presentation/screens/leave_review_screen.dart';
+import 'package:spicy/features/reviews/presentation/screens/rate_order_items_screen.dart';
 import 'package:spicy/features/profile/presentation/screens/profile_screen.dart';
 import 'package:spicy/features/owner/presentation/screens/owner_dashboard_screen.dart';
 import 'package:spicy/features/owner/presentation/screens/owner_management_screens.dart';
@@ -157,6 +158,12 @@ GoRouter createAppRouter(AuthCubit authCubit) {
         builder: (context, state) => LeaveReviewScreen(
           orderId: state.uri.queryParameters['orderId'] ?? '',
           branchId: state.uri.queryParameters['branchId'] ?? '',
+        ),
+      ),
+      GoRoute(
+        path: '/review/items',
+        builder: (context, state) => RateOrderItemsScreen(
+          orderId: state.uri.queryParameters['orderId'] ?? '',
         ),
       ),
     ],

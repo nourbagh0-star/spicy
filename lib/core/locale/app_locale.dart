@@ -149,6 +149,38 @@ class AppLocale extends ChangeNotifier {
       _translated('Отзывов пока нет', 'No reviews yet', 'لا توجد تقييمات بعد');
   String get leaveReview =>
       _translated('Оставить отзыв', 'Leave a Review', 'إضافة تقييم');
+  String get reviewBranch =>
+      _translated('Оценить филиал', 'Review branch', 'قيّم الفرع');
+  String get rateItems =>
+      _translated('Оценить блюда', 'Rate items', 'قيّم الأصناف');
+  String get rateItemsTitle =>
+      _translated('Оцените блюда', 'Rate your items', 'قيّم أصنافك');
+  String get rateItemsSubtitle => _translated(
+    'Вы можете оценить каждое блюдо из этого заказа.',
+    'You can rate each item from this order.',
+    'يمكنك تقييم كل صنف من هذا الطلب.',
+  );
+  String get itemRatingsSubmitted => _translated(
+    'Спасибо за оценки блюд!',
+    'Thank you for rating the items!',
+    'شكراً لتقييم الأصناف!',
+  );
+  String get noItemsToRate => _translated(
+    'Все блюда из этого заказа уже оценены.',
+    'All items from this order have already been rated.',
+    'تم تقييم كل أصناف هذا الطلب بالفعل.',
+  );
+  String get selectAtLeastOneItemRating => _translated(
+    'Выберите оценку хотя бы для одного блюда.',
+    'Choose a rating for at least one item.',
+    'اختر تقييماً لصنف واحد على الأقل.',
+  );
+  String get branchRating =>
+      _translated('Оценка филиала', 'Branch rating', 'تقييم الفرع');
+  String ratingsCount(int count) =>
+      _translated('$count оценок', '$count ratings', '$count تقييمات');
+  String get noRatingsYet =>
+      _translated('Пока нет оценок', 'No ratings yet', 'لا توجد تقييمات بعد');
   String get submitReview =>
       _translated('Отправить отзыв', 'Submit Review', 'إرسال التقييم');
   String get whatDidYouOrder =>

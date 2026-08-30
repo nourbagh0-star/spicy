@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:spicy/features/menu/domain/entities/menu_item.dart';
+import 'package:spicy/features/menu/domain/entities/branch_rating_summary.dart';
 import 'package:spicy/features/menu/domain/repositories/menu_repository.dart';
 import 'package:spicy/features/menu/presentation/cubit/menu_cubit.dart';
 import 'package:spicy/features/menu/presentation/cubit/menu_state.dart';
@@ -117,4 +118,8 @@ class _FakeMenuRepository implements MenuRepository {
 
   @override
   Future<List<MenuItem>> getMenuItems(String branchId) async => items;
+
+  @override
+  Future<BranchRatingSummary> getBranchRatingSummary(String branchId) async =>
+      const BranchRatingSummary();
 }

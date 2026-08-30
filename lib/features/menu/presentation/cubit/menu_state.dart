@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:spicy/features/menu/domain/entities/menu_item.dart';
+import 'package:spicy/features/menu/domain/entities/branch_rating_summary.dart';
 
 abstract class MenuState extends Equatable {
   const MenuState();
@@ -18,6 +19,7 @@ class MenuLoaded extends MenuState {
   final String selectedCategory;
   final List<String> sandwichTypes;
   final String? selectedSandwichType;
+  final BranchRatingSummary branchRating;
 
   const MenuLoaded({
     required this.items,
@@ -25,6 +27,7 @@ class MenuLoaded extends MenuState {
     this.selectedCategory = 'All',
     this.sandwichTypes = const [],
     this.selectedSandwichType,
+    this.branchRating = const BranchRatingSummary(),
   });
 
   @override
@@ -34,6 +37,7 @@ class MenuLoaded extends MenuState {
     selectedCategory,
     sandwichTypes,
     selectedSandwichType,
+    branchRating,
   ];
 }
 

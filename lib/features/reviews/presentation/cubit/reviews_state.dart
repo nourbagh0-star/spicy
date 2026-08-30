@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:spicy/features/reviews/domain/entities/review.dart';
+import 'package:spicy/features/reviews/domain/entities/reviewable_order_item.dart';
 
 abstract class ReviewsState extends Equatable {
   const ReviewsState();
@@ -31,6 +32,21 @@ class ReviewSubmitted extends ReviewsState {
   @override
   List<Object?> get props => [review];
 }
+
+class ItemRatingsLoading extends ReviewsState {}
+
+class ItemRatingsLoaded extends ReviewsState {
+  final List<ReviewableOrderItem> items;
+
+  const ItemRatingsLoaded(this.items);
+
+  @override
+  List<Object?> get props => [items];
+}
+
+class ItemRatingsSubmitting extends ReviewsState {}
+
+class ItemRatingsSubmitted extends ReviewsState {}
 
 class ReviewsError extends ReviewsState {
   final String message;

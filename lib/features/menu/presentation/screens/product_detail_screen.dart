@@ -114,20 +114,30 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   // Rating & prep time row
                   Row(
                     children: [
-                      const Icon(
-                        Icons.star_rounded,
-                        size: 18,
-                        color: Color(0xFFF9A825),
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        '${item.rating} (${item.reviewCount})',
-                        style: GoogleFonts.inter(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: AppTheme.onBackground,
+                      if (item.reviewCount > 0) ...[
+                        const Icon(
+                          Icons.star_rounded,
+                          size: 18,
+                          color: Color(0xFFF9A825),
                         ),
-                      ),
+                        const SizedBox(width: 4),
+                        Text(
+                          '${item.rating.toStringAsFixed(1)} (${item.reviewCount})',
+                          style: GoogleFonts.inter(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: AppTheme.onBackground,
+                          ),
+                        ),
+                      ] else
+                        Text(
+                          locale.noRatingsYet,
+                          style: GoogleFonts.inter(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: AppTheme.secondary,
+                          ),
+                        ),
                       const SizedBox(width: 24),
                       Icon(
                         Icons.schedule_rounded,

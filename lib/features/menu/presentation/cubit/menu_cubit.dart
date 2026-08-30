@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spicy/features/menu/domain/entities/menu_item.dart';
+import 'package:spicy/features/menu/domain/entities/branch_rating_summary.dart';
 import 'package:spicy/features/menu/domain/repositories/menu_repository.dart';
 import 'package:spicy/features/menu/presentation/cubit/menu_state.dart';
 
@@ -15,13 +16,25 @@ class MenuCubit extends Cubit<MenuState> {
   MenuCubit({required this._repository}) : super(MenuInitial());
 
   List<MenuItem> _allItems = const [];
+  BranchRatingSummary _branchRating = const BranchRatingSummary();
 
   Future<List<MenuItem>> loadMenu(String branchId) async {
     emit(MenuLoading());
     try {
-      _allItems = await _repository.getMenuItems(branchId);
+      final results = await Future.wait([
+        _repository.getMenuItems(branchId),
+        _repository.getBranchRatingSummary(branchId),
+      ]);
+      _allItems = results[0] as List<MenuItem>;
+      _branchRating = results[1] as BranchRatingSummary;
       final categories = _categoriesFrom(_allItems);
-      emit(MenuLoaded(items: _allItems, categories: categories));
+      emit(
+        MenuLoaded(
+          items: _allItems,
+          categories: categories,
+          branchRating: _branchRating,
+        ),
+      );
       return _allItems;
     } catch (e) {
       emit(MenuError(e.toString()));
@@ -52,6 +65,7 @@ class MenuCubit extends Cubit<MenuState> {
           selectedCategory: category,
           sandwichTypes: hasSandwichGroups ? sandwichTypes : const [],
           selectedSandwichType: selectedType,
+          branchRating: currentState.branchRating,
         ),
       );
     }
@@ -76,6 +90,7 @@ class MenuCubit extends Cubit<MenuState> {
         selectedCategory: currentState.selectedCategory,
         sandwichTypes: currentState.sandwichTypes,
         selectedSandwichType: sandwichType,
+        branchRating: currentState.branchRating,
       ),
     );
   }

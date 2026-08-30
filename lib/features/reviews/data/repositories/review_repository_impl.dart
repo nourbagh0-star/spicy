@@ -1,5 +1,6 @@
 import 'package:spicy/features/reviews/data/datasources/supabase_review_data_source.dart';
 import 'package:spicy/features/reviews/domain/entities/review.dart';
+import 'package:spicy/features/reviews/domain/entities/reviewable_order_item.dart';
 import 'package:spicy/features/reviews/domain/repositories/review_repository.dart';
 
 class ReviewRepositoryImpl implements ReviewRepository {
@@ -25,5 +26,21 @@ class ReviewRepositoryImpl implements ReviewRepository {
       rating: rating,
       comment: comment,
     );
+  }
+
+  @override
+  Future<List<ReviewableOrderItem>> getReviewableOrderItems(
+    String orderId,
+    String languageCode,
+  ) {
+    return _dataSource.getReviewableOrderItems(orderId, languageCode);
+  }
+
+  @override
+  Future<void> submitItemRatings({
+    required String orderId,
+    required Map<String, int> ratings,
+  }) {
+    return _dataSource.submitItemRatings(orderId: orderId, ratings: ratings);
   }
 }

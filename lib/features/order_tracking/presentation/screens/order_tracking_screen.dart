@@ -186,7 +186,21 @@ class _OrderDetails extends StatelessWidget {
                   '/review/new?orderId=${order.id}&branchId=${order.branchId}',
                 ),
                 icon: const Icon(Icons.star_outline_rounded),
-                label: Text(locale.leaveReview),
+                label: Text(locale.reviewBranch),
+              ),
+            ),
+          ),
+        if (order.status == OrderStatus.delivered)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: SizedBox(
+              height: 52,
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: () =>
+                    context.push('/review/items?orderId=${order.id}'),
+                icon: const Icon(Icons.restaurant_menu_outlined),
+                label: Text(locale.rateItems),
               ),
             ),
           ),

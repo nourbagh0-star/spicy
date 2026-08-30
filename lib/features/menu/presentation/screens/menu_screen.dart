@@ -186,6 +186,39 @@ class _MenuScreenState extends State<MenuScreen> {
                               height: 1.5,
                             ),
                           ),
+                          BlocBuilder<MenuCubit, MenuState>(
+                            builder: (context, menuState) {
+                              if (menuState is! MenuLoaded ||
+                                  !menuState.branchRating.hasRatings) {
+                                return const SizedBox.shrink();
+                              }
+                              final rating = menuState.branchRating;
+                              return Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(
+                                      Icons.star_rounded,
+                                      size: 17,
+                                      color: Color(0xFFF9A825),
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      '${locale.branchRating}: '
+                                      '${rating.averageRating.toStringAsFixed(1)} '
+                                      '(${locale.ratingsCount(rating.reviewCount)})',
+                                      style: GoogleFonts.inter(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppTheme.onBackground,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ),

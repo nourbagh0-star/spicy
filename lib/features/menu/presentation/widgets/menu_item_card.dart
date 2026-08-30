@@ -145,6 +145,14 @@ class MenuItemCard extends StatelessWidget {
                                 color: AppTheme.onBackground,
                               ),
                             ),
+                            if (item.reviewCount > 0)
+                              Text(
+                                ' (${item.reviewCount})',
+                                style: GoogleFonts.inter(
+                                  fontSize: 12,
+                                  color: AppTheme.secondary,
+                                ),
+                              ),
                           ],
                         ),
                     ],
