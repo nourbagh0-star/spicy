@@ -22,7 +22,7 @@ class LeaveReviewScreen extends StatefulWidget {
 }
 
 class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
-  int _rating = 5;
+  int _rating = 0;
   final _commentController = TextEditingController();
 
   @override
@@ -82,6 +82,7 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
                 controller: _commentController,
                 maxLength: 1000,
                 maxLines: 6,
+                onChanged: (_) => setState(() {}),
                 decoration: InputDecoration(
                   labelText: locale.yourReview,
                   hintText: locale.tellUs,
@@ -95,7 +96,9 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
                   icon: Icons.send_rounded,
                   isLoading: state is ReviewSubmitting,
                   onPressed:
-                      isValidOrder && _commentController.text.trim().isNotEmpty
+                      isValidOrder &&
+                          _rating > 0 &&
+                          _commentController.text.trim().isNotEmpty
                       ? () => context.read<ReviewsCubit>().submitReview(
                           orderId: widget.orderId,
                           branchId: widget.branchId,
