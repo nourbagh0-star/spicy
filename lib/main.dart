@@ -60,7 +60,7 @@ Future<void> main() async {
   final reviewRepository = ReviewRepositoryImpl(
     dataSource: SupabaseReviewDataSource(client: supabaseClient),
   );
-  final profileRepository = ProfileRepositoryImpl();
+  final profileRepository = ProfileRepositoryImpl(client: supabaseClient);
 
   // Create AuthCubit first (needed for router)
   final authCubit = AuthCubit(repository: authRepository);
