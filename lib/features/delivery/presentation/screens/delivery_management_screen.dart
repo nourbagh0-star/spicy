@@ -75,7 +75,11 @@ class _DeliveryManagementScreenState extends State<DeliveryManagementScreen> {
     );
   }
 
-  void _reload() => setState(() => _data = _load());
+  void _reload() {
+    setState(() {
+      _data = _load();
+    });
+  }
 
   Future<void> _saveSettings(_DeliveryData data) async {
     final locale = context.read<AppLocale>();
