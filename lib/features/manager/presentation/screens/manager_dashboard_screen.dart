@@ -265,7 +265,7 @@ class _ManagerDashboardScreenState extends State<ManagerDashboardScreen> {
                     en: 'Radius, fees, and delivery availability',
                     ar: 'النطاق والرسوم وتوفر التوصيل',
                   ),
-                  onTap: () => context.push('/manager/delivery'),
+                  onTap: () => context.go('/manager/delivery'),
                 ),
                 const SizedBox(height: 28),
                 Text(

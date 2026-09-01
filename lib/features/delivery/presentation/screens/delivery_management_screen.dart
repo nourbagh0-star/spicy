@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:spicy/core/locale/app_locale.dart';
 import 'package:spicy/core/theme/app_theme.dart';
@@ -379,6 +380,10 @@ class _DeliveryManagementScreenState extends State<DeliveryManagementScreen> {
     final locale = context.watch<AppLocale>();
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => context.go(widget.isOwner ? '/owner' : '/manager'),
+        ),
         title: Text(
           locale.text(ru: 'Доставка', en: 'Delivery', ar: 'التوصيل'),
           style: GoogleFonts.playfairDisplay(fontWeight: FontWeight.w700),

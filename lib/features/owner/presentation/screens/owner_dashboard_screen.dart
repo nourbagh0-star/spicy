@@ -335,7 +335,7 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
                     en: 'Radius, fees, and driver lists for every branch',
                     ar: 'النطاق والرسوم وقائمة السائقين لكل فرع',
                   ),
-                  onTap: () => context.push('/owner/delivery'),
+                  onTap: () => context.go('/owner/delivery'),
                 ),
                 const SizedBox(height: 28),
                 Text(
