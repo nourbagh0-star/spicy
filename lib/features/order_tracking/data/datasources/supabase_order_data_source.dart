@@ -5,6 +5,7 @@ import 'package:spicy/features/menu/domain/entities/menu_item.dart';
 import 'package:spicy/features/menu/domain/entities/menu_item_variant.dart';
 import 'package:spicy/features/menu/domain/entities/menu_item_modifier.dart';
 import 'package:spicy/features/order_tracking/domain/entities/order.dart';
+import 'package:spicy/features/order_tracking/domain/entities/delivery_quote.dart';
 
 class SupabaseOrderDataSource {
   final SupabaseClient? client;
@@ -48,6 +49,67 @@ class SupabaseOrderDataSource {
     return getOrderById(orderId as String);
   }
 
+  Future<DeliveryQuote?> getDeliveryQuote({
+    required double latitude,
+    required double longitude,
+    required List<CartItem> items,
+  }) async {
+    final rows =
+        await _requireClient().rpc(
+              'get_delivery_quote',
+              params: {
+                'p_latitude': latitude,
+                'p_longitude': longitude,
+                'p_items': _requestItems(items),
+              },
+            )
+            as List<dynamic>;
+    if (rows.isEmpty) return null;
+    return DeliveryQuote.fromJson(Map<String, dynamic>.from(rows.first as Map));
+  }
+
+  Future<Order> placeDeliveryCashOrder({
+    required List<CartItem> items,
+    required String contactName,
+    required String contactPhone,
+    required String deliveryAddress,
+    required double latitude,
+    required double longitude,
+    required DateTime? deliveryScheduledAt,
+    required String notes,
+  }) async {
+    final orderId = await _requireClient().rpc(
+      'place_delivery_cash_order',
+      params: {
+        'p_items': _requestItems(items),
+        'p_contact_name': contactName.trim(),
+        'p_contact_phone': contactPhone.trim(),
+        'p_delivery_address': deliveryAddress.trim(),
+        'p_delivery_latitude': latitude,
+        'p_delivery_longitude': longitude,
+        'p_delivery_scheduled_at': deliveryScheduledAt
+            ?.toUtc()
+            .toIso8601String(),
+        'p_customer_notes': notes.trim(),
+      },
+    );
+    return getOrderById(orderId as String);
+  }
+
+  List<Map<String, dynamic>> _requestItems(List<CartItem> items) => items
+      .map(
+        (item) => {
+          'menu_item_id': item.menuItem.id,
+          'menu_item_variant_id': item.variant.id,
+          'quantity': item.quantity,
+          'special_instructions': item.specialInstructions,
+          'modifier_option_ids': item.modifiers
+              .map((modifier) => modifier.id)
+              .toList(growable: false),
+        },
+      )
+      .toList(growable: false);
+
   Future<List<Order>> getOrders() async {
     final rows = await _baseQuery().order('created_at', ascending: false);
     return (rows as List<dynamic>)
@@ -65,7 +127,7 @@ class SupabaseOrderDataSource {
         .from('orders')
         .select(
           'id, daily_order_number, fulfillment, status, total_kopeks, created_at, '
-          'pickup_at, delivery_address, branch_id, '
+          'pickup_at, delivery_scheduled_at, delivery_address, delivery_distance_meters, branch_id, '
           'branches(name, address), '
           'order_items(menu_item_id, menu_item_variant_id, item_name, '
           'item_description, image_url, quantity, unit_price_kopeks, variant_name, '
@@ -85,9 +147,18 @@ class SupabaseOrderDataSource {
       totalPrice: (data['total_kopeks'] as int) / 100,
       status: _statusFromDatabase(data['status'] as String),
       createdAt: DateTime.parse(data['created_at'] as String),
-      estimatedDelivery: data['pickup_at'] == null
+      estimatedDelivery:
+          (data['fulfillment'] == 'delivery'
+                  ? data['delivery_scheduled_at']
+                  : data['pickup_at']) ==
+              null
           ? null
-          : DateTime.parse(data['pickup_at'] as String),
+          : DateTime.parse(
+              (data['fulfillment'] == 'delivery'
+                      ? data['delivery_scheduled_at']
+                      : data['pickup_at'])
+                  as String,
+            ),
       deliveryAddress:
           data['delivery_address'] as String? ??
           branch?['address'] as String? ??

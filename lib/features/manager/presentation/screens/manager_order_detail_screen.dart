@@ -17,12 +17,13 @@ class ManagerOrderDetailScreen extends StatefulWidget {
 
 class _ManagerOrderDetailScreenState extends State<ManagerOrderDetailScreen> {
   late Future<Map<String, dynamic>> _order = _load();
+  String? _selectedDriverId;
 
   Future<Map<String, dynamic>> _load() async => Map<String, dynamic>.from(
     await Supabase.instance.client
         .from('orders')
         .select(
-          'id,daily_order_number,status,total_kopeks,contact_name,contact_phone,pickup_at,customer_notes,'
+          'id,branch_id,daily_order_number,fulfillment,status,total_kopeks,contact_name,contact_phone,pickup_at,delivery_scheduled_at,delivery_address,delivery_distance_meters,delivery_fee_kopeks,delivery_driver_id,driver_name,customer_notes,'
           'order_items(item_name,variant_name,quantity,line_total_kopeks,special_instructions,modifier_snapshot,localization_snapshot)',
         )
         .eq('id', widget.orderId)
@@ -30,6 +31,18 @@ class _ManagerOrderDetailScreenState extends State<ManagerOrderDetailScreen> {
   );
 
   Future<void> _updateStatus(String status, {String? reason}) async {
+    final current = await _order;
+    if (status == 'out_for_delivery') {
+      final driverId =
+          _selectedDriverId ?? current['delivery_driver_id'] as String?;
+      if (driverId == null) {
+        throw StateError('Сначала выберите водителя');
+      }
+      await Supabase.instance.client.rpc(
+        'assign_order_driver',
+        params: {'p_order_id': widget.orderId, 'p_driver_id': driverId},
+      );
+    }
     await Supabase.instance.client.rpc(
       'manager_update_order_status',
       params: {
@@ -43,6 +56,14 @@ class _ManagerOrderDetailScreenState extends State<ManagerOrderDetailScreen> {
         _order = _load();
       });
     }
+  }
+
+  Future<List<Map<String, dynamic>>> _loadDrivers(String branchId) async {
+    final response = await Supabase.instance.client.rpc(
+      'get_branch_drivers_for_assignment',
+      params: {'p_branch_id': branchId},
+    );
+    return List<Map<String, dynamic>>.from(response as List<dynamic>);
   }
 
   Future<void> _cancelOrder() async {
@@ -122,10 +143,11 @@ class _ManagerOrderDetailScreenState extends State<ManagerOrderDetailScreen> {
           }
           final order = snapshot.data!;
           final status = order['status'] as String;
+          final isDelivery = order['fulfillment'] == 'delivery';
           final items = List<Map<String, dynamic>>.from(
             order['order_items'] as List<dynamic>? ?? const [],
           );
-          final nextStatus = _nextStatus(status);
+          final nextStatus = _nextStatus(status, isDelivery);
           return ListView(
             padding: const EdgeInsets.all(20),
             children: [
@@ -154,21 +176,87 @@ class _ManagerOrderDetailScreenState extends State<ManagerOrderDetailScreen> {
               _DetailBlock(
                 icon: Icons.schedule_outlined,
                 title: locale.text(
-                  ru: 'Получение',
-                  en: 'Pickup',
-                  ar: 'الاستلام',
+                  ru: isDelivery ? 'Доставка' : 'Получение',
+                  en: isDelivery ? 'Delivery' : 'Pickup',
+                  ar: isDelivery ? 'التوصيل' : 'الاستلام',
                 ),
                 lines: [
-                  order['pickup_at'] == null
+                  (isDelivery
+                              ? order['delivery_scheduled_at']
+                              : order['pickup_at']) ==
+                          null
                       ? locale.asSoonAsReady
                       : _formatDate(
                           DateTime.parse(
-                            order['pickup_at'] as String,
+                            (isDelivery
+                                    ? order['delivery_scheduled_at']
+                                    : order['pickup_at'])
+                                as String,
                           ).toLocal(),
                         ),
-                  locale.cashAtPickup,
+                  isDelivery
+                      ? locale.text(
+                          ru: 'Наличными при доставке',
+                          en: 'Cash on delivery',
+                          ar: 'الدفع نقداً عند التوصيل',
+                        )
+                      : locale.cashAtPickup,
                 ],
               ),
+              if (isDelivery) ...[
+                _DetailBlock(
+                  icon: Icons.location_on_outlined,
+                  title: locale.text(
+                    ru: 'Адрес доставки',
+                    en: 'Delivery address',
+                    ar: 'عنوان التوصيل',
+                  ),
+                  lines: [
+                    order['delivery_address'] as String? ?? '',
+                    if (order['delivery_distance_meters'] != null)
+                      '${((order['delivery_distance_meters'] as int) / 1000).toStringAsFixed(1)} км',
+                  ],
+                ),
+                if (status == 'preparing' || status == 'out_for_delivery')
+                  FutureBuilder<List<Map<String, dynamic>>>(
+                    future: _loadDrivers(order['branch_id'] as String),
+                    builder: (context, driversSnapshot) {
+                      final drivers =
+                          driversSnapshot.data ??
+                          const <Map<String, dynamic>>[];
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        child: DropdownButtonFormField<String>(
+                          initialValue:
+                              _selectedDriverId ??
+                              order['delivery_driver_id'] as String?,
+                          decoration: InputDecoration(
+                            labelText: locale.text(
+                              ru: 'Водитель доставки',
+                              en: 'Delivery driver',
+                              ar: 'سائق التوصيل',
+                            ),
+                            border: const OutlineInputBorder(),
+                          ),
+                          items: drivers
+                              .map(
+                                (driver) => DropdownMenuItem<String>(
+                                  value: driver['id'] as String,
+                                  child: Text(
+                                    '${driver['full_name']}${(driver['phone'] as String? ?? '').isEmpty ? '' : ' · ${driver['phone']}'}',
+                                  ),
+                                ),
+                              )
+                              .toList(growable: false),
+                          onChanged: status == 'preparing'
+                              ? (value) =>
+                                    setState(() => _selectedDriverId = value)
+                              : null,
+                        ),
+                      );
+                    },
+                  ),
+              ],
               if ((order['customer_notes'] as String? ?? '').trim().isNotEmpty)
                 _DetailBlock(
                   icon: Icons.chat_bubble_outline_rounded,
@@ -215,7 +303,21 @@ class _ManagerOrderDetailScreenState extends State<ManagerOrderDetailScreen> {
               const SizedBox(height: 18),
               if (nextStatus != null)
                 FilledButton(
-                  onPressed: () => _updateStatus(nextStatus),
+                  onPressed: () async {
+                    try {
+                      await _updateStatus(nextStatus);
+                    } catch (error) {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              error.toString().replaceFirst('Bad state: ', ''),
+                            ),
+                          ),
+                        );
+                      }
+                    }
+                  },
                   style: FilledButton.styleFrom(
                     backgroundColor: AppTheme.primary,
                     foregroundColor: AppTheme.onPrimary,
@@ -243,13 +345,17 @@ class _ManagerOrderDetailScreenState extends State<ManagerOrderDetailScreen> {
     );
   }
 
-  String? _nextStatus(String status) => switch (status) {
-    'pending' => 'accepted',
-    'accepted' => 'preparing',
-    'preparing' => 'ready_for_pickup',
-    'ready_for_pickup' => 'completed',
-    _ => null,
-  };
+  String? _nextStatus(String status, bool isDelivery) {
+    // Delivery replaces the pickup-only "ready" step with dispatch.
+    return switch (status) {
+      'pending' => 'accepted',
+      'accepted' => 'preparing',
+      'preparing' => isDelivery ? 'out_for_delivery' : 'ready_for_pickup',
+      'ready_for_pickup' => 'completed',
+      'out_for_delivery' => 'completed',
+      _ => null,
+    };
+  }
 
   String _nextLabel(String status, AppLocale locale) => switch (status) {
     'accepted' => locale.text(
@@ -261,6 +367,11 @@ class _ManagerOrderDetailScreenState extends State<ManagerOrderDetailScreen> {
       ru: 'Начать готовить',
       en: 'Start preparing',
       ar: 'بدء التحضير',
+    ),
+    'out_for_delivery' => locale.text(
+      ru: 'Передать водителю',
+      en: 'Send with driver',
+      ar: 'إرسال مع السائق',
     ),
     'ready_for_pickup' => locale.text(
       ru: 'Отметить готовым',

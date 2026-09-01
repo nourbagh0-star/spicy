@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spicy/features/order_tracking/domain/repositories/order_repository.dart';
 import 'package:spicy/features/order_tracking/presentation/cubit/order_tracking_state.dart';
 import 'package:spicy/features/cart/domain/entities/cart_item.dart';
+import 'package:spicy/features/order_tracking/domain/entities/delivery_quote.dart';
 
 class OrderTrackingCubit extends Cubit<OrderTrackingState> {
   final OrderRepository _repository;
@@ -55,6 +56,44 @@ class OrderTrackingCubit extends Cubit<OrderTrackingState> {
         contactName: contactName,
         contactPhone: contactPhone,
         pickupAt: pickupAt,
+        notes: notes,
+      );
+      emit(OrderPlaced(placed));
+    } catch (e) {
+      emit(OrderTrackingError(e.toString()));
+    }
+  }
+
+  Future<DeliveryQuote?> getDeliveryQuote({
+    required double latitude,
+    required double longitude,
+    required List<CartItem> items,
+  }) => _repository.getDeliveryQuote(
+    latitude: latitude,
+    longitude: longitude,
+    items: items,
+  );
+
+  Future<void> placeDeliveryCashOrder({
+    required List<CartItem> items,
+    required String contactName,
+    required String contactPhone,
+    required String deliveryAddress,
+    required double latitude,
+    required double longitude,
+    required DateTime? deliveryScheduledAt,
+    required String notes,
+  }) async {
+    emit(OrderTrackingLoading());
+    try {
+      final placed = await _repository.placeDeliveryCashOrder(
+        items: items,
+        contactName: contactName,
+        contactPhone: contactPhone,
+        deliveryAddress: deliveryAddress,
+        latitude: latitude,
+        longitude: longitude,
+        deliveryScheduledAt: deliveryScheduledAt,
         notes: notes,
       );
       emit(OrderPlaced(placed));

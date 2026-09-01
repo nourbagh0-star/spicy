@@ -21,6 +21,7 @@ import 'package:spicy/features/owner/presentation/screens/owner_management_scree
 import 'package:spicy/features/manager/presentation/screens/manager_dashboard_screen.dart';
 import 'package:spicy/features/manager/presentation/screens/manager_menu_availability_screen.dart';
 import 'package:spicy/features/manager/presentation/screens/manager_order_detail_screen.dart';
+import 'package:spicy/features/delivery/presentation/screens/delivery_management_screen.dart';
 
 GoRouter createAppRouter(AuthCubit authCubit) {
   return GoRouter(
@@ -92,12 +93,22 @@ GoRouter createAppRouter(AuthCubit authCubit) {
         builder: (context, state) => const OwnerBranchesScreen(),
       ),
       GoRoute(
+        path: '/owner/delivery',
+        builder: (context, state) =>
+            const DeliveryManagementScreen(isOwner: true),
+      ),
+      GoRoute(
         path: '/manager',
         builder: (context, state) => const ManagerDashboardScreen(),
       ),
       GoRoute(
         path: '/manager/menu',
         builder: (context, state) => const ManagerMenuAvailabilityScreen(),
+      ),
+      GoRoute(
+        path: '/manager/delivery',
+        builder: (context, state) =>
+            const DeliveryManagementScreen(isOwner: false),
       ),
       GoRoute(
         path: '/manager/order/:orderId',

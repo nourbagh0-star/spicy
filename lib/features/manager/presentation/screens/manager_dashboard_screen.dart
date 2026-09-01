@@ -86,7 +86,7 @@ class _ManagerDashboardScreenState extends State<ManagerDashboardScreen> {
       await db
           .from('orders')
           .select(
-            'id,daily_order_number,status,total_kopeks,created_at,contact_name,contact_phone,pickup_at',
+            'id,daily_order_number,fulfillment,status,total_kopeks,created_at,contact_name,contact_phone,pickup_at',
           )
           .eq('branch_id', branchId)
           .gte('created_at', start.toUtc().toIso8601String())
@@ -251,6 +251,21 @@ class _ManagerDashboardScreenState extends State<ManagerDashboardScreen> {
                     ar: 'حدد العناصر المتاحة أو غير المتاحة مؤقتاً',
                   ),
                   onTap: () => context.push('/manager/menu'),
+                ),
+                const SizedBox(height: 12),
+                _ManagerActionCard(
+                  icon: Icons.delivery_dining_rounded,
+                  title: locale.text(
+                    ru: 'Доставка',
+                    en: 'Delivery',
+                    ar: 'التوصيل',
+                  ),
+                  subtitle: locale.text(
+                    ru: 'Радиус, тарифы и доступность доставки',
+                    en: 'Radius, fees, and delivery availability',
+                    ar: 'النطاق والرسوم وتوفر التوصيل',
+                  ),
+                  onTap: () => context.push('/manager/delivery'),
                 ),
                 const SizedBox(height: 28),
                 Text(
@@ -545,17 +560,28 @@ class _ManagerOrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = context.watch<AppLocale>();
+    final deliveryNeedsDriver =
+        order['fulfillment'] == 'delivery' && order['status'] == 'preparing';
     final nextStatus = switch (order['status'] as String) {
       'pending' => 'accepted',
       'accepted' => 'preparing',
-      'preparing' => 'ready_for_pickup',
+      'preparing' =>
+        order['fulfillment'] == 'delivery'
+            ? 'out_for_delivery'
+            : 'ready_for_pickup',
       'ready_for_pickup' => 'completed',
+      'out_for_delivery' => 'completed',
       _ => null,
     };
     final nextLabel = switch (nextStatus) {
       'accepted' => locale.text(ru: 'Принять', en: 'Accept', ar: 'قبول'),
       'preparing' => locale.text(ru: 'Готовить', en: 'Prepare', ar: 'تحضير'),
       'ready_for_pickup' => locale.text(ru: 'Готов', en: 'Ready', ar: 'جاهز'),
+      'out_for_delivery' => locale.text(
+        ru: 'Доставлено',
+        en: 'Delivered',
+        ar: 'تم التوصيل',
+      ),
       'completed' => locale.text(ru: 'Выдан', en: 'Complete', ar: 'إكمال'),
       _ => '',
     };
@@ -597,7 +623,18 @@ class _ManagerOrderCard extends StatelessWidget {
                       color: AppTheme.primary,
                     ),
                   ),
-                  if (nextStatus != null)
+                  if (deliveryNeedsDriver)
+                    TextButton(
+                      onPressed: onTap,
+                      child: Text(
+                        locale.text(
+                          ru: 'Выбрать водителя',
+                          en: 'Choose driver',
+                          ar: 'اختر السائق',
+                        ),
+                      ),
+                    )
+                  else if (nextStatus != null)
                     TextButton(
                       onPressed: () => onStatusChanged(nextStatus),
                       child: Text(nextLabel),

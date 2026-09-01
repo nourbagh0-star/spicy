@@ -3,6 +3,7 @@ import 'package:spicy/core/locale/app_locale.dart';
 import 'package:spicy/features/cart/domain/entities/cart_item.dart';
 import 'package:spicy/features/order_tracking/data/datasources/supabase_order_data_source.dart';
 import 'package:spicy/features/order_tracking/domain/entities/order.dart';
+import 'package:spicy/features/order_tracking/domain/entities/delivery_quote.dart';
 import 'package:spicy/features/order_tracking/domain/repositories/order_repository.dart';
 
 class OrderRepositoryImpl implements OrderRepository {
@@ -47,4 +48,36 @@ class OrderRepositoryImpl implements OrderRepository {
     final orders = await _dataSource.getOrders();
     return orders.where((order) => order.isActive).toList(growable: false);
   }
+
+  @override
+  Future<DeliveryQuote?> getDeliveryQuote({
+    required double latitude,
+    required double longitude,
+    required List<CartItem> items,
+  }) => _dataSource.getDeliveryQuote(
+    latitude: latitude,
+    longitude: longitude,
+    items: items,
+  );
+
+  @override
+  Future<Order> placeDeliveryCashOrder({
+    required List<CartItem> items,
+    required String contactName,
+    required String contactPhone,
+    required String deliveryAddress,
+    required double latitude,
+    required double longitude,
+    required DateTime? deliveryScheduledAt,
+    required String notes,
+  }) => _dataSource.placeDeliveryCashOrder(
+    items: items,
+    contactName: contactName,
+    contactPhone: contactPhone,
+    deliveryAddress: deliveryAddress,
+    latitude: latitude,
+    longitude: longitude,
+    deliveryScheduledAt: deliveryScheduledAt,
+    notes: notes,
+  );
 }

@@ -323,6 +323,20 @@ class _OwnerDashboardScreenState extends State<OwnerDashboardScreen> {
                   ),
                   onTap: () => context.push('/owner/branches'),
                 ),
+                _ManagementCard(
+                  icon: Icons.delivery_dining_rounded,
+                  title: locale.text(
+                    ru: 'Доставка и водители',
+                    en: 'Delivery and drivers',
+                    ar: 'التوصيل والسائقون',
+                  ),
+                  subtitle: locale.text(
+                    ru: 'Радиус, тарифы и список водителей для каждого филиала',
+                    en: 'Radius, fees, and driver lists for every branch',
+                    ar: 'النطاق والرسوم وقائمة السائقين لكل فرع',
+                  ),
+                  onTap: () => context.push('/owner/delivery'),
+                ),
                 const SizedBox(height: 28),
                 Text(
                   locale.text(
