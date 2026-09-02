@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:spicy/core/config/app_environment.dart';
 import 'package:spicy/core/theme/app_theme.dart';
+import 'package:spicy/core/theme/app_theme_controller.dart';
 import 'package:spicy/core/router/app_router.dart';
 
 import 'package:spicy/core/locale/app_locale.dart';
@@ -43,6 +44,7 @@ Future<void> main() async {
       ? Supabase.instance.client
       : null;
   final appLocale = AppLocale(client: supabaseClient);
+  final themeController = AppThemeController();
 
   // Create repositories (singleton instances)
   final authRepository = AuthRepositoryImpl(client: supabaseClient);
@@ -70,10 +72,16 @@ Future<void> main() async {
   } catch (error) {
     debugPrint('Could not load the saved language preference: $error');
   }
+  await themeController.load();
 
   runApp(
     MultiRepositoryProvider(
-      providers: [ChangeNotifierProvider<AppLocale>.value(value: appLocale)],
+      providers: [
+        ChangeNotifierProvider<AppLocale>.value(value: appLocale),
+        ChangeNotifierProvider<AppThemeController>.value(
+          value: themeController,
+        ),
+      ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider<AuthCubit>.value(value: authCubit),
@@ -96,7 +104,11 @@ Future<void> main() async {
             create: (_) => ProfileCubit(repository: profileRepository),
           ),
         ],
-        child: EpicureanHarmonyApp(authCubit: authCubit, locale: appLocale),
+        child: EpicureanHarmonyApp(
+          authCubit: authCubit,
+          locale: appLocale,
+          themeController: themeController,
+        ),
       ),
     ),
   );
@@ -105,17 +117,19 @@ Future<void> main() async {
 class EpicureanHarmonyApp extends StatelessWidget {
   final AuthCubit authCubit;
   final AppLocale locale;
+  final AppThemeController themeController;
 
   const EpicureanHarmonyApp({
     super.key,
     required this.authCubit,
     required this.locale,
+    required this.themeController,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
-      listenable: locale,
+      listenable: Listenable.merge([locale, themeController]),
       builder: (context, child) {
         return MaterialApp.router(
           title: locale.appName,
@@ -127,6 +141,8 @@ class EpicureanHarmonyApp extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
           theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: themeController.themeMode,
           routerConfig: createAppRouter(authCubit),
           debugShowCheckedModeBanner: false,
         );

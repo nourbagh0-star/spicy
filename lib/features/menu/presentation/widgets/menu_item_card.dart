@@ -44,7 +44,7 @@ class MenuItemCard extends StatelessWidget {
                     fit: BoxFit.cover,
                     errorBuilder: (_, _, _) => Container(
                       color: AppTheme.surfaceDim,
-                      child: const Icon(
+                      child: Icon(
                         Icons.restaurant,
                         size: 48,
                         color: AppTheme.outline,

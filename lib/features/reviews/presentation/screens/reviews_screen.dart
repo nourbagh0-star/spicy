@@ -129,7 +129,7 @@ class _ReviewsSummary extends StatelessWidget {
           Container(
             width: 48,
             height: 48,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: AppTheme.surface,
               shape: BoxShape.circle,
             ),

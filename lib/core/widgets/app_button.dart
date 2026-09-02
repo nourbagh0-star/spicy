@@ -72,7 +72,7 @@ class AppButton extends StatelessWidget {
                 borderRadius: BorderRadius.circular(AppTheme.radiusDefault),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              side: const BorderSide(color: AppTheme.outline, width: 1),
+              side: BorderSide(color: AppTheme.outline, width: 1),
             ),
             child: _buildChild(AppTheme.primary),
           ),

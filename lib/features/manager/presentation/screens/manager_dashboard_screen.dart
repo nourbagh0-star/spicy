@@ -506,7 +506,7 @@ class _ManagerActionCard extends StatelessWidget {
               ],
             ),
           ),
-          const Icon(Icons.chevron_right_rounded, color: AppTheme.secondary),
+          Icon(Icons.chevron_right_rounded, color: AppTheme.secondary),
         ],
       ),
     ),

@@ -53,7 +53,7 @@ class CartScreen extends StatelessWidget {
                     top: 20,
                     bottom: MediaQuery.of(context).padding.bottom + 20,
                   ),
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     color: AppTheme.surface,
                     border: Border(top: BorderSide(color: Color(0x1A6B6661))),
                   ),
@@ -205,7 +205,7 @@ class _CartItemWidget extends StatelessWidget {
                 width: 80,
                 height: 80,
                 color: AppTheme.surfaceDim,
-                child: const Icon(Icons.restaurant, color: AppTheme.outline),
+                child: Icon(Icons.restaurant, color: AppTheme.outline),
               ),
             ),
           ),

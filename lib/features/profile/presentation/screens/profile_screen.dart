@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:spicy/core/locale/app_locale.dart';
 import 'package:spicy/core/theme/app_theme.dart';
+import 'package:spicy/core/theme/app_theme_controller.dart';
 import 'package:spicy/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:spicy/features/branch/presentation/cubit/branch_cubit.dart';
 import 'package:spicy/features/branch/presentation/cubit/branch_state.dart';
@@ -35,6 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final locale = context.watch<AppLocale>();
+    final themeController = context.watch<AppThemeController>();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -90,6 +92,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onEditAddress: _editAddress,
             onDeleteAddress: _deleteAddress,
             onLanguage: () => _showLanguagePicker(locale),
+            onTheme: () => _showThemePicker(themeController),
+            themeMode: themeController.themeMode,
             onLogout: () => context.read<AuthCubit>().logout(),
             onDeleteAccount: _confirmDeleteAccount,
           );
@@ -193,6 +197,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
+  Future<void> _showThemePicker(AppThemeController themeController) async {
+    final locale = context.read<AppLocale>();
+    final selected = await showModalBottomSheet<ThemeMode>(
+      context: context,
+      showDragHandle: true,
+      builder: (sheetContext) => SafeArea(
+        child: RadioGroup<ThemeMode>(
+          groupValue: themeController.themeMode,
+          onChanged: (value) => Navigator.pop(sheetContext, value),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              RadioListTile(
+                value: ThemeMode.system,
+                title: Text(
+                  _text(
+                    locale,
+                    'Как в системе',
+                    'Use system setting',
+                    'حسب إعدادات الجهاز',
+                  ),
+                ),
+              ),
+              RadioListTile(
+                value: ThemeMode.light,
+                title: Text(_text(locale, 'Светлая', 'Light', 'فاتح')),
+              ),
+              RadioListTile(
+                value: ThemeMode.dark,
+                title: Text(_text(locale, 'Тёмная', 'Dark', 'داكن')),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+    if (selected != null) await themeController.select(selected);
+  }
+
   Future<void> _confirmDeleteAccount() async {
     final locale = context.read<AppLocale>();
     final controller = TextEditingController();
@@ -272,6 +315,8 @@ class _ProfileContent extends StatelessWidget {
   final ValueChanged<SavedAddress> onEditAddress;
   final ValueChanged<SavedAddress> onDeleteAddress;
   final VoidCallback onLanguage;
+  final VoidCallback onTheme;
+  final ThemeMode themeMode;
   final VoidCallback onLogout;
   final VoidCallback onDeleteAccount;
 
@@ -283,6 +328,8 @@ class _ProfileContent extends StatelessWidget {
     required this.onEditAddress,
     required this.onDeleteAddress,
     required this.onLanguage,
+    required this.onTheme,
+    required this.themeMode,
     required this.onLogout,
     required this.onDeleteAccount,
   });
@@ -400,6 +447,12 @@ class _ProfileContent extends StatelessWidget {
           title: locale.language,
           subtitle: locale.languageName,
           onTap: onLanguage,
+        ),
+        _ProfileTile(
+          icon: Icons.brightness_6_outlined,
+          title: _text(locale, 'Оформление', 'Appearance', 'المظهر'),
+          subtitle: _themeModeName(locale, themeMode),
+          onTap: onTheme,
         ),
         _ProfileTile(
           icon: Icons.receipt_long_outlined,
@@ -1024,7 +1077,7 @@ class _StatCard extends StatelessWidget {
             value,
             style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
           ),
-          Text(label, style: const TextStyle(color: AppTheme.secondary)),
+          Text(label, style: TextStyle(color: AppTheme.secondary)),
         ],
       ),
     ),
@@ -1033,6 +1086,17 @@ class _StatCard extends StatelessWidget {
 
 String _text(AppLocale locale, String ru, String en, String ar) =>
     locale.text(ru: ru, en: en, ar: ar);
+
+String _themeModeName(AppLocale locale, ThemeMode mode) => switch (mode) {
+  ThemeMode.light => _text(locale, 'Светлая', 'Light', 'فاتح'),
+  ThemeMode.dark => _text(locale, 'Тёмная', 'Dark', 'داكن'),
+  ThemeMode.system => _text(
+    locale,
+    'Как в системе',
+    'Use system setting',
+    'حسب إعدادات الجهاز',
+  ),
+};
 
 bool _isValidRussianPhone(String value) {
   final digits = value.replaceAll(RegExp(r'[^0-9]'), '');

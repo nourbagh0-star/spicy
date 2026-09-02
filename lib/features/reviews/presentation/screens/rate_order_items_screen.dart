@@ -213,14 +213,14 @@ class _ItemRatingCard extends StatelessWidget {
               width: 64,
               height: 64,
               child: item.imageUrl.isEmpty
-                  ? const ColoredBox(
+                  ? ColoredBox(
                       color: AppTheme.surfaceDim,
                       child: Icon(Icons.restaurant_outlined),
                     )
                   : Image.network(
                       item.imageUrl,
                       fit: BoxFit.cover,
-                      errorBuilder: (_, _, _) => const ColoredBox(
+                      errorBuilder: (_, _, _) => ColoredBox(
                         color: AppTheme.surfaceDim,
                         child: Icon(Icons.restaurant_outlined),
                       ),

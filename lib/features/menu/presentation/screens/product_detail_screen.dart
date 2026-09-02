@@ -58,10 +58,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               child: CircleAvatar(
                 backgroundColor: AppTheme.surface.withValues(alpha: 0.8),
                 child: IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: AppTheme.onBackground,
-                  ),
+                  icon: Icon(Icons.arrow_back, color: AppTheme.onBackground),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
               ),
@@ -72,7 +69,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 fit: BoxFit.cover,
                 errorBuilder: (_, _, _) => Container(
                   color: AppTheme.surfaceDim,
-                  child: const Icon(
+                  child: Icon(
                     Icons.restaurant,
                     size: 64,
                     color: AppTheme.outline,
@@ -323,7 +320,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         top: false,
         child: Container(
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: AppTheme.surface,
             border: Border(top: BorderSide(color: Color(0x1A6B6661), width: 1)),
           ),
