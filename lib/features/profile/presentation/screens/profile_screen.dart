@@ -117,13 +117,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _editAddress([SavedAddress? address]) async {
+    final locale = context.read<AppLocale>();
     final saved = await showModalBottomSheet<SavedAddress>(
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
       builder: (_) => _AddressEditor(address: address),
     );
-    if (saved != null) await _profileCubit.saveAddress(saved);
+    if (saved == null) return;
+    final didSave = await _profileCubit.saveAddress(saved);
+    if (!mounted || !didSave) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          _text(locale, 'Адрес сохранён.', 'Address saved.', 'تم حفظ العنوان.'),
+        ),
+      ),
+    );
   }
 
   Future<void> _deleteAddress(SavedAddress address) async {
@@ -337,170 +347,187 @@ class _ProfileContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final name = profile.name.isEmpty ? locale.spicyGuest : profile.name;
-    return ListView(
-      padding: const EdgeInsets.fromLTRB(24, 20, 24, 40),
-      children: [
-        Row(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final horizontal = constraints.maxWidth > 808
+            ? (constraints.maxWidth - 760) / 2
+            : 24.0;
+        return ListView(
+          padding: EdgeInsets.fromLTRB(horizontal, 20, horizontal, 40),
           children: [
-            Container(
-              width: 58,
-              height: 58,
-              decoration: BoxDecoration(
-                color: AppTheme.primary.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(AppTheme.radiusLg),
-              ),
-              child: const Icon(Icons.person_outline, color: AppTheme.primary),
+            Row(
+              children: [
+                Container(
+                  width: 58,
+                  height: 58,
+                  decoration: BoxDecoration(
+                    color: AppTheme.primary.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+                  ),
+                  child: const Icon(
+                    Icons.person_outline,
+                    color: AppTheme.primary,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        name,
+                        style: GoogleFonts.playfairDisplay(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        profile.email,
+                        style: GoogleFonts.inter(color: AppTheme.secondary),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style: GoogleFonts.playfairDisplay(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w700,
+            const SizedBox(height: 28),
+            _SectionTitle(
+              text: _text(
+                locale,
+                'Личные данные',
+                'Personal details',
+                'البيانات الشخصية',
+              ),
+            ),
+            _ProfileTile(
+              icon: Icons.person_outline,
+              title: _text(
+                locale,
+                'Имя и телефон',
+                'Name and phone',
+                'الاسم والهاتف',
+              ),
+              subtitle:
+                  '$name\n${profile.phone.isEmpty ? _text(locale, 'Не указан', 'Not provided', 'غير مضاف') : profile.phone}',
+              onTap: onEditDetails,
+            ),
+            _ProfileTile(
+              icon: Icons.email_outlined,
+              title: _text(
+                locale,
+                'Электронная почта',
+                'Email',
+                'البريد الإلكتروني',
+              ),
+              subtitle: profile.email,
+              onTap: null,
+            ),
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                Expanded(
+                  child: _SectionTitle(
+                    text: _text(
+                      locale,
+                      'Сохранённые адреса',
+                      'Saved addresses',
+                      'العناوين المحفوظة',
                     ),
                   ),
-                  const SizedBox(height: 3),
-                  Text(
-                    profile.email,
-                    style: GoogleFonts.inter(color: AppTheme.secondary),
-                  ),
-                ],
-              ),
+                ),
+                TextButton.icon(
+                  onPressed: profile.savedAddresses.length >= 5
+                      ? null
+                      : onAddAddress,
+                  icon: const Icon(Icons.add, size: 18),
+                  label: Text(_text(locale, 'Добавить', 'Add', 'إضافة')),
+                ),
+              ],
             ),
-          ],
-        ),
-        const SizedBox(height: 28),
-        _SectionTitle(
-          text: _text(
-            locale,
-            'Личные данные',
-            'Personal details',
-            'البيانات الشخصية',
-          ),
-        ),
-        _ProfileTile(
-          icon: Icons.person_outline,
-          title: _text(
-            locale,
-            'Имя и телефон',
-            'Name and phone',
-            'الاسم والهاتف',
-          ),
-          subtitle:
-              '$name\n${profile.phone.isEmpty ? _text(locale, 'Не указан', 'Not provided', 'غير مضاف') : profile.phone}',
-          onTap: onEditDetails,
-        ),
-        _ProfileTile(
-          icon: Icons.email_outlined,
-          title: _text(
-            locale,
-            'Электронная почта',
-            'Email',
-            'البريد الإلكتروني',
-          ),
-          subtitle: profile.email,
-          onTap: null,
-        ),
-        const SizedBox(height: 24),
-        Row(
-          children: [
-            Expanded(
-              child: _SectionTitle(
-                text: _text(
-                  locale,
-                  'Сохранённые адреса',
-                  'Saved addresses',
-                  'العناوين المحفوظة',
+            if (profile.savedAddresses.isEmpty)
+              _EmptyAddresses(onAddAddress: onAddAddress, locale: locale)
+            else
+              ...profile.savedAddresses.map(
+                (address) => _AddressTile(
+                  address: address,
+                  locale: locale,
+                  onTap: () => onEditAddress(address),
+                  onDelete: () => onDeleteAddress(address),
+                ),
+              ),
+            const SizedBox(height: 24),
+            _SectionTitle(
+              text: _text(locale, 'Настройки', 'Settings', 'الإعدادات'),
+            ),
+            _ProfileTile(
+              icon: Icons.language_rounded,
+              title: locale.language,
+              subtitle: locale.languageName,
+              onTap: onLanguage,
+            ),
+            _ProfileTile(
+              icon: Icons.brightness_6_outlined,
+              title: _text(locale, 'Оформление', 'Appearance', 'المظهر'),
+              subtitle: _themeModeName(locale, themeMode),
+              onTap: onTheme,
+            ),
+            _ProfileTile(
+              icon: Icons.receipt_long_outlined,
+              title: locale.orderHistory,
+              subtitle: locale.viewPastOrders,
+              onTap: () => context.push('/orders'),
+            ),
+            _ProfileTile(
+              icon: Icons.rate_review_outlined,
+              title: locale.myReviews,
+              subtitle: locale.manageReviews,
+              onTap: () => context.push('/reviews'),
+            ),
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                _StatCard(
+                  label: locale.orders,
+                  value: '${profile.totalOrders}',
+                  icon: Icons.shopping_bag_outlined,
+                ),
+                const SizedBox(width: 12),
+                _StatCard(
+                  label: locale.reviews,
+                  value: '${profile.totalReviews}',
+                  icon: Icons.star_outline_rounded,
+                ),
+              ],
+            ),
+            const SizedBox(height: 32),
+            SizedBox(
+              height: 50,
+              child: OutlinedButton.icon(
+                onPressed: onLogout,
+                icon: const Icon(Icons.logout_rounded, size: 20),
+                label: Text(_text(locale, 'Выйти', 'Log out', 'تسجيل الخروج')),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: AppTheme.error,
                 ),
               ),
             ),
-            TextButton.icon(
-              onPressed: profile.savedAddresses.length >= 5
-                  ? null
-                  : onAddAddress,
-              icon: const Icon(Icons.add, size: 18),
-              label: Text(_text(locale, 'Добавить', 'Add', 'إضافة')),
+            const SizedBox(height: 12),
+            TextButton(
+              onPressed: onDeleteAccount,
+              child: Text(
+                _text(
+                  locale,
+                  'Удалить аккаунт',
+                  'Delete account',
+                  'حذف الحساب',
+                ),
+                style: GoogleFonts.inter(color: AppTheme.error),
+              ),
             ),
           ],
-        ),
-        if (profile.savedAddresses.isEmpty)
-          _EmptyAddresses(onAddAddress: onAddAddress, locale: locale)
-        else
-          ...profile.savedAddresses.map(
-            (address) => _AddressTile(
-              address: address,
-              locale: locale,
-              onTap: () => onEditAddress(address),
-              onDelete: () => onDeleteAddress(address),
-            ),
-          ),
-        const SizedBox(height: 24),
-        _SectionTitle(
-          text: _text(locale, 'Настройки', 'Settings', 'الإعدادات'),
-        ),
-        _ProfileTile(
-          icon: Icons.language_rounded,
-          title: locale.language,
-          subtitle: locale.languageName,
-          onTap: onLanguage,
-        ),
-        _ProfileTile(
-          icon: Icons.brightness_6_outlined,
-          title: _text(locale, 'Оформление', 'Appearance', 'المظهر'),
-          subtitle: _themeModeName(locale, themeMode),
-          onTap: onTheme,
-        ),
-        _ProfileTile(
-          icon: Icons.receipt_long_outlined,
-          title: locale.orderHistory,
-          subtitle: locale.viewPastOrders,
-          onTap: () => context.push('/orders'),
-        ),
-        _ProfileTile(
-          icon: Icons.rate_review_outlined,
-          title: locale.myReviews,
-          subtitle: locale.manageReviews,
-          onTap: () => context.push('/reviews'),
-        ),
-        const SizedBox(height: 24),
-        Row(
-          children: [
-            _StatCard(
-              label: locale.orders,
-              value: '${profile.totalOrders}',
-              icon: Icons.shopping_bag_outlined,
-            ),
-            const SizedBox(width: 12),
-            _StatCard(
-              label: locale.reviews,
-              value: '${profile.totalReviews}',
-              icon: Icons.star_outline_rounded,
-            ),
-          ],
-        ),
-        const SizedBox(height: 32),
-        SizedBox(
-          height: 50,
-          child: OutlinedButton.icon(
-            onPressed: onLogout,
-            icon: const Icon(Icons.logout_rounded, size: 20),
-            label: Text(_text(locale, 'Выйти', 'Log out', 'تسجيل الخروج')),
-            style: OutlinedButton.styleFrom(foregroundColor: AppTheme.error),
-          ),
-        ),
-        const SizedBox(height: 12),
-        TextButton(
-          onPressed: onDeleteAccount,
-          child: Text(
-            _text(locale, 'Удалить аккаунт', 'Delete account', 'حذف الحساب'),
-            style: GoogleFonts.inter(color: AppTheme.error),
-          ),
-        ),
-      ],
+        );
+      },
     );
   }
 }
@@ -800,6 +827,18 @@ class _AddressEditorState extends State<_AddressEditor> {
                       ),
               ),
             ),
+            if (_latitude != null && _longitude != null) ...[
+              const SizedBox(height: 6),
+              Text(
+                '${_latitude!.toStringAsFixed(6)}, '
+                '${_longitude!.toStringAsFixed(6)}',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: const Color(0xFF2E7D32),
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
               value: _isDefault,
@@ -826,6 +865,21 @@ class _AddressEditorState extends State<_AddressEditor> {
                           'Введите название и полный адрес.',
                           'Enter a label and full address.',
                           'أدخل الاسم والعنوان الكامل.',
+                        ),
+                      ),
+                    ),
+                  );
+                  return;
+                }
+                if (_latitude == null || _longitude == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        _text(
+                          locale,
+                          'Выберите точку на карте.',
+                          'Choose a point on the map.',
+                          'اختر نقطة على الخريطة.',
                         ),
                       ),
                     ),
@@ -868,10 +922,13 @@ class _MapLocationPicker extends StatefulWidget {
 
 class _MapLocationPickerState extends State<_MapLocationPicker> {
   late LatLng _selected;
+  late bool _hasSelection;
+
   @override
   void initState() {
     super.initState();
     _selected = widget.initialLocation ?? const LatLng(44.6098, 40.1005);
+    _hasSelection = widget.initialLocation != null;
   }
 
   @override
@@ -883,37 +940,95 @@ class _MapLocationPickerState extends State<_MapLocationPicker> {
           _text(locale, 'Выберите точку', 'Choose a location', 'اختر الموقع'),
         ),
       ),
-      body: FlutterMap(
-        options: MapOptions(
-          initialCenter: _selected,
-          initialZoom: 13,
-          onTap: (_, point) => setState(() => _selected = point),
-        ),
+      body: Stack(
         children: [
-          TileLayer(
-            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            userAgentPackageName: 'com.spicy.restaurant',
-          ),
-          MarkerLayer(
-            markers: [
-              Marker(
-                point: _selected,
-                width: 44,
-                height: 44,
-                child: const Icon(
-                  Icons.location_pin,
-                  size: 44,
-                  color: AppTheme.primary,
-                ),
+          FlutterMap(
+            options: MapOptions(
+              initialCenter: _selected,
+              initialZoom: 13,
+              onTap: (_, point) {
+                setState(() {
+                  _selected = point;
+                  _hasSelection = true;
+                });
+              },
+            ),
+            children: [
+              TileLayer(
+                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                userAgentPackageName: 'com.spicy.restaurant',
+              ),
+              MarkerLayer(
+                markers: [
+                  Marker(
+                    point: _selected,
+                    width: 52,
+                    height: 52,
+                    child: Icon(
+                      Icons.location_pin,
+                      size: 52,
+                      color: _hasSelection
+                          ? AppTheme.primary
+                          : AppTheme.secondary,
+                    ),
+                  ),
+                ],
               ),
             ],
+          ),
+          Positioned(
+            top: 12,
+            left: 16,
+            right: 16,
+            child: Card(
+              elevation: 3,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      _hasSelection
+                          ? Icons.check_circle
+                          : Icons.touch_app_outlined,
+                      color: _hasSelection
+                          ? const Color(0xFF2E7D32)
+                          : AppTheme.primary,
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        _hasSelection
+                            ? _text(
+                                locale,
+                                'Точка выбрана. Подтвердите адрес.',
+                                'Location selected. Confirm it below.',
+                                'تم اختيار الموقع. أكّده أدناه.',
+                              )
+                            : _text(
+                                locale,
+                                'Нажмите на карту, чтобы поставить метку.',
+                                'Tap the map to place the pin.',
+                                'اضغط على الخريطة لوضع العلامة.',
+                              ),
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
         ],
       ),
       bottomNavigationBar: SafeArea(
         minimum: const EdgeInsets.all(16),
         child: FilledButton.icon(
-          onPressed: () => Navigator.pop(context, _selected),
+          onPressed: _hasSelection
+              ? () => Navigator.pop(context, _selected)
+              : null,
           icon: const Icon(Icons.check),
           label: Text(
             _text(

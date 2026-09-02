@@ -111,124 +111,143 @@ class _OrderDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = context.watch<AppLocale>();
-    return ListView(
-      padding: const EdgeInsets.all(24),
-      children: [
-        Text(
-          locale.orderNumber(order.orderNumber ?? order.id.substring(0, 8)),
-          style: GoogleFonts.playfairDisplay(
-            fontSize: 26,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        const SizedBox(height: 12),
-        Chip(
-          label: Text(locale.orderStatus(order.status.name)),
-          backgroundColor: AppTheme.primary.withValues(alpha: 0.12),
-        ),
-        const SizedBox(height: 24),
-        ListTile(
-          contentPadding: EdgeInsets.zero,
-          leading: const Icon(
-            Icons.storefront_outlined,
-            color: AppTheme.primary,
-          ),
-          title: Text(order.branchName.isEmpty ? 'Spicy' : order.branchName),
-          subtitle: Text(order.deliveryAddress),
-        ),
-        ListTile(
-          contentPadding: EdgeInsets.zero,
-          leading: const Icon(Icons.schedule_outlined, color: AppTheme.primary),
-          title: Text(
-            order.estimatedDelivery == null
-                ? locale.pickupAsSoonAsReady
-                : locale.pickupAt(_formatDate(order.estimatedDelivery!)),
-          ),
-          subtitle: Text(locale.cashOnPickup),
-        ),
-        const Divider(height: 32),
-        ...order.items.map(
-          (item) => ListTile(
-            contentPadding: EdgeInsets.zero,
-            title: Text('${item.quantity} × ${item.menuItem.name}'),
-            subtitle: Text(locale.translateOrderVariant(item.variant.name)),
-            trailing: PriceLabel(price: item.totalPrice),
-          ),
-        ),
-        const Divider(),
-        ListTile(
-          contentPadding: EdgeInsets.zero,
-          title: Text(
-            locale.total,
-            style: GoogleFonts.playfairDisplay(
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
+    final isDelivery = order.fulfillment == 'delivery';
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final horizontal = constraints.maxWidth > 948
+            ? (constraints.maxWidth - 900) / 2
+            : 24.0;
+        return ListView(
+          padding: EdgeInsets.fromLTRB(horizontal, 24, horizontal, 24),
+          children: [
+            Text(
+              locale.orderNumber(order.orderNumber ?? order.id.substring(0, 8)),
+              style: GoogleFonts.playfairDisplay(
+                fontSize: 26,
+                fontWeight: FontWeight.w700,
+              ),
             ),
-          ),
-          trailing: PriceLabel(
-            price: order.totalPrice,
-            style: GoogleFonts.inter(
-              fontSize: 22,
-              fontWeight: FontWeight.w700,
-              color: AppTheme.primary,
+            const SizedBox(height: 12),
+            Chip(
+              label: Text(locale.orderStatus(order.status.name)),
+              backgroundColor: AppTheme.primary.withValues(alpha: 0.12),
             ),
-          ),
-        ),
-        const SizedBox(height: 24),
-        if (order.status == OrderStatus.delivered)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: SizedBox(
-              height: 52,
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                onPressed: () => context.push(
-                  '/review/new?orderId=${order.id}&branchId=${order.branchId}',
+            const SizedBox(height: 24),
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(
+                Icons.storefront_outlined,
+                color: AppTheme.primary,
+              ),
+              title: Text(
+                order.branchName.isEmpty ? 'Spicy' : order.branchName,
+              ),
+              subtitle: Text(order.deliveryAddress),
+            ),
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(
+                Icons.schedule_outlined,
+                color: AppTheme.primary,
+              ),
+              title: Text(
+                order.estimatedDelivery == null
+                    ? isDelivery
+                          ? locale.deliveryAsSoonAsReady
+                          : locale.pickupAsSoonAsReady
+                    : isDelivery
+                    ? locale.deliveryAt(_formatDate(order.estimatedDelivery!))
+                    : locale.pickupAt(_formatDate(order.estimatedDelivery!)),
+              ),
+              subtitle: Text(
+                isDelivery ? locale.cashOnDelivery : locale.cashOnPickup,
+              ),
+            ),
+            const Divider(height: 32),
+            ...order.items.map(
+              (item) => ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: Text('${item.quantity} × ${item.menuItem.name}'),
+                subtitle: Text(locale.translateOrderVariant(item.variant.name)),
+                trailing: PriceLabel(price: item.totalPrice),
+              ),
+            ),
+            const Divider(),
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text(
+                locale.total,
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
                 ),
-                icon: const Icon(Icons.star_outline_rounded),
-                label: Text(locale.reviewBranch),
+              ),
+              trailing: PriceLabel(
+                price: order.totalPrice,
+                style: GoogleFonts.inter(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700,
+                  color: AppTheme.primary,
+                ),
               ),
             ),
-          ),
-        if (order.status == OrderStatus.delivered)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: SizedBox(
+            const SizedBox(height: 24),
+            if (order.status == OrderStatus.delivered)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: SizedBox(
+                  height: 52,
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: () => context.push(
+                      '/review/new?orderId=${order.id}&branchId=${order.branchId}',
+                    ),
+                    icon: const Icon(Icons.star_outline_rounded),
+                    label: Text(locale.reviewBranch),
+                  ),
+                ),
+              ),
+            if (order.status == OrderStatus.delivered)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: SizedBox(
+                  height: 52,
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: () =>
+                        context.push('/review/items?orderId=${order.id}'),
+                    icon: const Icon(Icons.restaurant_menu_outlined),
+                    label: Text(locale.rateItems),
+                  ),
+                ),
+              ),
+            SizedBox(
               height: 52,
               width: double.infinity,
               child: OutlinedButton.icon(
-                onPressed: () =>
-                    context.push('/review/items?orderId=${order.id}'),
-                icon: const Icon(Icons.restaurant_menu_outlined),
-                label: Text(locale.rateItems),
+                onPressed: () => _repeatOrder(context, order),
+                icon: const Icon(Icons.replay_outlined),
+                label: Text(locale.repeatOrder),
               ),
             ),
-          ),
-        SizedBox(
-          height: 52,
-          width: double.infinity,
-          child: OutlinedButton.icon(
-            onPressed: () => _repeatOrder(context, order),
-            icon: const Icon(Icons.replay_outlined),
-            label: Text(locale.repeatOrder),
-          ),
-        ),
-        const SizedBox(height: 12),
-        SizedBox(
-          height: 52,
-          width: double.infinity,
-          child: FilledButton.icon(
-            onPressed: () => context.go('/'),
-            icon: const Icon(Icons.restaurant_menu_outlined),
-            label: Text(locale.returnToMenu),
-            style: FilledButton.styleFrom(
-              backgroundColor: AppTheme.primary,
-              foregroundColor: AppTheme.onPrimary,
-              textStyle: const TextStyle(fontWeight: FontWeight.w700),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 52,
+              width: double.infinity,
+              child: FilledButton.icon(
+                onPressed: () => context.go('/'),
+                icon: const Icon(Icons.restaurant_menu_outlined),
+                label: Text(locale.returnToMenu),
+                style: FilledButton.styleFrom(
+                  backgroundColor: AppTheme.primary,
+                  foregroundColor: AppTheme.onPrimary,
+                  textStyle: const TextStyle(fontWeight: FontWeight.w700),
+                ),
+              ),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 

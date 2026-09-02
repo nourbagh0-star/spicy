@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:spicy/core/design/app_motion.dart';
 import 'package:spicy/core/locale/app_locale.dart';
 import 'package:spicy/core/theme/app_theme.dart';
+import 'package:spicy/core/widgets/app_network_image.dart';
 import 'package:spicy/core/widgets/filter_chip_bar.dart';
 import 'package:spicy/core/widgets/checkout_bar.dart';
+import 'package:spicy/core/widgets/price_label.dart';
+import 'package:spicy/core/widgets/responsive_content.dart';
 import 'package:spicy/features/branch/domain/entities/branch.dart';
 import 'package:spicy/features/branch/presentation/cubit/branch_cubit.dart';
 import 'package:spicy/features/branch/presentation/cubit/branch_state.dart';
 import 'package:spicy/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:spicy/features/cart/presentation/cubit/cart_state.dart';
+import 'package:spicy/features/menu/domain/entities/menu_item.dart';
 import 'package:spicy/features/menu/presentation/cubit/menu_cubit.dart';
 import 'package:spicy/features/menu/presentation/cubit/menu_state.dart';
 import 'package:spicy/features/menu/presentation/widgets/menu_item_card.dart';
@@ -58,8 +63,8 @@ class _MenuScreenState extends State<MenuScreen> {
     if (!_scrollController.hasClients) return;
     await _scrollController.animateTo(
       0,
-      duration: const Duration(milliseconds: 450),
-      curve: Curves.easeOutCubic,
+      duration: AppMotion.duration(context, AppMotion.emphasized),
+      curve: AppMotion.standardCurve,
     );
   }
 
@@ -156,7 +161,8 @@ class _MenuScreenState extends State<MenuScreen> {
                       ),
                       IconButton(
                         icon: const Icon(Icons.search_rounded),
-                        onPressed: () {},
+                        tooltip: locale.searchMenu,
+                        onPressed: () => _showMenuSearch(locale),
                       ),
                       const SizedBox(width: 8),
                     ],
@@ -226,50 +232,46 @@ class _MenuScreenState extends State<MenuScreen> {
 
                   // The main category row and optional sandwich row remain
                   // available while products scroll beneath them.
-                  SliverPersistentHeader(
-                    pinned: true,
-                    delegate: _MenuFilterHeaderDelegate(
-                      height: 100,
-                      child: BlocBuilder<MenuCubit, MenuState>(
-                        builder: (context, state) {
-                          final menuState = state is MenuLoaded ? state : null;
-                          if (menuState == null) {
-                            return const SizedBox.expand();
-                          }
-
-                          final hasSandwichFilters =
-                              menuState.sandwichTypes.isNotEmpty &&
-                              menuState.selectedSandwichType != null;
-                          return Column(
+                  BlocBuilder<MenuCubit, MenuState>(
+                    builder: (context, state) {
+                      if (state is! MenuLoaded) {
+                        return const SliverToBoxAdapter(
+                          child: SizedBox.shrink(),
+                        );
+                      }
+                      final hasSandwichFilters =
+                          state.sandwichTypes.isNotEmpty &&
+                          state.selectedSandwichType != null;
+                      return SliverPersistentHeader(
+                        pinned: true,
+                        delegate: _MenuFilterHeaderDelegate(
+                          height: hasSandwichFilters ? 100 : 48,
+                          child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               FilterChipBar(
-                                categories: menuState.categories,
-                                selectedCategory: menuState.selectedCategory,
+                                categories: state.categories,
+                                selectedCategory: state.selectedCategory,
                                 onSelected: context
                                     .read<MenuCubit>()
                                     .filterByCategory,
                               ),
-                              const SizedBox(height: 8),
-                              SizedBox(
-                                height: 40,
-                                child: hasSandwichFilters
-                                    ? FilterChipBar(
-                                        categories: menuState.sandwichTypes,
-                                        selectedCategory:
-                                            menuState.selectedSandwichType!,
-                                        labelBuilder: locale.sandwichType,
-                                        onSelected: context
-                                            .read<MenuCubit>()
-                                            .filterBySandwichType,
-                                      )
-                                    : const SizedBox.expand(),
-                              ),
+                              if (hasSandwichFilters) ...[
+                                const SizedBox(height: 8),
+                                FilterChipBar(
+                                  categories: state.sandwichTypes,
+                                  selectedCategory: state.selectedSandwichType!,
+                                  labelBuilder: locale.sandwichType,
+                                  onSelected: context
+                                      .read<MenuCubit>()
+                                      .filterBySandwichType,
+                                ),
+                              ],
                             ],
-                          );
-                        },
-                      ),
-                    ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
 
                   const SliverToBoxAdapter(child: SizedBox(height: 20)),
@@ -304,48 +306,74 @@ class _MenuScreenState extends State<MenuScreen> {
                                     context,
                                   ).textTheme.headlineMedium,
                                 ),
+                                const SizedBox(height: 16),
+                                OutlinedButton.icon(
+                                  onPressed: () => context
+                                      .read<MenuCubit>()
+                                      .loadMenu(selectedBranch.id),
+                                  icon: const Icon(Icons.refresh_rounded),
+                                  label: Text(locale.retry),
+                                ),
                               ],
                             ),
                           ),
                         );
                       }
                       if (state is MenuLoaded) {
-                        return SliverLayoutBuilder(
-                          builder: (context, constraints) {
-                            final isDesktop =
-                                constraints.crossAxisExtent >= 700;
-                            return SliverPadding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                              ),
-                              sliver: SliverGrid(
-                                gridDelegate: isDesktop
-                                    ? const SliverGridDelegateWithMaxCrossAxisExtent(
-                                        maxCrossAxisExtent: 420,
-                                        childAspectRatio: 0.85,
-                                        crossAxisSpacing: 16,
-                                        mainAxisSpacing: 16,
-                                      )
-                                    : const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        childAspectRatio: 0.65,
+                        if (state.items.isEmpty) {
+                          return SliverFillRemaining(
+                            hasScrollBody: false,
+                            child: Center(child: Text(locale.noSearchResults)),
+                          );
+                        }
+                        return SliverToBoxAdapter(
+                          child: ResponsiveContent(
+                            maxWidth: 1280,
+                            child: LayoutBuilder(
+                              builder: (context, constraints) {
+                                final width = constraints.maxWidth;
+                                final columns = width < 380
+                                    ? 1
+                                    : width < 760
+                                    ? 2
+                                    : 3;
+                                final ratio = columns == 1
+                                    ? 0.88
+                                    : columns == 2
+                                    ? 0.66
+                                    : 0.82;
+                                return GridView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                  ),
+                                  itemCount: state.items.length,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: columns,
+                                        childAspectRatio: ratio,
                                         crossAxisSpacing: 16,
                                         mainAxisSpacing: 16,
                                       ),
-                                delegate: SliverChildBuilderDelegate((
-                                  context,
-                                  index,
-                                ) {
-                                  final item = state.items[index];
-                                  return MenuItemCard(
-                                    item: item,
-                                    onTap: () =>
-                                        context.push('/product/${item.id}'),
-                                  );
-                                }, childCount: state.items.length),
-                              ),
-                            );
-                          },
+                                  itemBuilder: (context, index) {
+                                    final item = state.items[index];
+                                    return _MenuEntrance(
+                                      key: ValueKey(
+                                        '${state.selectedCategory}-${state.selectedSandwichType}-${item.id}',
+                                      ),
+                                      index: index,
+                                      child: MenuItemCard(
+                                        item: item,
+                                        onTap: () =>
+                                            context.push('/product/${item.id}'),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ),
                         );
                       }
                       return const SliverToBoxAdapter(child: SizedBox.shrink());
@@ -380,7 +408,7 @@ class _MenuScreenState extends State<MenuScreen> {
                         ? MediaQuery.paddingOf(context).bottom + 94
                         : 16,
                     child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 200),
+                      duration: AppMotion.duration(context, AppMotion.standard),
                       transitionBuilder: (child, animation) =>
                           ScaleTransition(scale: animation, child: child),
                       child: _showBackToTop
@@ -429,6 +457,19 @@ class _MenuScreenState extends State<MenuScreen> {
     }
   }
 
+  Future<void> _showMenuSearch(AppLocale locale) async {
+    final selected = await showSearch<MenuItem?>(
+      context: context,
+      delegate: _MenuSearchDelegate(
+        items: context.read<MenuCubit>().allItems,
+        locale: locale,
+      ),
+    );
+    if (selected != null && mounted) {
+      context.push('/product/${selected.id}');
+    }
+  }
+
   void _selectBranch(Branch branch) {
     final currentState = context.read<BranchCubit>().state;
     final previousBranch = currentState is BranchLoaded
@@ -471,6 +512,121 @@ class _MenuScreenState extends State<MenuScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _MenuEntrance extends StatelessWidget {
+  final int index;
+  final Widget child;
+
+  const _MenuEntrance({super.key, required this.index, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    final extra = Duration(milliseconds: (index.clamp(0, 5)) * 24);
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0, end: 1),
+      duration: AppMotion.duration(context, AppMotion.standard + extra),
+      curve: AppMotion.standardCurve,
+      child: child,
+      builder: (context, value, child) => Opacity(
+        opacity: value,
+        child: Transform.translate(
+          offset: Offset(0, 12 * (1 - value)),
+          child: child,
+        ),
+      ),
+    );
+  }
+}
+
+class _MenuSearchDelegate extends SearchDelegate<MenuItem?> {
+  final List<MenuItem> items;
+  final AppLocale locale;
+
+  _MenuSearchDelegate({required this.items, required this.locale})
+    : super(searchFieldLabel: locale.searchMenu);
+
+  @override
+  List<Widget>? buildActions(BuildContext context) => [
+    if (query.isNotEmpty)
+      IconButton(
+        tooltip: MaterialLocalizations.of(context).deleteButtonTooltip,
+        onPressed: () => query = '',
+        icon: const Icon(Icons.clear_rounded),
+      ),
+  ];
+
+  @override
+  Widget? buildLeading(BuildContext context) => IconButton(
+    tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+    onPressed: () => close(context, null),
+    icon: const Icon(Icons.arrow_back_rounded),
+  );
+
+  @override
+  Widget buildResults(BuildContext context) => _buildMatches(context);
+
+  @override
+  Widget buildSuggestions(BuildContext context) => _buildMatches(context);
+
+  Widget _buildMatches(BuildContext context) {
+    final normalized = query.trim().toLowerCase();
+    final matches = normalized.isEmpty
+        ? items
+        : items
+              .where(
+                (item) =>
+                    item.name.toLowerCase().contains(normalized) ||
+                    item.description.toLowerCase().contains(normalized) ||
+                    item.category.toLowerCase().contains(normalized),
+              )
+              .toList(growable: false);
+    if (matches.isEmpty) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Text(
+            locale.noSearchResults,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+        ),
+      );
+    }
+    return ListView.separated(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      itemCount: matches.length,
+      separatorBuilder: (_, _) => const Divider(height: 1),
+      itemBuilder: (context, index) {
+        final item = matches[index];
+        return ListTile(
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 8,
+          ),
+          leading: ClipRRect(
+            borderRadius: BorderRadius.circular(AppTheme.radiusMd),
+            child: AppNetworkImage(
+              imageUrl: item.imageUrl,
+              width: 56,
+              height: 56,
+              fit: BoxFit.cover,
+              cacheWidth: 168,
+              cacheHeight: 168,
+              semanticLabel: item.name,
+            ),
+          ),
+          title: Text(item.name, maxLines: 1, overflow: TextOverflow.ellipsis),
+          subtitle: Text(
+            locale.translateCategory(item.category),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          trailing: PriceLabel(price: item.price),
+          onTap: () => close(context, item),
+        );
+      },
     );
   }
 }

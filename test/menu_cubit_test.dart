@@ -51,6 +51,24 @@ void main() {
       expect(state.selectedSandwichType, isNull);
       expect(state.items.map((item) => item.id), ['pizza']);
     });
+
+    test('returning to all shows every item', () async {
+      await cubit.loadMenu('branch');
+      cubit.filterByCategory('SANDWICHES');
+
+      cubit.filterByCategory('All');
+
+      final state = cubit.state as MenuLoaded;
+      expect(state.sandwichTypes, isEmpty);
+      expect(state.selectedSandwichType, isNull);
+      expect(state.items.map((item) => item.id), [
+        'chicken',
+        'lamb',
+        'beef',
+        'sandwiches',
+        'pizza',
+      ]);
+    });
   });
 }
 

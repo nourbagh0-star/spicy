@@ -86,6 +86,21 @@ class AuthCubit extends Cubit<AuthState> {
     emit(const AuthState(status: AuthStatus.unauthenticated));
   }
 
+  Future<bool> requestPasswordReset({required String email}) async {
+    try {
+      await _repository.requestPasswordReset(email: email);
+      return true;
+    } catch (error) {
+      emit(
+        state.copyWith(
+          status: AuthStatus.error,
+          errorMessage: _errorMessage(error),
+        ),
+      );
+      return false;
+    }
+  }
+
   void resetError() {
     emit(
       state.user.isNotEmpty

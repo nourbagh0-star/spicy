@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:spicy/core/locale/app_locale.dart';
 import 'package:spicy/core/theme/app_theme.dart';
+import 'package:spicy/core/widgets/app_network_image.dart';
 import 'package:spicy/core/widgets/app_button.dart';
 import 'package:spicy/features/reviews/domain/entities/reviewable_order_item.dart';
 import 'package:spicy/features/reviews/presentation/cubit/reviews_cubit.dart';
@@ -85,7 +86,7 @@ class _RateOrderItemsScreenState extends State<RateOrderItemsScreen> {
             if (state is ItemRatingsLoaded || state is ItemRatingsSubmitting) {
               final items = state is ItemRatingsLoaded
                   ? state.items
-                  : const <ReviewableOrderItem>[];
+                  : (state as ItemRatingsSubmitting).items;
               if (items.isEmpty) {
                 return Center(
                   child: Padding(
@@ -146,41 +147,48 @@ class _RatingForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = context.watch<AppLocale>();
     final pendingItems = items.where((item) => !item.alreadyRated).toList();
-    return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(24, 20, 24, 8),
-            child: Text(
-              locale.rateItemsSubtitle,
-              style: GoogleFonts.inter(color: AppTheme.secondary),
-            ),
-          ),
-          Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.all(24),
-              itemCount: items.length,
-              separatorBuilder: (_, _) => const SizedBox(height: 12),
-              itemBuilder: (context, index) => _ItemRatingCard(
-                item: items[index],
-                selectedRating: ratings[items[index].orderItemId] ?? 0,
-                onRatingChanged: onRatingChanged,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final horizontal = constraints.maxWidth > 808
+            ? (constraints.maxWidth - 760) / 2
+            : 24.0;
+        return SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(horizontal, 20, horizontal, 8),
+                child: Text(
+                  locale.rateItemsSubtitle,
+                  style: GoogleFonts.inter(color: AppTheme.secondary),
+                ),
               ),
-            ),
-          ),
-          if (pendingItems.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 8, 24, 16),
-              child: AppButton(
-                label: locale.submitReview,
-                icon: Icons.send_rounded,
-                isLoading: isSubmitting,
-                onPressed: isSubmitting ? null : onSubmit,
+              Expanded(
+                child: ListView.separated(
+                  padding: EdgeInsets.fromLTRB(horizontal, 24, horizontal, 24),
+                  itemCount: items.length,
+                  separatorBuilder: (_, _) => const SizedBox(height: 12),
+                  itemBuilder: (context, index) => _ItemRatingCard(
+                    item: items[index],
+                    selectedRating: ratings[items[index].orderItemId] ?? 0,
+                    onRatingChanged: onRatingChanged,
+                  ),
+                ),
               ),
-            ),
-        ],
-      ),
+              if (pendingItems.isNotEmpty)
+                Padding(
+                  padding: EdgeInsets.fromLTRB(horizontal, 8, horizontal, 16),
+                  child: AppButton(
+                    label: locale.submitReview,
+                    icon: Icons.send_rounded,
+                    isLoading: isSubmitting,
+                    onPressed: isSubmitting ? null : onSubmit,
+                  ),
+                ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
@@ -212,19 +220,13 @@ class _ItemRatingCard extends StatelessWidget {
             child: SizedBox(
               width: 64,
               height: 64,
-              child: item.imageUrl.isEmpty
-                  ? ColoredBox(
-                      color: AppTheme.surfaceDim,
-                      child: Icon(Icons.restaurant_outlined),
-                    )
-                  : Image.network(
-                      item.imageUrl,
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, _, _) => ColoredBox(
-                        color: AppTheme.surfaceDim,
-                        child: Icon(Icons.restaurant_outlined),
-                      ),
-                    ),
+              child: AppNetworkImage(
+                imageUrl: item.imageUrl,
+                fit: BoxFit.cover,
+                cacheWidth: 192,
+                cacheHeight: 192,
+                semanticLabel: item.name,
+              ),
             ),
           ),
           const SizedBox(width: 14),
@@ -260,18 +262,23 @@ class _ItemRatingCard extends StatelessWidget {
                     spacing: 1,
                     children: List.generate(
                       5,
-                      (index) => InkResponse(
-                        onTap: () =>
-                            onRatingChanged(item.orderItemId, index + 1),
-                        radius: 22,
-                        child: Padding(
-                          padding: const EdgeInsets.all(3),
-                          child: Icon(
-                            index < selectedRating
-                                ? Icons.star_rounded
-                                : Icons.star_outline_rounded,
-                            color: const Color(0xFFF9A825),
-                            size: 27,
+                      (index) => Semantics(
+                        button: true,
+                        selected: selectedRating == index + 1,
+                        label: '${index + 1} / 5',
+                        child: InkResponse(
+                          onTap: () =>
+                              onRatingChanged(item.orderItemId, index + 1),
+                          radius: 22,
+                          child: Padding(
+                            padding: const EdgeInsets.all(3),
+                            child: Icon(
+                              index < selectedRating
+                                  ? Icons.star_rounded
+                                  : Icons.star_outline_rounded,
+                              color: const Color(0xFFF9A825),
+                              size: 27,
+                            ),
                           ),
                         ),
                       ),

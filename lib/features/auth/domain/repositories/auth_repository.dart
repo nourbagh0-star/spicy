@@ -10,6 +10,7 @@ abstract class AuthRepository {
     String phone,
   });
   Future<void> logout();
+  Future<void> requestPasswordReset({required String email});
   Future<AuthUser> restoreSession();
   Stream<AuthUser?> get authStateChanges;
   AuthUser get currentUser;

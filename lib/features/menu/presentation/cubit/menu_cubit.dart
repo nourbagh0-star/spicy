@@ -18,6 +18,8 @@ class MenuCubit extends Cubit<MenuState> {
   List<MenuItem> _allItems = const [];
   BranchRatingSummary _branchRating = const BranchRatingSummary();
 
+  List<MenuItem> get allItems => List.unmodifiable(_allItems);
+
   Future<List<MenuItem>> loadMenu(String branchId) async {
     emit(MenuLoading());
     try {
@@ -50,9 +52,9 @@ class MenuCubit extends Cubit<MenuState> {
           : _allItems
                 .where((item) => item.category == category)
                 .toList(growable: false);
-      final hasSandwichGroups = categoryItems.any(
-        (item) => item.sandwichType != null,
-      );
+      final hasSandwichGroups =
+          category != 'All' &&
+          categoryItems.any((item) => item.sandwichType != null);
       final selectedType = hasSandwichGroups ? sandwichTypes.first : null;
       emit(
         MenuLoaded(

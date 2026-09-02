@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spicy/core/widgets/app_shell.dart';
@@ -23,10 +25,23 @@ import 'package:spicy/features/manager/presentation/screens/manager_menu_availab
 import 'package:spicy/features/manager/presentation/screens/manager_order_detail_screen.dart';
 import 'package:spicy/features/delivery/presentation/screens/delivery_management_screen.dart';
 
-GoRouter createAppRouter(AuthCubit authCubit) {
-  return GoRouter(
+class AppRouterController {
+  final GoRouter router;
+  final _AuthRefreshNotifier _authRefreshNotifier;
+
+  const AppRouterController._(this.router, this._authRefreshNotifier);
+
+  void dispose() {
+    router.dispose();
+    _authRefreshNotifier.dispose();
+  }
+}
+
+AppRouterController createAppRouter(AuthCubit authCubit) {
+  final authRefreshNotifier = _AuthRefreshNotifier(authCubit);
+  final router = GoRouter(
     initialLocation: '/welcome',
-    refreshListenable: _AuthRefreshNotifier(authCubit),
+    refreshListenable: authRefreshNotifier,
     redirect: (context, state) {
       final isAuthenticated =
           authCubit.state.status == AuthStatus.authenticated;
@@ -121,31 +136,26 @@ GoRouter createAppRouter(AuthCubit authCubit) {
         builder: (context, state) => const RegisterScreen(),
       ),
 
-      // Shell route for bottom navigation (protected)
-      ShellRoute(
-        builder: (context, state, child) => AppShell(child: child),
-        routes: [
-          GoRoute(
-            path: '/',
-            pageBuilder: (context, state) =>
-                const NoTransitionPage(child: MenuScreen()),
-          ),
-          GoRoute(
-            path: '/orders',
-            pageBuilder: (context, state) =>
-                const NoTransitionPage(child: OrdersScreen()),
-          ),
-          GoRoute(
-            path: '/reviews',
-            pageBuilder: (context, state) =>
-                const NoTransitionPage(child: ReviewsScreen()),
-          ),
-          GoRoute(
-            path: '/profile',
-            pageBuilder: (context, state) =>
-                const NoTransitionPage(child: ProfileScreen()),
-          ),
-        ],
+      // Customer tabs intentionally use the root Navigator. A ShellRoute adds a
+      // second Navigator, which can reserve the same page key twice when the
+      // checkout flow returns to a tab (for example checkout -> profile).
+      // Wrapping each tab in the shared shell preserves the bottom navigation
+      // without introducing a nested navigation stack.
+      GoRoute(
+        path: '/',
+        builder: (context, state) => const AppShell(child: MenuScreen()),
+      ),
+      GoRoute(
+        path: '/orders',
+        builder: (context, state) => const AppShell(child: OrdersScreen()),
+      ),
+      GoRoute(
+        path: '/reviews',
+        builder: (context, state) => const AppShell(child: ReviewsScreen()),
+      ),
+      GoRoute(
+        path: '/profile',
+        builder: (context, state) => const AppShell(child: ProfileScreen()),
       ),
 
       // Routes without bottom nav (pushed on top, protected)
@@ -179,11 +189,20 @@ GoRouter createAppRouter(AuthCubit authCubit) {
       ),
     ],
   );
+  return AppRouterController._(router, authRefreshNotifier);
 }
 
 /// Notifies GoRouter to re-evaluate routes when auth state changes.
 class _AuthRefreshNotifier extends ChangeNotifier {
+  late final StreamSubscription<AuthState> _subscription;
+
   _AuthRefreshNotifier(AuthCubit authCubit) {
-    authCubit.stream.listen((_) => notifyListeners());
+    _subscription = authCubit.stream.listen((_) => notifyListeners());
+  }
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
   }
 }

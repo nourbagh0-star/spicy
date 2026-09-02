@@ -44,7 +44,14 @@ class ItemRatingsLoaded extends ReviewsState {
   List<Object?> get props => [items];
 }
 
-class ItemRatingsSubmitting extends ReviewsState {}
+class ItemRatingsSubmitting extends ReviewsState {
+  final List<ReviewableOrderItem> items;
+
+  const ItemRatingsSubmitting(this.items);
+
+  @override
+  List<Object?> get props => [items];
+}
 
 class ItemRatingsSubmitted extends ReviewsState {}
 

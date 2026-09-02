@@ -89,6 +89,13 @@ class AppLocale extends ChangeNotifier {
   );
   String get allCategories => _translated('Все', 'All', 'الكل');
   String get menuTitle => _translated('Меню', 'Menu', 'القائمة');
+  String get searchMenu =>
+      _translated('Поиск по меню', 'Search the menu', 'البحث في القائمة');
+  String get noSearchResults => _translated(
+    'Ничего не найдено',
+    'No matching items found',
+    'لم يتم العثور على نتائج',
+  );
   String get discoverSubtitle => _translated(
     'Откройте наш изысканный\nвыбор блюд',
     'Discover our exquisite\nselection of flavors',
@@ -119,6 +126,11 @@ class AppLocale extends ChangeNotifier {
   String get subtotal => _translated('Подитог', 'Subtotal', 'المجموع الفرعي');
   String get delivery => _translated('Доставка', 'Delivery', 'التوصيل');
   String get free => _translated('Бесплатно', 'Free', 'مجاني');
+  String get deliveryCalculatedAtCheckout => _translated(
+    'Рассчитаем при оформлении',
+    'Calculated at checkout',
+    'تُحسب عند إتمام الطلب',
+  );
   String get total => _translated('Итого', 'Total', 'الإجمالي');
   String get emptyCart =>
       _translated('Ваша корзина пуста', 'Your cart is empty', 'سلتك فارغة');
@@ -260,6 +272,16 @@ class AppLocale extends ChangeNotifier {
   );
   String get forgotPassword =>
       _translated('Забыли пароль?', 'Forgot password?', 'نسيت كلمة المرور؟');
+  String get enterEmailForReset => _translated(
+    'Введите email, чтобы восстановить пароль.',
+    'Enter your email to reset your password.',
+    'أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور.',
+  );
+  String get passwordResetSent => _translated(
+    'Ссылка для восстановления отправлена на ваш email.',
+    'A password reset link was sent to your email.',
+    'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.',
+  );
   String get noAccount => _translated(
     'Нет аккаунта? ',
     "Don't have an account? ",
@@ -370,10 +392,25 @@ class AppLocale extends ChangeNotifier {
   String pickupAt(String value) =>
       _translated('Получение: $value', 'Pickup: $value', 'الاستلام: $value');
 
+  String get deliveryAsSoonAsReady => _translated(
+    'Доставка: как только будет готов',
+    'Delivery: as soon as it is ready',
+    'التوصيل: بمجرد أن يصبح جاهزاً',
+  );
+
+  String deliveryAt(String value) =>
+      _translated('Доставка: $value', 'Delivery: $value', 'التوصيل: $value');
+
   String get cashOnPickup => _translated(
     'Оплата наличными при получении',
     'Cash payment on pickup',
     'الدفع نقداً عند الاستلام',
+  );
+
+  String get cashOnDelivery => _translated(
+    'Оплата наличными при доставке',
+    'Cash payment on delivery',
+    'الدفع نقداً عند التوصيل',
   );
 
   String get repeatOrder =>

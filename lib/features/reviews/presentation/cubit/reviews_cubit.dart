@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spicy/features/reviews/domain/entities/reviewable_order_item.dart';
 import 'package:spicy/features/reviews/domain/repositories/review_repository.dart';
 import 'package:spicy/features/reviews/presentation/cubit/reviews_state.dart';
 
@@ -57,7 +58,10 @@ class ReviewsCubit extends Cubit<ReviewsState> {
     required String orderId,
     required Map<String, int> ratings,
   }) async {
-    emit(ItemRatingsSubmitting());
+    final items = state is ItemRatingsLoaded
+        ? (state as ItemRatingsLoaded).items
+        : const <ReviewableOrderItem>[];
+    emit(ItemRatingsSubmitting(items));
     try {
       await _repository.submitItemRatings(orderId: orderId, ratings: ratings);
       emit(ItemRatingsSubmitted());

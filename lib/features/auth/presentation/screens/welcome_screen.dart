@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spicy/core/locale/app_locale.dart';
 import 'package:spicy/core/theme/app_theme.dart';
+import 'package:spicy/core/widgets/app_network_image.dart';
+import 'package:spicy/core/widgets/responsive_content.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -47,18 +49,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
         fit: StackFit.expand,
         children: [
           // Background image
-          Image.network(
-            'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80',
+          const AppNetworkImage(
+            imageUrl:
+                'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80',
             fit: BoxFit.cover,
-            errorBuilder: (_, _, _) => Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Color(0xFF2C1810), Color(0xFF1A0E08)],
-                ),
-              ),
-            ),
+            cacheWidth: 1600,
+            cacheHeight: 1600,
           ),
 
           // Gradient overlay
@@ -80,159 +76,145 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
           // Content
           SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: Column(
-                children: [
-                  const Spacer(flex: 3),
+            child: ResponsiveContent(
+              maxWidth: 520,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Column(
+                  children: [
+                    const Spacer(flex: 3),
 
-                  // Logo / Brand
-                  FadeTransition(
-                    opacity: _fadeIn,
-                    child: SlideTransition(
-                      position: _slideUp,
-                      child: Column(
-                        children: [
-                          // Spicy icon
-                          Container(
-                            width: 72,
-                            height: 72,
-                            decoration: BoxDecoration(
-                              color: AppTheme.primary,
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppTheme.primary.withValues(
-                                    alpha: 0.4,
+                    // Logo / Brand
+                    FadeTransition(
+                      opacity: _fadeIn,
+                      child: SlideTransition(
+                        position: _slideUp,
+                        child: Column(
+                          children: [
+                            // Spicy icon
+                            Container(
+                              width: 72,
+                              height: 72,
+                              decoration: BoxDecoration(
+                                color: AppTheme.primary,
+                                borderRadius: BorderRadius.circular(20),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppTheme.primary.withValues(
+                                      alpha: 0.4,
+                                    ),
+                                    blurRadius: 24,
+                                    spreadRadius: 4,
                                   ),
-                                  blurRadius: 24,
-                                  spreadRadius: 4,
-                                ),
-                              ],
-                            ),
-                            child: const Center(
-                              child: Text(
-                                '🌶️',
-                                style: TextStyle(fontSize: 36),
+                                ],
                               ),
-                            ),
-                          ),
-                          const SizedBox(height: 24),
-
-                          // Restaurant name
-                          Text(
-                            locale.appName,
-                            style: GoogleFonts.playfairDisplay(
-                              fontSize: 48,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 8,
-                              color: Colors.white,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-
-                          // Tagline
-                          Text(
-                            locale.tagline,
-                            style: GoogleFonts.inter(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white.withValues(alpha: 0.7),
-                              letterSpacing: 1.5,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  const Spacer(flex: 2),
-
-                  // CTA Buttons
-                  FadeTransition(
-                    opacity: _fadeIn,
-                    child: SlideTransition(
-                      position: _slideUp,
-                      child: Column(
-                        children: [
-                          // Login button
-                          SizedBox(
-                            width: double.infinity,
-                            height: 52,
-                            child: ElevatedButton(
-                              onPressed: () => context.push('/login'),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppTheme.primary,
-                                foregroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    AppTheme.radiusMd,
-                                  ),
-                                ),
-                                elevation: 0,
-                              ),
-                              child: Text(
-                                locale.login,
-                                style: GoogleFonts.inter(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                              child: const Center(
+                                child: Text(
+                                  '🌶️',
+                                  style: TextStyle(fontSize: 36),
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(height: 14),
+                            const SizedBox(height: 24),
 
-                          // Register button
-                          SizedBox(
-                            width: double.infinity,
-                            height: 52,
-                            child: OutlinedButton(
-                              onPressed: () => context.push('/register'),
-                              style: OutlinedButton.styleFrom(
-                                foregroundColor: Colors.white,
-                                side: BorderSide(
-                                  color: Colors.white.withValues(alpha: 0.4),
-                                  width: 1.5,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                    AppTheme.radiusMd,
-                                  ),
-                                ),
-                              ),
-                              child: Text(
-                                locale.createAccount,
-                                style: GoogleFonts.inter(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                ),
+                            // Restaurant name
+                            Text(
+                              locale.appName,
+                              style: GoogleFonts.playfairDisplay(
+                                fontSize: 48,
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 8,
+                                color: Colors.white,
                               ),
                             ),
-                          ),
-                          const SizedBox(height: 20),
+                            const SizedBox(height: 8),
 
-                          // Skip
-                          TextButton(
-                            onPressed: () => context.push('/login'),
-                            child: Text(
-                              locale.continueAsGuest,
+                            // Tagline
+                            Text(
+                              locale.tagline,
                               style: GoogleFonts.inter(
-                                fontSize: 14,
-                                color: Colors.white.withValues(alpha: 0.5),
-                                decoration: TextDecoration.underline,
-                                decorationColor: Colors.white.withValues(
-                                  alpha: 0.3,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white.withValues(alpha: 0.7),
+                                letterSpacing: 1.5,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    const Spacer(flex: 2),
+
+                    // CTA Buttons
+                    FadeTransition(
+                      opacity: _fadeIn,
+                      child: SlideTransition(
+                        position: _slideUp,
+                        child: Column(
+                          children: [
+                            // Login button
+                            SizedBox(
+                              width: double.infinity,
+                              height: 52,
+                              child: ElevatedButton(
+                                onPressed: () => context.push('/login'),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppTheme.primary,
+                                  foregroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      AppTheme.radiusMd,
+                                    ),
+                                  ),
+                                  elevation: 0,
+                                ),
+                                child: Text(
+                                  locale.login,
+                                  style: GoogleFonts.inter(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                            const SizedBox(height: 14),
+
+                            // Register button
+                            SizedBox(
+                              width: double.infinity,
+                              height: 52,
+                              child: OutlinedButton(
+                                onPressed: () => context.push('/register'),
+                                style: OutlinedButton.styleFrom(
+                                  foregroundColor: Colors.white,
+                                  side: BorderSide(
+                                    color: Colors.white.withValues(alpha: 0.4),
+                                    width: 1.5,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      AppTheme.radiusMd,
+                                    ),
+                                  ),
+                                ),
+                                child: Text(
+                                  locale.createAccount,
+                                  style: GoogleFonts.inter(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
 
-                  const SizedBox(height: 24),
-                ],
+                    const SizedBox(height: 24),
+                  ],
+                ),
               ),
             ),
           ),

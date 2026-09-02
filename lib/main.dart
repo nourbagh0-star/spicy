@@ -114,7 +114,7 @@ Future<void> main() async {
   );
 }
 
-class EpicureanHarmonyApp extends StatelessWidget {
+class EpicureanHarmonyApp extends StatefulWidget {
   final AuthCubit authCubit;
   final AppLocale locale;
   final AppThemeController themeController;
@@ -127,13 +127,32 @@ class EpicureanHarmonyApp extends StatelessWidget {
   });
 
   @override
+  State<EpicureanHarmonyApp> createState() => _EpicureanHarmonyAppState();
+}
+
+class _EpicureanHarmonyAppState extends State<EpicureanHarmonyApp> {
+  late final AppRouterController _routerController;
+
+  @override
+  void initState() {
+    super.initState();
+    _routerController = createAppRouter(widget.authCubit);
+  }
+
+  @override
+  void dispose() {
+    _routerController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
-      listenable: Listenable.merge([locale, themeController]),
+      listenable: Listenable.merge([widget.locale, widget.themeController]),
       builder: (context, child) {
         return MaterialApp.router(
-          title: locale.appName,
-          locale: locale.locale,
+          title: widget.locale.appName,
+          locale: widget.locale.locale,
           supportedLocales: AppLocale.supportedLocales,
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
@@ -142,8 +161,8 @@ class EpicureanHarmonyApp extends StatelessWidget {
           ],
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
-          themeMode: themeController.themeMode,
-          routerConfig: createAppRouter(authCubit),
+          themeMode: widget.themeController.themeMode,
+          routerConfig: _routerController.router,
           debugShowCheckedModeBanner: false,
         );
       },

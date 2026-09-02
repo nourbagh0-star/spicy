@@ -100,6 +100,11 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<void> requestPasswordReset({required String email}) async {
+    await _requireClient().auth.resetPasswordForEmail(email.trim());
+  }
+
+  @override
   Future<AuthUser> restoreSession() async {
     final client = _requireClient();
     final user = client.auth.currentSession?.user;

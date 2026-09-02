@@ -180,6 +180,9 @@ class _ReviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = context.watch<AppLocale>();
+    final displayName = review.userName.trim().isEmpty
+        ? locale.spicyGuest
+        : review.userName;
     return Container(
       padding: const EdgeInsets.all(22),
       decoration: BoxDecoration(
@@ -196,7 +199,7 @@ class _ReviewCard extends StatelessWidget {
                 radius: 20,
                 backgroundColor: AppTheme.primary.withValues(alpha: 0.1),
                 child: Text(
-                  review.userName[0].toUpperCase(),
+                  displayName.characters.first.toUpperCase(),
                   style: GoogleFonts.playfairDisplay(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -210,9 +213,9 @@ class _ReviewCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      review.userName == 'Гость Spicy'
+                      displayName == 'Гость Spicy'
                           ? locale.spicyGuest
-                          : review.userName,
+                          : displayName,
                       style: GoogleFonts.inter(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,

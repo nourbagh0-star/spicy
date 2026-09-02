@@ -6,6 +6,7 @@ import 'package:spicy/core/theme/app_theme.dart';
 import 'package:spicy/core/locale/app_locale.dart';
 import 'package:spicy/core/widgets/app_button.dart';
 import 'package:spicy/core/widgets/price_label.dart';
+import 'package:spicy/core/widgets/responsive_content.dart';
 import 'package:spicy/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:spicy/features/branch/presentation/cubit/branch_cubit.dart';
 import 'package:spicy/features/branch/presentation/cubit/branch_state.dart';
@@ -105,207 +106,210 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             }
 
             return SingleChildScrollView(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _sectionTitle(
-                    locale.text(
-                      ru: 'Способ получения',
-                      en: 'Order type',
-                      ar: 'طريقة الاستلام',
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  SegmentedButton<bool>(
-                    segments: [
-                      ButtonSegment(
-                        value: false,
-                        icon: const Icon(Icons.storefront_outlined),
-                        label: Text(locale.pickupOrder),
-                      ),
-                      ButtonSegment(
-                        value: true,
-                        icon: const Icon(Icons.delivery_dining_outlined),
-                        label: Text(locale.delivery),
-                      ),
-                    ],
-                    selected: {_isDelivery},
-                    onSelectionChanged: (value) {
-                      final delivery = value.first;
-                      setState(() {
-                        _isDelivery = delivery;
-                        _deliveryQuote = null;
-                      });
-                      if (delivery) _refreshQuote(cartState.items);
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  if (!_isDelivery)
-                    _pickupCard(selectedBranch.name, selectedBranch.address)
-                  else
-                    _deliveryAddressSection(locale, cartState.items),
-                  const SizedBox(height: 24),
-                  _sectionTitle(
-                    _isDelivery
-                        ? locale.text(
-                            ru: 'Время доставки',
-                            en: 'Delivery time',
-                            ar: 'وقت التوصيل',
-                          )
-                        : locale.pickupTime,
-                  ),
-                  SwitchListTile.adaptive(
-                    contentPadding: EdgeInsets.zero,
-                    title: Text(locale.schedulePickup),
-                    subtitle: Text(
-                      _scheduledPickup
-                          ? _formatPickupAt(_pickupAt)
-                          : locale.asSoonAsReady,
-                    ),
-                    value: _scheduledPickup,
-                    onChanged: (value) => setState(() {
-                      _scheduledPickup = value;
-                      if (!value) _pickupAt = null;
-                    }),
-                  ),
-                  if (_scheduledPickup)
-                    OutlinedButton.icon(
-                      onPressed: () =>
-                          _choosePickupTime(onlyToday: _isDelivery),
-                      icon: const Icon(Icons.schedule),
-                      label: Text(
-                        _pickupAt == null
-                            ? locale.chooseTime
-                            : _formatPickupAt(_pickupAt),
+              child: ResponsiveContent(
+                maxWidth: 760,
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _sectionTitle(
+                      locale.text(
+                        ru: 'Способ получения',
+                        en: 'Order type',
+                        ar: 'طريقة الاستلام',
                       ),
                     ),
-                  const SizedBox(height: 24),
-                  _sectionTitle(locale.contactDetails),
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    leading: const Icon(Icons.person_outline),
-                    title: Text(customer.name),
-                    subtitle: Text(customer.phone),
-                  ),
-                  const SizedBox(height: 24),
-                  _sectionTitle(locale.payment),
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    leading: const Icon(Icons.payments_outlined),
-                    title: Text(
+                    const SizedBox(height: 8),
+                    SegmentedButton<bool>(
+                      segments: [
+                        ButtonSegment(
+                          value: false,
+                          icon: const Icon(Icons.storefront_outlined),
+                          label: Text(locale.pickupOrder),
+                        ),
+                        ButtonSegment(
+                          value: true,
+                          icon: const Icon(Icons.delivery_dining_outlined),
+                          label: Text(locale.delivery),
+                        ),
+                      ],
+                      selected: {_isDelivery},
+                      onSelectionChanged: (value) {
+                        final delivery = value.first;
+                        setState(() {
+                          _isDelivery = delivery;
+                          _deliveryQuote = null;
+                        });
+                        if (delivery) _refreshQuote(cartState.items);
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    if (!_isDelivery)
+                      _pickupCard(selectedBranch.name, selectedBranch.address)
+                    else
+                      _deliveryAddressSection(locale, cartState.items),
+                    const SizedBox(height: 24),
+                    _sectionTitle(
                       _isDelivery
                           ? locale.text(
-                              ru: 'Наличными при доставке',
-                              en: 'Cash on delivery',
-                              ar: 'الدفع نقداً عند التوصيل',
+                              ru: 'Время доставки',
+                              en: 'Delivery time',
+                              ar: 'وقت التوصيل',
                             )
-                          : locale.cashAtPickup,
+                          : locale.pickupTime,
                     ),
-                    subtitle: Text(locale.onlinePaymentLater),
-                  ),
-                  const SizedBox(height: 16),
-                  _sectionTitle(locale.orderComment),
-                  const SizedBox(height: 8),
-                  TextField(
-                    controller: _notesController,
-                    maxLength: 500,
-                    maxLines: 3,
-                    decoration: InputDecoration(
-                      hintText: locale.orderCommentHint,
-                      border: const OutlineInputBorder(),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  _sectionTitle(locale.yourOrder),
-                  const SizedBox(height: 12),
-                  ...cartState.items.map(
-                    (item) => ListTile(
+                    SwitchListTile.adaptive(
                       contentPadding: EdgeInsets.zero,
-                      title: Text('${item.quantity} × ${item.menuItem.name}'),
+                      title: Text(locale.schedulePickup),
                       subtitle: Text(
-                        locale.translateOrderVariant(item.variant.name),
+                        _scheduledPickup
+                            ? _formatPickupAt(_pickupAt)
+                            : locale.asSoonAsReady,
                       ),
-                      trailing: PriceLabel(price: item.totalPrice),
+                      value: _scheduledPickup,
+                      onChanged: (value) => setState(() {
+                        _scheduledPickup = value;
+                        if (!value) _pickupAt = null;
+                      }),
                     ),
-                  ),
-                  const Divider(),
-                  if (_isDelivery && _deliveryQuote != null)
+                    if (_scheduledPickup)
+                      OutlinedButton.icon(
+                        onPressed: () =>
+                            _choosePickupTime(onlyToday: _isDelivery),
+                        icon: const Icon(Icons.schedule),
+                        label: Text(
+                          _pickupAt == null
+                              ? locale.chooseTime
+                              : _formatPickupAt(_pickupAt),
+                        ),
+                      ),
+                    const SizedBox(height: 24),
+                    _sectionTitle(locale.contactDetails),
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: const Icon(Icons.person_outline),
+                      title: Text(customer.name),
+                      subtitle: Text(customer.phone),
+                    ),
+                    const SizedBox(height: 24),
+                    _sectionTitle(locale.payment),
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: const Icon(Icons.payments_outlined),
+                      title: Text(
+                        _isDelivery
+                            ? locale.text(
+                                ru: 'Наличными при доставке',
+                                en: 'Cash on delivery',
+                                ar: 'الدفع نقداً عند التوصيل',
+                              )
+                            : locale.cashAtPickup,
+                      ),
+                      subtitle: Text(locale.onlinePaymentLater),
+                    ),
+                    const SizedBox(height: 16),
+                    _sectionTitle(locale.orderComment),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: _notesController,
+                      maxLength: 500,
+                      maxLines: 3,
+                      decoration: InputDecoration(
+                        hintText: locale.orderCommentHint,
+                        border: const OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    _sectionTitle(locale.yourOrder),
+                    const SizedBox(height: 12),
+                    ...cartState.items.map(
+                      (item) => ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: Text('${item.quantity} × ${item.menuItem.name}'),
+                        subtitle: Text(
+                          locale.translateOrderVariant(item.variant.name),
+                        ),
+                        trailing: PriceLabel(price: item.totalPrice),
+                      ),
+                    ),
+                    const Divider(),
+                    if (_isDelivery && _deliveryQuote != null)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(locale.delivery),
+                          PriceLabel(price: _deliveryQuote!.deliveryFeeRubles),
+                        ],
+                      ),
+                    if (_isDelivery && _deliveryQuote != null) const Divider(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(locale.delivery),
-                        PriceLabel(price: _deliveryQuote!.deliveryFeeRubles),
+                        _sectionTitle(locale.total),
+                        PriceLabel(
+                          price:
+                              cartState.totalPrice +
+                              (_deliveryQuote?.deliveryFeeRubles ?? 0),
+                          style: GoogleFonts.inter(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w700,
+                            color: AppTheme.primary,
+                          ),
+                        ),
                       ],
                     ),
-                  if (_isDelivery && _deliveryQuote != null) const Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _sectionTitle(locale.total),
-                      PriceLabel(
-                        price:
-                            cartState.totalPrice +
-                            (_deliveryQuote?.deliveryFeeRubles ?? 0),
-                        style: GoogleFonts.inter(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w700,
-                          color: AppTheme.primary,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 28),
-                  BlocBuilder<OrderTrackingCubit, OrderTrackingState>(
-                    builder: (context, orderState) {
-                      final canPlace =
-                          (!_scheduledPickup || _pickupAt != null) &&
-                          (!_isDelivery ||
-                              (_selectedAddress != null &&
-                                  _deliveryQuote != null &&
-                                  cartState.totalPrice >=
-                                      _deliveryQuote!.minimumOrderRubles));
-                      return AppButton(
-                        label: locale.placeOrder,
-                        icon: Icons.check_circle_outline_rounded,
-                        isLoading: orderState is OrderTrackingLoading,
-                        onPressed: canPlace
-                            ? () {
-                                final cubit = context
-                                    .read<OrderTrackingCubit>();
-                                if (_isDelivery) {
-                                  final address = _selectedAddress!;
-                                  cubit.placeDeliveryCashOrder(
-                                    items: cartState.items,
-                                    contactName: customer.name,
-                                    contactPhone: customer.phone,
-                                    deliveryAddress: [
-                                      address.addressLine,
-                                      if (address.details.isNotEmpty)
-                                        address.details,
-                                    ].join(', '),
-                                    latitude: address.latitude!,
-                                    longitude: address.longitude!,
-                                    deliveryScheduledAt: _pickupAt,
-                                    notes: _notesController.text,
-                                  );
-                                } else {
-                                  cubit.placePickupCashOrder(
-                                    branchId: selectedBranch.id,
-                                    items: cartState.items,
-                                    contactName: customer.name,
-                                    contactPhone: customer.phone,
-                                    pickupAt: _pickupAt,
-                                    notes: _notesController.text,
-                                  );
+                    const SizedBox(height: 28),
+                    BlocBuilder<OrderTrackingCubit, OrderTrackingState>(
+                      builder: (context, orderState) {
+                        final canPlace =
+                            (!_scheduledPickup || _pickupAt != null) &&
+                            (!_isDelivery ||
+                                (_selectedAddress != null &&
+                                    _deliveryQuote != null &&
+                                    cartState.totalPrice >=
+                                        _deliveryQuote!.minimumOrderRubles));
+                        return AppButton(
+                          label: locale.placeOrder,
+                          icon: Icons.check_circle_outline_rounded,
+                          isLoading: orderState is OrderTrackingLoading,
+                          onPressed: canPlace
+                              ? () {
+                                  final cubit = context
+                                      .read<OrderTrackingCubit>();
+                                  if (_isDelivery) {
+                                    final address = _selectedAddress!;
+                                    cubit.placeDeliveryCashOrder(
+                                      items: cartState.items,
+                                      contactName: customer.name,
+                                      contactPhone: customer.phone,
+                                      deliveryAddress: [
+                                        address.addressLine,
+                                        if (address.details.isNotEmpty)
+                                          address.details,
+                                      ].join(', '),
+                                      latitude: address.latitude!,
+                                      longitude: address.longitude!,
+                                      deliveryScheduledAt: _pickupAt,
+                                      notes: _notesController.text,
+                                    );
+                                  } else {
+                                    cubit.placePickupCashOrder(
+                                      branchId: selectedBranch.id,
+                                      items: cartState.items,
+                                      contactName: customer.name,
+                                      contactPhone: customer.phone,
+                                      pickupAt: _pickupAt,
+                                      notes: _notesController.text,
+                                    );
+                                  }
                                 }
-                              }
-                            : null,
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 24),
-                ],
+                              : null,
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                  ],
+                ),
               ),
             );
           },
@@ -365,7 +369,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ),
               ),
               trailing: TextButton(
-                onPressed: () => context.push('/profile'),
+                onPressed: () => context.go('/profile'),
                 child: Text(locale.profile),
               ),
             ),

@@ -30,12 +30,14 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  Future<void> saveAddress(SavedAddress address) async {
+  Future<bool> saveAddress(SavedAddress address) async {
     try {
       await _repository.saveAddress(address);
       await loadProfile();
+      return state is ProfileLoaded;
     } catch (error) {
       emit(ProfileError(error.toString()));
+      return false;
     }
   }
 

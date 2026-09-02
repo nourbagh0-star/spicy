@@ -408,7 +408,9 @@ class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
                           onPressed: () async {
                             final image = await ImagePicker().pickImage(
                               source: ImageSource.gallery,
-                              imageQuality: 85,
+                              maxWidth: 1600,
+                              maxHeight: 1600,
+                              imageQuality: 80,
                             );
                             if (image == null) return;
                             final bytes = await image.readAsBytes();
@@ -421,6 +423,7 @@ class _OwnerMenuScreenState extends State<OwnerMenuScreen> {
                                   bytes,
                                   fileOptions: const FileOptions(
                                     contentType: 'image/jpeg',
+                                    cacheControl: '31536000',
                                     upsert: false,
                                   ),
                                 );
