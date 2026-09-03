@@ -6,6 +6,7 @@ import 'package:spicy/core/locale/app_locale.dart';
 import 'package:spicy/core/theme/app_theme.dart';
 import 'package:spicy/core/widgets/app_network_image.dart';
 import 'package:spicy/core/widgets/app_button.dart';
+import 'package:spicy/core/widgets/app_error_view.dart';
 import 'package:spicy/features/reviews/domain/entities/reviewable_order_item.dart';
 import 'package:spicy/features/reviews/presentation/cubit/reviews_cubit.dart';
 import 'package:spicy/features/reviews/presentation/cubit/reviews_state.dart';
@@ -60,28 +61,7 @@ class _RateOrderItemsScreenState extends State<RateOrderItemsScreen> {
               );
             }
             if (state is ReviewsError) {
-              return Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.error_outline_rounded,
-                        size: 44,
-                        color: AppTheme.error,
-                      ),
-                      const SizedBox(height: 12),
-                      Text(state.message, textAlign: TextAlign.center),
-                      const SizedBox(height: 16),
-                      OutlinedButton(
-                        onPressed: _loadItems,
-                        child: Text(locale.retry),
-                      ),
-                    ],
-                  ),
-                ),
-              );
+              return AppErrorView(error: state.message, onRetry: _loadItems);
             }
             if (state is ItemRatingsLoaded || state is ItemRatingsSubmitting) {
               final items = state is ItemRatingsLoaded

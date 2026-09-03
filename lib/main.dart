@@ -1,12 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:spicy/core/config/app_environment.dart';
+import 'package:spicy/core/error/error_handler.dart';
 import 'package:spicy/core/theme/app_theme.dart';
 import 'package:spicy/core/theme/app_theme_controller.dart';
 import 'package:spicy/core/router/app_router.dart';
+import 'package:spicy/core/widgets/app_error_view.dart';
 
 import 'package:spicy/core/locale/app_locale.dart';
 
@@ -32,6 +35,7 @@ import 'package:spicy/features/profile/presentation/cubit/profile_cubit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  AppErrorHandler.initialize();
 
   if (AppEnvironment.isSupabaseConfigured) {
     await Supabase.initialize(
@@ -163,6 +167,16 @@ class _EpicureanHarmonyAppState extends State<EpicureanHarmonyApp> {
           darkTheme: AppTheme.darkTheme,
           themeMode: widget.themeController.themeMode,
           routerConfig: _routerController.router,
+          builder: (context, child) {
+            if (kReleaseMode) {
+              ErrorWidget.builder = (details) =>
+                  AppErrorView(error: details.exception, compact: true);
+            }
+            return child ??
+                AppErrorView(
+                  error: StateError('The application could not be rendered.'),
+                );
+          },
           debugShowCheckedModeBanner: false,
         );
       },

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spicy/core/error/error_handler.dart';
 import 'package:spicy/features/auth/domain/entities/auth_user.dart';
 import 'package:spicy/features/auth/domain/repositories/auth_repository.dart';
 import 'package:spicy/features/auth/presentation/cubit/auth_state.dart';
@@ -10,13 +11,27 @@ class AuthCubit extends Cubit<AuthState> {
   late final StreamSubscription<AuthUser?> _authSubscription;
 
   AuthCubit({required this._repository}) : super(const AuthState()) {
-    _authSubscription = _repository.authStateChanges.listen((user) {
-      if (user == null) {
-        emit(const AuthState(status: AuthStatus.unauthenticated));
-      } else {
-        emit(AuthState(status: AuthStatus.authenticated, user: user));
-      }
-    });
+    _authSubscription = _repository.authStateChanges.listen(
+      (user) {
+        if (user == null) {
+          emit(const AuthState(status: AuthStatus.unauthenticated));
+        } else {
+          emit(AuthState(status: AuthStatus.authenticated, user: user));
+        }
+      },
+      onError: (Object error, StackTrace stack) {
+        AppErrorHandler.report(error, stack);
+        if (!isClosed) {
+          emit(
+            AuthState(
+              status: AuthStatus.error,
+              user: state.user,
+              errorMessage: _errorMessage(error),
+            ),
+          );
+        }
+      },
+    );
   }
 
   Future<void> restoreSession() async {

@@ -529,6 +529,56 @@ class AppLocale extends ChangeNotifier {
   String get retry => _translated('Повторить', 'Try Again', 'إعادة المحاولة');
   String get somethingWentWrong =>
       _translated('Что-то пошло не так', 'Something went wrong', 'حدث خطأ ما');
+  String get networkError => _translated(
+    'Нет подключения к интернету. Проверьте сеть и повторите попытку.',
+    'No internet connection. Check your network and try again.',
+    'لا يوجد اتصال بالإنترنت. تحقق من الشبكة وحاول مرة أخرى.',
+  );
+  String get timeoutError => _translated(
+    'Сервер отвечает слишком долго. Повторите попытку.',
+    'The server is taking too long to respond. Please try again.',
+    'استغرق الخادم وقتاً طويلاً للاستجابة. حاول مرة أخرى.',
+  );
+  String get invalidCredentials => _translated(
+    'Неверный email или пароль.',
+    'Incorrect email or password.',
+    'البريد الإلكتروني أو كلمة المرور غير صحيحة.',
+  );
+  String get emailNotConfirmed => _translated(
+    'Сначала подтвердите email.',
+    'Please confirm your email first.',
+    'يرجى تأكيد بريدك الإلكتروني أولاً.',
+  );
+  String get tooManyRequests => _translated(
+    'Слишком много попыток. Подождите немного и повторите.',
+    'Too many attempts. Wait a moment and try again.',
+    'عدد المحاولات كبير جداً. انتظر قليلاً ثم حاول مرة أخرى.',
+  );
+  String get sessionExpired => _translated(
+    'Сессия завершена. Войдите снова.',
+    'Your session has expired. Please sign in again.',
+    'انتهت صلاحية الجلسة. يرجى تسجيل الدخول مرة أخرى.',
+  );
+  String get notFoundError => _translated(
+    'Запрошенные данные не найдены.',
+    'The requested information could not be found.',
+    'تعذر العثور على المعلومات المطلوبة.',
+  );
+  String get conflictError => _translated(
+    'Эти данные уже существуют.',
+    'This information already exists.',
+    'هذه المعلومات موجودة بالفعل.',
+  );
+  String get serverError => _translated(
+    'Сервис временно недоступен. Повторите попытку позже.',
+    'The service is temporarily unavailable. Please try again later.',
+    'الخدمة غير متاحة مؤقتاً. حاول مرة أخرى لاحقاً.',
+  );
+  String get configurationError => _translated(
+    'Приложение не подключено к серверу.',
+    'The app is not connected to the server.',
+    'التطبيق غير متصل بالخادم.',
+  );
   String get changeBranch =>
       _translated('Сменить филиал', 'Change branch', 'تغيير الفرع');
   String get selectBranch =>

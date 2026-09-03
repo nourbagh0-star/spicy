@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:spicy/core/design/app_motion.dart';
 import 'package:spicy/core/locale/app_locale.dart';
 import 'package:spicy/core/widgets/app_button.dart';
+import 'package:spicy/core/widgets/app_error_snackbar.dart';
 import 'package:spicy/core/widgets/responsive_content.dart';
 import 'package:spicy/features/reviews/presentation/cubit/reviews_cubit.dart';
 import 'package:spicy/features/reviews/presentation/cubit/reviews_state.dart';
@@ -47,9 +48,7 @@ class _LeaveReviewScreenState extends State<LeaveReviewScreen> {
           context.go('/reviews');
         }
         if (state is ReviewsError) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.message)));
+          AppErrorSnackBar.show(context, state.message);
         }
       },
       child: Scaffold(

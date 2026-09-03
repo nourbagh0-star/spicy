@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:spicy/core/theme/app_theme.dart';
 import 'package:spicy/core/locale/app_locale.dart';
 import 'package:spicy/core/widgets/responsive_content.dart';
+import 'package:spicy/core/widgets/app_error_snackbar.dart';
 import 'package:spicy/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:spicy/features/auth/presentation/cubit/auth_state.dart';
 
@@ -38,16 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
           context.go('/');
         }
         if (state.status == AuthStatus.error && state.errorMessage != null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.errorMessage!),
-              backgroundColor: AppTheme.error,
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(AppTheme.radiusDefault),
-              ),
-            ),
-          );
+          AppErrorSnackBar.show(context, state.errorMessage!);
           context.read<AuthCubit>().resetError();
         }
       },

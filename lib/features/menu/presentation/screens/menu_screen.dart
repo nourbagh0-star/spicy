@@ -6,6 +6,7 @@ import 'package:spicy/core/design/app_motion.dart';
 import 'package:spicy/core/locale/app_locale.dart';
 import 'package:spicy/core/theme/app_theme.dart';
 import 'package:spicy/core/widgets/app_network_image.dart';
+import 'package:spicy/core/widgets/app_error_view.dart';
 import 'package:spicy/core/widgets/filter_chip_bar.dart';
 import 'package:spicy/core/widgets/checkout_bar.dart';
 import 'package:spicy/core/widgets/price_label.dart';
@@ -290,31 +291,10 @@ class _MenuScreenState extends State<MenuScreen> {
                       }
                       if (state is MenuError) {
                         return SliverFillRemaining(
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(
-                                  Icons.error_outline,
-                                  size: 48,
-                                  color: AppTheme.error,
-                                ),
-                                const SizedBox(height: 16),
-                                Text(
-                                  locale.somethingWentWrong,
-                                  style: Theme.of(
-                                    context,
-                                  ).textTheme.headlineMedium,
-                                ),
-                                const SizedBox(height: 16),
-                                OutlinedButton.icon(
-                                  onPressed: () => context
-                                      .read<MenuCubit>()
-                                      .loadMenu(selectedBranch.id),
-                                  icon: const Icon(Icons.refresh_rounded),
-                                  label: Text(locale.retry),
-                                ),
-                              ],
+                          child: AppErrorView(
+                            error: state.message,
+                            onRetry: () => context.read<MenuCubit>().loadMenu(
+                              selectedBranch.id,
                             ),
                           ),
                         );

@@ -7,6 +7,8 @@ import 'package:latlong2/latlong.dart';
 import 'package:spicy/core/locale/app_locale.dart';
 import 'package:spicy/core/theme/app_theme.dart';
 import 'package:spicy/core/theme/app_theme_controller.dart';
+import 'package:spicy/core/widgets/app_error_snackbar.dart';
+import 'package:spicy/core/widgets/app_error_view.dart';
 import 'package:spicy/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:spicy/features/branch/presentation/cubit/branch_cubit.dart';
 import 'package:spicy/features/branch/presentation/cubit/branch_state.dart';
@@ -52,9 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (context, state) {
           if (state is ProfileError && context.mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(_friendlyError(state.message, locale))),
-            );
+            AppErrorSnackBar.show(context, state.message);
           }
         },
         builder: (context, state) {
@@ -64,23 +64,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             );
           }
           if (state is ProfileError) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Icons.error_outline, size: 44),
-                    const SizedBox(height: 12),
-                    Text(_friendlyError(state.message, locale)),
-                    const SizedBox(height: 16),
-                    OutlinedButton(
-                      onPressed: _profileCubit.loadProfile,
-                      child: Text(locale.retry),
-                    ),
-                  ],
-                ),
-              ),
+            return AppErrorView(
+              error: state.message,
+              onRetry: _profileCubit.loadProfile,
             );
           }
           if (state is! ProfileLoaded) return const SizedBox.shrink();
@@ -302,18 +288,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
     controller.dispose();
     if (confirmed == true) await _profileCubit.deleteAccount();
-  }
-
-  String _friendlyError(String error, AppLocale locale) {
-    if (error.contains('not connected')) {
-      return _text(
-        locale,
-        'Приложение не подключено к серверу.',
-        'The app is not connected to the server.',
-        'التطبيق غير متصل بالخادم.',
-      );
-    }
-    return error.replaceFirst('Bad state: ', '');
   }
 }
 

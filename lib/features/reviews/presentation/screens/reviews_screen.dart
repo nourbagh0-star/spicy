@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:spicy/core/locale/app_locale.dart';
 import 'package:spicy/core/theme/app_theme.dart';
+import 'package:spicy/core/widgets/app_error_view.dart';
 import 'package:spicy/features/reviews/domain/entities/review.dart';
 import 'package:spicy/features/reviews/presentation/cubit/reviews_cubit.dart';
 import 'package:spicy/features/reviews/presentation/cubit/reviews_state.dart';
@@ -94,8 +95,9 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
             );
           }
           if (state is ReviewsError) {
-            return Center(
-              child: Text('${locale.errorLabel}: ${state.message}'),
+            return AppErrorView(
+              error: state.message,
+              onRetry: context.read<ReviewsCubit>().loadAllReviews,
             );
           }
           return const SizedBox.shrink();

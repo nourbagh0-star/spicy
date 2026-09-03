@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:spicy/core/locale/app_locale.dart';
 import 'package:spicy/core/theme/app_theme.dart';
 import 'package:spicy/core/widgets/price_label.dart';
+import 'package:spicy/core/widgets/app_error_view.dart';
 import 'package:spicy/features/order_tracking/domain/entities/order.dart';
 import 'package:spicy/features/order_tracking/presentation/cubit/order_tracking_cubit.dart';
 import 'package:spicy/features/order_tracking/presentation/cubit/order_tracking_state.dart';
@@ -83,11 +84,10 @@ class _OrderTrackingScreenState extends State<OrderTrackingScreen> {
             return const Center(child: CircularProgressIndicator());
           }
           if (state is OrderTrackingError) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(24),
-                child: Text(state.message, textAlign: TextAlign.center),
-              ),
+            return AppErrorView(
+              error: state.message,
+              onRetry: () =>
+                  _orderTrackingCubit.loadOrderDetail(widget.orderId),
             );
           }
           final order = state is OrderDetailLoaded
